@@ -2,211 +2,1315 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>IT Coach CSEC — Live</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f766e" />
+<title>IT Coach CSEC — Prototype</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"IT Coach CSEC","short_name":"IT Coach","start_url":".","display":"standalone","background_color":"#0f766e","theme_color":"#0f766e","icons":[]}' />
 <style>
-  :root { --bg:#f6f8fa; --card:#fff; --primary:#0f766e; --text:#0f172a; --muted:#64748b; --border:#e2e8f0; --correct:#16a34a; --wrong:#dc2626; --warn:#ea580c; --radius:12px; }
-  * { box-sizing:border-box; }
-  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); margin:0; line-height:1.5; }
-  #app { max-width:760px; margin:0 auto; padding:16px 16px 80px; }
-  .appbar { position:sticky; top:0; z-index:20; background:var(--primary); color:#fff; margin:-16px -16px 16px; padding:14px 16px; display:flex; align-items:center; gap:10px; }
-  .appbar h1 { font-size:16px; margin:0; font-weight:600; flex:1; }
-  .appbar button { background:rgba(255,255,255,.15); color:#fff; border:0; padding:6px 10px; border-radius:8px; font-size:13px; cursor:pointer; }
-  .card { background:var(--card); border-radius:var(--radius); padding:16px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.06); border:1px solid var(--border); }
-  .card h2 { margin:0 0 6px; font-size:17px; }
-  .card p { margin:6px 0; color:var(--muted); font-size:14px; }
-  button.btn { background:var(--primary); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; }
-  button.btn.secondary { background:#e2e8f0; color:var(--text); }
-  button.btn.ghost { background:transparent; color:var(--primary); border:1px solid var(--primary); }
-  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .grid.two { display:grid; grid-template-columns:1fr; gap:12px; }
-  @media (min-width:560px) { .grid.two { grid-template-columns:1fr 1fr; } }
-  .progress-bar { height:8px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
-  .progress-bar > div { height:100%; background:var(--primary); transition:width .3s; }
-  .opt { display:block; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; margin:8px 0; cursor:pointer; background:#fff; font-size:14px; }
-  .opt.correct { border-color:var(--correct); background:#f0fdf4; }
-  .opt.wrong { border-color:var(--wrong); background:#fef2f2; }
-  .feedback { padding:10px 12px; border-radius:10px; font-size:13px; margin-top:10px; }
-  .feedback.correct { background:#f0fdf4; color:#166534; border:1px solid #86efac; }
-  .feedback.wrong { background:#fef2f2; color:#991b1b; border:1px solid #fca5a5; }
-  textarea, input { width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; }
-  textarea { min-height:80px; }
-  .kpis { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-  @media (min-width:560px) { .kpis { grid-template-columns:repeat(4,1fr); } }
-  .kpi { background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; text-align:center; }
-  .kpi .num { font-size:20px; font-weight:700; color:var(--primary); }
-  .kpi .lbl { font-size:11px; color:var(--muted); text-transform:uppercase; }
-  table { width:100%; border-collapse:collapse; font-size:13px; }
-  th,td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); }
-  .hidden { display:none; }
-  .lesson-diagram { background:#f8fafc; border:1px dashed var(--border); border-radius:10px; padding:10px; text-align:center; font-size:12px; color:var(--muted); margin:8px 0; }
-  .keyterm { display:flex; gap:8px; padding:6px 0; border-bottom:1px dashed var(--border); font-size:13px; }
-  .keyterm b { min-width:110px; color:#115e59; }
-  .footer { text-align:center; color:var(--muted); font-size:12px; margin-top:24px; }
+  :root {
+    --bg: #f6f8fa;
+    --card: #ffffff;
+    --primary: #0f766e;
+    --primary-dark: #115e59;
+    --accent: #f59e0b;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --warn: #ea580c;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app { max-width: 760px; margin: 0 auto; padding: 16px 16px 80px; }
+  header.appbar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--primary); color: #fff; margin: -16px -16px 16px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  header.appbar h1 { font-size: 16px; margin: 0; font-weight: 600; flex: 1; }
+  header.appbar button { background: rgba(255,255,255,.15); color: #fff; border: 0;
+    padding: 6px 10px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+  header.appbar button:active { transform: scale(.97); }
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .card h2 { margin: 0 0 6px; font-size: 17px; }
+  .card p { margin: 6px 0; color: var(--muted); font-size: 14px; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; background: #ccfbf1; color: var(--primary-dark); margin-right: 4px; }
+  .pill.amber { background: #fef3c7; color: #92400e; }
+  .pill.grey { background: #e2e8f0; color: #475569; }
+  button.btn {
+    background: var(--primary); color: #fff; border: 0; padding: 10px 14px;
+    border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: transform .05s ease;
+  }
+  button.btn:active { transform: scale(.98); }
+  button.btn.secondary { background: #e2e8f0; color: var(--text); }
+  button.btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+  button.btn.small { padding: 6px 10px; font-size: 13px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 560px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  .progress-bar { height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+  .progress-bar > div { height: 100%; background: var(--primary); transition: width .3s; }
+  .opt {
+    display: block; padding: 12px 14px; border: 1.5px solid var(--border);
+    border-radius: 10px; margin: 8px 0; cursor: pointer; background: #fff;
+    font-size: 14px;
+  }
+  .opt:hover { border-color: var(--primary); }
+  .opt.selected { border-color: var(--primary); background: #f0fdfa; }
+  .opt.correct { border-color: var(--correct); background: #f0fdf4; }
+  .opt.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .opt input { margin-right: 10px; }
+  .feedback { padding: 10px 12px; border-radius: 10px; font-size: 13px; margin-top: 10px; }
+  .feedback.correct { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+  .feedback.wrong { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+  .feedback.info { background: #eff6ff; color: #1e40af; border: 1px solid #93c5fd; }
+  textarea, input[type=text], input[type=password] {
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+    border-radius: 10px; font-family: inherit; font-size: 14px; background: #fff;
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (min-width: 560px) { .kpis { grid-template-columns: repeat(4, 1fr); } }
+  .kpi { background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px; text-align: center; }
+  .kpi .num { font-size: 20px; font-weight: 700; color: var(--primary); }
+  .kpi .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+  th { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: .04em; }
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+  .flash { animation: flash 1s ease; }
+  @keyframes flash { 0%,100% { background: transparent; } 50% { background: #fef9c3; } }
+  .hidden { display: none !important; }
+  .lesson-diagram { background: #f8fafc; border: 1px dashed var(--border); border-radius: 10px;
+    padding: 10px; text-align: center; font-size: 12px; color: var(--muted); margin: 8px 0; }
+  .keyterm { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+  .keyterm b { min-width: 110px; color: var(--primary-dark); }
+  code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; }
+  pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 10px; overflow-x: auto; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; }
+  .tab { padding: 8px 12px; border-radius: 999px; background: #e2e8f0; color: var(--text);
+    font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; border: 0; }
+  .tab.active { background: var(--primary); color: #fff; }
+  .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 24px; }
 </style>
 </head>
 <body>
 <div id="app"></div>
-<script>
-// === CONFIG — replace these two lines with your Supabase values ===
-const SUPABASE_URL = "YOUR_PROJECT_URL_HERE";
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// === COURSE CONTENT ===
+<script>
+/* =========================================================================
+   IT COACH CSEC — PROTOTYPE
+   Single-file PWA. No build step. No backend.
+   ========================================================================= */
+
+// ---------------------------------------------------------------------------
+// 1. COURSE CONTENT (Topics 1, 2, 3 from the workbook)
+// ---------------------------------------------------------------------------
 const COURSE = {
   topics: [
-    { id:1, title:"Fundamentals of IT", icon:"🖥️", color:"#0f766e", syllabusSection:"Sections 1 & 5", lessons:[
-      { id:"1.1", title:"The computer system and primary storage", objectives:["Describe the IPOS cycle and the functions of the CPU components","Distinguish RAM, ROM, PROM and EPROM and state the units of storage","Classify computers by size and describe how an instruction is processed"],
-        blocks:[
-          { type:"diagram", label:"IPOS Cycle: INPUT → PROCESSING → OUTPUT, with STORAGE" },
-          { type:"p", text:"A computer follows the IPOS cycle: Input, Processing, Output and Storage. Hardware is the physical equipment; software is the programs. Data is raw, unprocessed facts. Information is data that has been processed into something meaningful." },
-          { type:"h3", text:"The CPU and memory" },
-          { type:"diagram", label:"CPU: Control Unit + ALU + Registers, connected to RAM" },
-          { type:"p", text:"The CPU has a control unit, an arithmetic and logic unit (ALU), and registers. CPU speed is measured in gigahertz (GHz)." },
-          { type:"list", items:["RAM: volatile, holds programs and data in use","ROM: non-volatile, holds start-up instructions","PROM: programmed once","EPROM: can be erased and reprogrammed"] },
-          { type:"callout", variant:"tip", text:"Units: 1 byte = 8 bits. 1 KB = 1024 bytes; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB." }
-        ],
-        keyTerms:[{term:"Hardware",definition:"Physical parts of a computer"},{term:"Software",definition:"Programs that tell hardware what to do"},{term:"CPU",definition:"Central processing unit: control unit, ALU, registers"},{term:"RAM",definition:"Volatile memory holding programs and data in use"},{term:"Cache",definition:"Very fast memory next to the CPU"}],
-        checkQuestions:[{q:"Name the four basic functions of a computer system.",a:"Input, Processing, Output, Storage (IPOS)."},{q:"State two differences between RAM and ROM.",a:"RAM is volatile, ROM is non-volatile; RAM holds programs in use, ROM holds start-up instructions."},{q:"How many bits are in 2 KB?",a:"2 × 1024 × 8 = 16,384 bits."}]
-      },
-      { id:"1.2", title:"Input, output and secondary storage devices", objectives:["Identify input and output devices and match them to applications","Compare printers and other output devices","Compare secondary storage media by access method, capacity and speed"],
-        blocks:[
-          { type:"h3", text:"Input devices" },
-          { type:"table", headers:["Device","Used for"], rows:[["Keyboard, mouse, touchscreen","Manual entry of data and commands"],["Scanner, camera, webcam","Capturing images and video"],["Barcode reader / POS","Reading product codes in shops"],["OMR","Reading pencil marks (multiple-choice)"],["OCR","Reading printed or typed characters"],["MICR","Reading magnetic ink on bank cheques"],["Sensors","Automatic input for control systems"]] },
-          { type:"h3", text:"Printers compared" },
-          { type:"table", headers:["Printer","Advantages","Disadvantages"], rows:[["Dot matrix","Carbon copies, cheap to run","Noisy, slow, low quality"],["Inkjet","Good colour, cheap to buy","Slow, ink costly, smudges"],["Laser","Fast, quiet, high quality","Costly, colour toner expensive"]] },
-          { type:"h3", text:"Secondary storage" },
-          { type:"table", headers:["Medium","Access / notes"], rows:[["Magnetic tape","Sequential only. Cheap, slow, used for backups."],["Floppy disk","Direct access, ~1.44 MB, obsolete."],["Hard disk","Direct access, fast, GB–TB."],["CD / DVD","Read/written with laser. CD-ROM is read-only."],["Flash drive","Direct access, portable, no moving parts."]] }
-        ],
-        keyTerms:[{term:"Sequential access",definition:"Reading records in order from the start"},{term:"Direct access",definition:"Going straight to a record"},{term:"Track",definition:"A circle on a disk surface"},{term:"Sector",definition:"A wedge-shaped slice of a disk"}],
-        checkQuestions:[{q:"Name the device banks use to read characters on cheques.",a:"MICR (Magnetic Ink Character Recognition)."},{q:"Why is magnetic tape unsuitable when one record must be found quickly?",a:"It uses sequential access — to reach record 50 you must read records 1 to 49 first."},{q:"State two advantages of a laser printer over a dot matrix printer.",a:"Faster and quieter; higher print quality."}]
-      },
-      { id:"1.3", title:"Data representation and number systems", objectives:["Convert between binary, decimal, octal and hexadecimal","Add and subtract binary numbers and represent negative numbers","Explain how characters are coded (ASCII and BCD)"],
-        blocks:[
-          { type:"diagram", label:"Binary place values: 128 64 32 16 8 4 2 1 → 00001101 = 8 + 4 + 1 = 13" },
-          { type:"p", text:"Binary (base 2) place values: 128, 64, 32, 16, 8, 4, 2, 1. Decimal to binary: divide by 2 repeatedly and read remainders bottom-up." },
-          { type:"p", text:"Hexadecimal (base 16) uses 0–9 and A–F. Group binary in fours: 10111100 = BC." },
-          { type:"p", text:"Binary addition: 0+0=0, 0+1=1, 1+1=10 (write 0, carry 1). 1011 + 0110 = 10001." },
-          { type:"callout", variant:"info", text:"Two's complement of -5 in 8 bits: 00000101 → invert → 11111010 → add 1 → 11111011." }
-        ],
-        keyTerms:[{term:"Bit",definition:"A single binary digit"},{term:"Byte",definition:"8 bits"},{term:"Hexadecimal",definition:"Base 16 number system"},{term:"Two's complement",definition:"Method of representing negative binary numbers"},{term:"ASCII",definition:"Code giving each character a binary number"}],
-        checkQuestions:[{q:"Convert 110101 to decimal.",a:"32 + 16 + 4 + 1 = 53."},{q:"Convert decimal 100 to binary.",a:"1100100."},{q:"Add 1101 and 1011.",a:"11000."}]
-      },
-      { id:"1.4", title:"Software and user interfaces", objectives:["Distinguish system software from application software and list OS functions","Describe processing styles and utility programs","Compare types of user interface"],
-        blocks:[
-          { type:"list", items:["System software controls the computer. The OS manages files, memory, security, I/O, the user interface and running programs.","Utilities do maintenance jobs (antivirus, file compression, uninstall programs).","Application software: general-purpose, special-purpose, custom-purpose.","Windows is system software, not an application."] },
-          { type:"h3", text:"What an operating system does" },
-          { type:"list", items:["Process and memory management","File management","Device management (via drivers)","Security (user accounts and passwords)","Input/output control and error handling","Providing the user interface"] },
-          { type:"callout", variant:"tip", text:"Multitasking = several programs at once. Multiprogramming = several in memory, CPU switches. Multiprocessing = more than one CPU. Time-sharing = many users share one CPU." }
-        ],
-        keyTerms:[{term:"Operating system",definition:"Software that manages the computer and its resources"},{term:"Utility",definition:"Program that performs a maintenance task"},{term:"Translator",definition:"Converts source code to machine code"},{term:"GUI",definition:"Graphical user interface using windows, icons and menus"}],
-        checkQuestions:[{q:"Distinguish system software from application software, with an example of each.",a:"System software controls the computer (e.g. Windows); application software performs user tasks (e.g. a word processor)."},{q:"State three functions of an operating system.",a:"Any three of: process management, memory management, file management, device management, security, user interface."},{q:"State one advantage of custom-written software.",a:"It is built to fit one client's exact needs."}]
-      },
-      { id:"1.5", title:"Information processing", objectives:["Distinguish data from information and describe how data is captured","Explain validation and verification with examples","Describe file types, file organisation and processing modes"],
-        blocks:[
-          { type:"p", text:"Data becomes information after processing. Data enters through source documents or turnaround documents." },
-          { type:"h3", text:"Validation checks" },
-          { type:"table", headers:["Check","What it does"], rows:[["Range","Rejects values outside limits"],["Data-type","Rejects letters in a number field"],["Length","Rejects the wrong number of characters"],["Presence","Rejects a blank required field"],["Format","Checks pattern, such as a date"],["Inconsistency","Compares fields"],["Check digit","Catches typing errors"]] },
-          { type:"h3", text:"Processing modes" },
-          { type:"list", items:["Batch: data collected then processed together (payroll, utility bills).","Real-time: immediate response (airline reservations, ATMs).","Online and time-sharing."] }
-        ],
-        keyTerms:[{term:"Source document",definition:"Original form on which data is first recorded"},{term:"Validation",definition:"Automatic check that data is reasonable"},{term:"Verification",definition:"Check that data was copied accurately"},{term:"Master file",definition:"Permanent file of current records"},{term:"Batch processing",definition:"Processing of grouped transactions without user interaction"}],
-        checkQuestions:[{q:"Define data and information, with an example.",a:"Data is raw facts (e.g. marks 72, 85, 90); information is processed data (e.g. class average 82.3)."},{q:"Which validation check rejects a score of 105 out of 100?",a:"A range check."},{q:"Why is a payroll file suited to batch processing?",a:"Transactions are collected over a period and processed together; no immediate user interaction is required."}]
-      }
-    ]},
-    { id:2, title:"Networks and Communication", icon:"🌐", color:"#0284c7", syllabusSection:"Section 4A", lessons:[
-      { id:"2.1", title:"Networks, network types and hardware", objectives:["Define a network and state its advantages and disadvantages","Distinguish LAN, MAN and WAN, and peer-to-peer from client-server","Describe network hardware: NIC, hub, switch, router, modem and access point"],
-        blocks:[
-          { type:"p", text:"A network links two or more computers so they can communicate and share data, programs and devices such as printers." },
-          { type:"h3", text:"Types of network" },
-          { type:"list", items:["LAN (local area network): one building or site.","MAN (metropolitan area network): a city.","WAN (wide area network): a large area such as a country; the Internet is the biggest WAN."] },
-          { type:"h3", text:"Network hardware" },
-          { type:"table", headers:["Device","Role"], rows:[["NIC","Connects a computer to the network"],["Hub","Broadcasts data to every connected device"],["Switch","Sends data only to the device that needs it"],["Router","Joins different networks and finds the best path"],["Modem","Converts digital signals to/from telephone or cable lines"],["Wireless access point","Lets wireless devices join a wired network"]] }
-        ],
-        keyTerms:[{term:"Network",definition:"Computers linked to share data and devices"},{term:"LAN",definition:"Local area network"},{term:"WAN",definition:"Wide area network"},{term:"Server",definition:"Computer that serves other computers"},{term:"Router",definition:"Device that connects networks"}],
-        checkQuestions:[{q:"Distinguish a LAN from a WAN, with an example of each.",a:"A LAN covers one building (e.g. a school lab); a WAN covers a large area (e.g. the Internet)."},{q:"State two advantages and one disadvantage of networking computers.",a:"Advantages: share files/printers, central management. Disadvantage: a fault can affect everyone; risk of hackers/viruses."},{q:"What does a router do?",a:"It joins different networks and finds the best path for data."}]
-      },
-      { id:"2.2", title:"Transmission media, communication modes and bandwidth", objectives:["Compare wired and wireless transmission media","Distinguish simplex, half duplex and duplex communication","Explain bandwidth and the types of connection speed"],
-        blocks:[
-          { type:"h3", text:"Transmission media" },
-          { type:"table", headers:["Medium","Notes"], rows:[["Twisted pair","Copper wires; cheap; telephone and LAN cabling"],["Coaxial cable","Insulated copper core; carries more than twisted pair"],["Fibre optic","Light through glass; very fast, long distances"],["Microwave, satellite","Wireless; satellite covers wide areas but has delay"],["Infrared","Wireless; line-of-sight needs a clear path"],["Bluetooth, Wi-Fi, radio","Short-range wireless"]] },
-          { type:"h3", text:"Communication modes" },
-          { type:"list", items:["Simplex: one direction only (radio, TV).","Half duplex: both directions, one at a time (walkie-talkie).","Full duplex: both directions at the same time (telephone)."] },
-          { type:"callout", variant:"warn", text:"Cabled media do NOT include satellite. Coaxial is NOT wireless. A modem is NOT a transmission medium." }
-        ],
-        keyTerms:[{term:"Bandwidth",definition:"Amount of data a connection carries in a given time"},{term:"Broadband",definition:"Fast connection with high capacity"},{term:"Simplex",definition:"One-way communication"},{term:"Duplex",definition:"Two-way communication"}],
-        checkQuestions:[{q:"State the communication mode of a telephone call and justify it.",a:"Full duplex — both parties can speak and hear at the same time."},{q:"Give two advantages of fibre optic over twisted pair.",a:"Much faster; no electrical interference; works over longer distances."},{q:"Name a wireless technology that links a phone to a headset.",a:"Bluetooth."}]
-      },
-      { id:"2.3", title:"The Internet and its services", objectives:["Compare ways of connecting to the Internet","Describe Internet services and the protocols behind them","Break a URL into its parts and explain intranet and extranet"],
-        blocks:[
-          { type:"h3", text:"Connecting to the Internet" },
-          { type:"table", headers:["Method","Notes"], rows:[["Dial-up","Landline and modem; slowest; ties up the phone line"],["DSL / ADSL","Fast; works with the phone line"],["ISDN","Digital telephone line, 64 kbps per channel"],["Leased line (T1)","Dedicated line, ~1.5 Mbps"],["Cable TV","Fast download, slower upload"],["Satellite, wireless, mobile","2G/3G/4G-LTE"]] },
-          { type:"h3", text:"Reading a URL" },
-          { type:"p", text:"In http://www.shoes.com: http is the protocol, www is the web, and shoes.com is the domain name. Endings: .com commercial, .edu education, .gov government, .org non-profit, .net network; country codes such as .tt and .bb." },
-          { type:"h3", text:"Protocols" },
-          { type:"list", items:["TCP/IP: splits data into packets and reassembles them.","HTTP/HTTPS: transfers web pages (HTTPS is secure).","FTP: transfers files.","SMTP: sends e-mail; POP/IMAP receive it."] }
-        ],
-        keyTerms:[{term:"Protocol",definition:"Rules for communication between devices"},{term:"IP address",definition:"Unique number identifying a device"},{term:"ISP",definition:"Company providing Internet access"},{term:"URL",definition:"Uniform resource locator: a web address"},{term:"Upload",definition:"Send a file to a remote computer"}],
-        checkQuestions:[{q:"Distinguish an intranet from an extranet.",a:"An intranet is a private network for one organisation; an extranet is part of an intranet opened to approved outsiders."},{q:"Explain upload and download.",a:"Upload = send a file to a remote computer; download = receive a file from one."},{q:"Identify the protocol, the domain name and the domain type in https://www.moe.gov.tt.",a:"Protocol: https. Domain: moe.gov.tt. Type: .gov (government). Country: .tt (Trinidad and Tobago)."}]
-      }
-    ]},
-    { id:3, title:"Social and Economic Impact of IT", icon:"🌍", color:"#7c3aed", syllabusSection:"Section 4B", lessons:[
-      { id:"3.1", title:"Effects of IT, careers and applications", objectives:["Explain advantages and disadvantages of IT in the workplace including telecommuting","Describe IT careers and their duties","Describe applications of IT in banking, retail, industry, education and communication"],
-        blocks:[
-          { type:"h3", text:"Effects of IT on work" },
-          { type:"table", headers:["Advantages","Disadvantages"], rows:[["Work is faster and more accurate","Some jobs are lost"],["Tasks can be done 24 hours a day","Workers need retraining"],["New jobs are created","Health problems from long computer use"],["Telecommuting saves travel time and cost","Social isolation"]] },
-          { type:"h3", text:"IT careers" },
-          { type:"list", items:["Programmer: writes programs.","Systems analyst: studies a problem and designs a computer solution.","Database administrator: manages the database.","Network administrator: runs the network.","Web master: designs, creates and maintains websites.","Software tester: checks programs for errors.","Computer technician: repairs hardware."] },
-          { type:"h3", text:"Where IT is used" },
-          { type:"table", headers:["Application","How IT is used"], rows:[["Banking","ATMs, EFT, debit/credit cards, online banking, MICR cheque clearing"],["Retail","Barcode and POS systems; online shopping"],["Industry","CAD designs products; CAM controls machines; robots"],["Medicine","Expert systems, patient records, scanners"],["Education","E-learning, simulations, online research"],["Communication","E-mail, teleconferencing, telemarketing, VoIP"]] }
-        ],
-        keyTerms:[{term:"Telecommuting",definition:"Working from home using ICT"},{term:"CAD",definition:"Computer-aided design"},{term:"CAM",definition:"Computer-aided manufacturing"},{term:"Expert system",definition:"Stores expert knowledge and uses rules to give advice"}],
-        checkQuestions:[{q:"Define telecommuting and give two advantages.",a:"Working from home via a computer link. Saves travel time and cost; flexible hours."},{q:"State two jobs reduced by IT.",a:"Messengers, postal workers, typists."},{q:"Distinguish CAD from CAM.",a:"CAD uses computers to design products; CAM uses computers to control machines that make them."}]
-      },
-      { id:"3.2", title:"Misuse of IT and computer crime", objectives:["Define each computer crime and give examples","Explain the effects of misuse on individuals and organisations"],
-        blocks:[
-          { type:"table", headers:["Crime / misuse","Meaning"], rows:[["Software piracy","Illegal copying and selling of programs"],["Hacking","Unauthorised access to a computer system"],["Computer fraud","Using computers to cheat people of money"],["Identity theft","Using someone else's personal details"],["Phishing","Fake messages or sites that trick people"],["Viruses, malware","Harmful programs that damage or steal data"],["Electronic eavesdropping","Secretly intercepting or monitoring messages"],["Industrial espionage","Stealing a competitor's secrets"],["Violation of privacy","Collecting or sharing personal data without permission"],["Propaganda","One-sided information spread to influence people"]] },
-          { type:"callout", variant:"warn", text:"Encryption is NOT a computer crime. It is a security measure." },
-          { type:"h3", text:"More threats" },
-          { type:"table", headers:["Threat","Description"], rows:[["Virus","Attaches to files and spreads when opened"],["Worm","Spreads by itself across networks"],["Trojan","Harmful program disguised as useful software"],["Spyware","Secretly records what the user does"],["Ransomware","Locks files until a payment is made"],["Denial of service","Floods a server so users cannot reach it"],["Spam","Unwanted bulk e-mail"],["Cyberbullying","Using electronic media to harass someone"],["Plagiarism","Copying work and passing it off as your own"]] }
-        ],
-        keyTerms:[{term:"Hacking",definition:"Unauthorised access to a computer system"},{term:"Phishing",definition:"Tricking people into revealing personal details"},{term:"Identity theft",definition:"Using another person's details to commit fraud"},{term:"Software piracy",definition:"Illegal copying and use of software"},{term:"Malware",definition:"Malicious software"}],
-        checkQuestions:[{q:"Define phishing.",a:"Fake messages or websites that trick people into giving personal details such as passwords or bank information."},{q:"Distinguish a virus from spyware.",a:"A virus attaches to files and spreads when opened, often damaging data; spyware secretly records what the user does."},{q:"State two effects of identity theft.",a:"Financial loss; damaged reputation; stress; loss of privacy."}]
-      },
-      { id:"3.3", title:"Protecting data, health and ethics", objectives:["Describe physical and software security measures and backup practice","Describe health risks and ergonomic solutions","State ethical and legal responsibilities of computer users"],
-        blocks:[
-          { type:"h3", text:"Protecting data and systems" },
-          { type:"list", items:["Physical: locks, guards, biometric systems, fire/water-proof cabinets.","Software: passwords, encryption, firewalls, antivirus programs.","Backup: keep copies off-site so data can be restored if lost or corrupted."] },
-          { type:"h3", text:"Health, safety and ethics" },
-          { type:"list", items:["Health problems: eye strain, back and neck pain, repetitive strain injury (RSI).","Ergonomics: adjustable chairs, correct screen height, regular breaks, good lighting.","Ethics: respect copyright and software licences; do not share personal data; do not plagiarise."] },
-          { type:"callout", variant:"tip", text:"Strong passwords: long, mix of letters, numbers and symbols, changed regularly, never shared." }
-        ],
-        keyTerms:[{term:"Encryption",definition:"Scrambling data so only authorised users can read it"},{term:"Firewall",definition:"Software or hardware that filters network traffic"},{term:"Backup",definition:"Spare copy of data"},{term:"Biometrics",definition:"Identification using body features"},{term:"Ergonomics",definition:"Designing equipment and work areas for comfort and safety"}],
-        checkQuestions:[{q:"Describe two characteristics of a strong password.",a:"It is long; it mixes letters, numbers and symbols; it is changed regularly and never shared."},{q:"Explain why backups should be stored off-site.",a:"So that data survives a fire, theft or other disaster that destroys the main location."},{q:"State three ergonomic measures.",a:"Adjustable chair, screen at eye level, good lighting, wrist rest, regular breaks."}]
-      }
-    ]}
+    {
+      id: 1,
+      title: "Fundamentals of IT",
+      icon: "🖥️",
+      color: "#0f766e",
+      syllabusSection: "Sections 1 & 5",
+      lessons: [
+        {
+          id: "1.1",
+          title: "The computer system and primary storage",
+          objectives: [
+            "Describe the IPOS cycle and the functions of the CPU components",
+            "Distinguish RAM, ROM, PROM and EPROM and state the units of storage",
+            "Classify computers by size and describe how an instruction is processed"
+          ],
+          blocks: [
+            { type: "diagram", label: "IPOS Cycle: INPUT → PROCESSING → OUTPUT, with STORAGE" },
+            { type: "p", text: "A computer follows the IPOS cycle: Input, Processing, Output and Storage. Hardware is the physical equipment; software is the programs. Data is raw, unprocessed facts. Information is data that has been processed into something meaningful." },
+            { type: "h3", text: "The CPU and memory" },
+            { type: "diagram", label: "CPU: Control Unit + ALU + Registers, connected to RAM" },
+            { type: "p", text: "The CPU has a control unit (coordinates activities and fetches, decodes and executes instructions), an arithmetic and logic unit (ALU) for calculations and comparisons, and registers (tiny, fast storage). CPU speed is measured in gigahertz (GHz)." },
+            { type: "list", items: [
+              "RAM: volatile, holds programs and data in use",
+              "ROM: non-volatile, holds start-up instructions",
+              "PROM: programmed once",
+              "EPROM: can be erased and reprogrammed"
+            ]},
+            { type: "callout", variant: "tip", text: "Units: 1 byte = 8 bits. 1 KB = 1024 bytes; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB." }
+          ],
+          keyTerms: [
+            { term: "Hardware", definition: "Physical parts of a computer" },
+            { term: "Software", definition: "Programs that tell hardware what to do" },
+            { term: "CPU", definition: "Central processing unit: control unit, ALU, registers" },
+            { term: "RAM", definition: "Volatile memory holding programs and data in use" },
+            { term: "Cache", definition: "Very fast memory next to the CPU" }
+          ],
+          checkQuestions: [
+            { q: "Name the four basic functions of a computer system.", a: "Input, Processing, Output, Storage (IPOS)." },
+            { q: "State two differences between RAM and ROM.", a: "RAM is volatile, ROM is non-volatile; RAM holds programs and data in use, ROM holds start-up instructions." },
+            { q: "How many bits are in 2 KB?", a: "2 × 1024 × 8 = 16,384 bits." }
+          ]
+        },
+        {
+          id: "1.2",
+          title: "Input, output and secondary storage devices",
+          objectives: [
+            "Identify input and output devices and match them to applications",
+            "Compare printers and other output devices",
+            "Compare secondary storage media by access method, capacity and speed"
+          ],
+          blocks: [
+            { type: "h3", text: "Input devices" },
+            { type: "table", headers: ["Device", "Used for"], rows: [
+              ["Keyboard, mouse, touchscreen", "Manual entry of data and commands"],
+              ["Scanner, camera, webcam", "Capturing images and video"],
+              ["Barcode reader / POS", "Reading product codes in shops"],
+              ["OMR", "Reading pencil marks (multiple-choice)"],
+              ["OCR", "Reading printed or typed characters"],
+              ["MICR", "Reading magnetic ink on bank cheques"],
+              ["Sensors", "Automatic input for control systems"]
+            ]},
+            { type: "h3", text: "Printers compared" },
+            { type: "table", headers: ["Printer", "Advantages", "Disadvantages"], rows: [
+              ["Dot matrix", "Carbon copies, cheap to run", "Noisy, slow, low quality"],
+              ["Inkjet", "Good colour, cheap to buy", "Slow, ink costly, smudges"],
+              ["Laser", "Fast, quiet, high quality", "Costly, colour toner expensive"]
+            ]},
+            { type: "h3", text: "Secondary storage" },
+            { type: "table", headers: ["Medium", "Access / notes"], rows: [
+              ["Magnetic tape", "Sequential only. Cheap, slow, used for backups."],
+              ["Floppy disk", "Direct access, ~1.44 MB, obsolete."],
+              ["Hard disk", "Direct access, fast, GB–TB."],
+              ["CD / DVD", "Read/written with laser. CD-ROM is read-only."],
+              ["Flash drive", "Direct access, portable, no moving parts."]
+            ]}
+          ],
+          keyTerms: [
+            { term: "Sequential access", definition: "Reading records in order from the start" },
+            { term: "Direct access", definition: "Going straight to a record" },
+            { term: "Track", definition: "A circle on a disk surface" },
+            { term: "Sector", definition: "A wedge-shaped slice of a disk" }
+          ],
+          checkQuestions: [
+            { q: "Name the device banks use to read characters on cheques.", a: "MICR (Magnetic Ink Character Recognition)." },
+            { q: "Why is magnetic tape unsuitable when one record must be found quickly?", a: "It uses sequential access — to reach record 50 you must read records 1 to 49 first." },
+            { q: "State two advantages of a laser printer over a dot matrix printer.", a: "Faster and quieter; higher print quality." }
+          ]
+        },
+        {
+          id: "1.3",
+          title: "Data representation and number systems",
+          objectives: [
+            "Convert between binary, decimal, octal and hexadecimal",
+            "Add and subtract binary numbers and represent negative numbers",
+            "Explain how characters are coded (ASCII and BCD)"
+          ],
+          blocks: [
+            { type: "diagram", label: "Binary place values: 128 64 32 16 8 4 2 1 → 00001101 = 8 + 4 + 1 = 13" },
+            { type: "p", text: "Binary (base 2) place values: 128, 64, 32, 16, 8, 4, 2, 1. Decimal to binary: divide by 2 repeatedly and read remainders bottom-up. 25 → 11001." },
+            { type: "p", text: "Hexadecimal (base 16) uses 0–9 and A–F (A=10 ... F=15). Group binary in fours: 10111100 = BC." },
+            { type: "p", text: "Binary addition: 0+0=0, 0+1=1, 1+1=10 (write 0, carry 1). 1011 + 0110 = 10001." },
+            { type: "callout", variant: "info", text: "Two's complement of -5 in 8 bits: 00000101 → invert → 11111010 → add 1 → 11111011." }
+          ],
+          keyTerms: [
+            { term: "Bit", definition: "A single binary digit" },
+            { term: "Byte", definition: "8 bits" },
+            { term: "Hexadecimal", definition: "Base 16 number system" },
+            { term: "Two's complement", definition: "Method of representing negative binary numbers" },
+            { term: "ASCII", definition: "Code giving each character a binary number" }
+          ],
+          checkQuestions: [
+            { q: "Convert 110101 to decimal.", a: "32 + 16 + 4 + 1 = 53." },
+            { q: "Convert decimal 100 to binary.", a: "1100100." },
+            { q: "Add 1101 and 1011.", a: "11000." }
+          ]
+        },
+        {
+          id: "1.4",
+          title: "Software and user interfaces",
+          objectives: [
+            "Distinguish system software from application software and list OS functions",
+            "Describe processing styles and utility programs",
+            "Compare types of user interface"
+          ],
+          blocks: [
+            { type: "list", items: [
+              "System software controls the computer. The OS manages files, memory, security, I/O, the user interface and running programs.",
+              "Utilities do maintenance jobs (antivirus, file compression, uninstall programs).",
+              "Application software: general-purpose (word processor, spreadsheet), special-purpose (payroll), custom-purpose (written for one client).",
+              "Windows is system software, not an application."
+            ]},
+            { type: "h3", text: "What an operating system does" },
+            { type: "list", items: [
+              "Process and memory management",
+              "File management",
+              "Device management (via drivers)",
+              "Security (user accounts and passwords)",
+              "Input/output control and error handling",
+              "Providing the user interface"
+            ]},
+            { type: "callout", variant: "tip", text: "Multitasking = several programs at once. Multiprogramming = several in memory, CPU switches. Multiprocessing = more than one CPU. Time-sharing = many users share one CPU." }
+          ],
+          keyTerms: [
+            { term: "Operating system", definition: "Software that manages the computer and its resources" },
+            { term: "Utility", definition: "Program that performs a maintenance task" },
+            { term: "Translator", definition: "Converts source code to machine code" },
+            { term: "GUI", definition: "Graphical user interface using windows, icons and menus" }
+          ],
+          checkQuestions: [
+            { q: "Distinguish system software from application software, with an example of each.", a: "System software controls the computer (e.g. Windows); application software performs user tasks (e.g. a word processor)." },
+            { q: "State three functions of an operating system.", a: "Any three of: process management, memory management, file management, device management, security, user interface." },
+            { q: "State one advantage of custom-written software.", a: "It is built to fit one client's exact needs." }
+          ]
+        },
+        {
+          id: "1.5",
+          title: "Information processing",
+          objectives: [
+            "Distinguish data from information and describe how data is captured",
+            "Explain validation and verification with examples",
+            "Describe file types, file organisation and processing modes"
+          ],
+          blocks: [
+            { type: "p", text: "Data (for example 72, 85, 90) becomes information (the class average is 82.3) after processing. Data enters through source documents or turnaround documents." },
+            { type: "h3", text: "Validation checks" },
+            { type: "table", headers: ["Check", "What it does"], rows: [
+              ["Range", "Rejects values outside limits"],
+              ["Data-type", "Rejects letters in a number field"],
+              ["Length", "Rejects the wrong number of characters"],
+              ["Presence", "Rejects a blank required field"],
+              ["Format", "Checks pattern, such as a date"],
+              ["Inconsistency", "Compares fields"],
+              ["Check digit", "Catches typing errors"]
+            ]},
+            { type: "h3", text: "Processing modes" },
+            { type: "list", items: [
+              "Batch: data collected then processed together (payroll, utility bills).",
+              "Real-time: immediate response (airline reservations, ATMs).",
+              "Online and time-sharing."
+            ]}
+          ],
+          keyTerms: [
+            { term: "Source document", definition: "Original form on which data is first recorded" },
+            { term: "Validation", definition: "Automatic check that data is reasonable" },
+            { term: "Verification", definition: "Check that data was copied accurately" },
+            { term: "Master file", definition: "Permanent file of current records" },
+            { term: "Batch processing", definition: "Processing of grouped transactions without user interaction" }
+          ],
+          checkQuestions: [
+            { q: "Define data and information, with an example.", a: "Data is raw facts (e.g. marks 72, 85, 90); information is processed data (e.g. class average 82.3)." },
+            { q: "Which validation check rejects a score of 105 out of 100?", a: "A range check." },
+            { q: "Why is a payroll file suited to batch processing?", a: "Transactions are collected over a period and processed together; no immediate user interaction is required." }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: "Networks and Communication",
+      icon: "🌐",
+      color: "#0284c7",
+      syllabusSection: "Section 4A",
+      lessons: [
+        {
+          id: "2.1",
+          title: "Networks, network types and hardware",
+          objectives: [
+            "Define a network and state its advantages and disadvantages",
+            "Distinguish LAN, MAN and WAN, and peer-to-peer from client-server",
+            "Describe network hardware: NIC, hub, switch, router, modem and access point"
+          ],
+          blocks: [
+            { type: "p", text: "A network links two or more computers so they can communicate and share data, programs and devices such as printers." },
+            { type: "h3", text: "Types of network" },
+            { type: "list", items: [
+              "LAN (local area network): one building or site.",
+              "MAN (metropolitan area network): a city.",
+              "WAN (wide area network): a large area such as a country; the Internet is the biggest WAN."
+            ]},
+            { type: "h3", text: "Network hardware" },
+            { type: "table", headers: ["Device", "Role"], rows: [
+              ["NIC", "Connects a computer to the network"],
+              ["Hub", "Broadcasts data to every connected device"],
+              ["Switch", "Sends data only to the device that needs it"],
+              ["Router", "Joins different networks and finds the best path"],
+              ["Modem", "Converts digital signals to/from telephone or cable lines"],
+              ["Wireless access point", "Lets wireless devices join a wired network"]
+            ]}
+          ],
+          keyTerms: [
+            { term: "Network", definition: "Computers linked to share data and devices" },
+            { term: "LAN", definition: "Local area network" },
+            { term: "WAN", definition: "Wide area network" },
+            { term: "Server", definition: "Computer that serves other computers" },
+            { term: "Router", definition: "Device that connects networks" }
+          ],
+          checkQuestions: [
+            { q: "Distinguish a LAN from a WAN, with an example of each.", a: "A LAN covers one building (e.g. a school lab); a WAN covers a large area (e.g. the Internet)." },
+            { q: "State two advantages and one disadvantage of networking computers.", a: "Advantages: share files/printers, central management. Disadvantage: a fault can affect everyone; risk of hackers/viruses." },
+            { q: "What does a router do?", a: "It joins different networks and finds the best path for data." }
+          ]
+        },
+        {
+          id: "2.2",
+          title: "Transmission media, communication modes and bandwidth",
+          objectives: [
+            "Compare wired and wireless transmission media",
+            "Distinguish simplex, half duplex and duplex communication",
+            "Explain bandwidth and the types of connection speed"
+          ],
+          blocks: [
+            { type: "h3", text: "Transmission media" },
+            { type: "table", headers: ["Medium", "Notes"], rows: [
+              ["Twisted pair", "Copper wires; cheap; telephone and LAN cabling"],
+              ["Coaxial cable", "Insulated copper core; carries more than twisted pair"],
+              ["Fibre optic", "Light through glass; very fast, long distances"],
+              ["Microwave, satellite", "Wireless; satellite covers wide areas but has delay"],
+              ["Infrared", "Wireless; line-of-sight needs a clear path"],
+              ["Bluetooth, Wi-Fi, radio", "Short-range wireless"]
+            ]},
+            { type: "h3", text: "Communication modes" },
+            { type: "list", items: [
+              "Simplex: one direction only (radio, TV).",
+              "Half duplex: both directions, one at a time (walkie-talkie).",
+              "Full duplex: both directions at the same time (telephone)."
+            ]},
+            { type: "callout", variant: "warn", text: "Cabled media do NOT include satellite. Coaxial is NOT wireless. A modem is NOT a transmission medium." }
+          ],
+          keyTerms: [
+            { term: "Bandwidth", definition: "Amount of data a connection carries in a given time" },
+            { term: "Broadband", definition: "Fast connection with high capacity" },
+            { term: "Simplex", definition: "One-way communication" },
+            { term: "Duplex", definition: "Two-way communication" }
+          ],
+          checkQuestions: [
+            { q: "State the communication mode of a telephone call and justify it.", a: "Full duplex — both parties can speak and hear at the same time." },
+            { q: "Give two advantages of fibre optic over twisted pair.", a: "Much faster; no electrical interference; works over longer distances." },
+            { q: "Name a wireless technology that links a phone to a headset.", a: "Bluetooth." }
+          ]
+        },
+        {
+          id: "2.3",
+          title: "The Internet and its services",
+          objectives: [
+            "Compare ways of connecting to the Internet",
+            "Describe Internet services and the protocols behind them",
+            "Break a URL into its parts and explain intranet and extranet"
+          ],
+          blocks: [
+            { type: "h3", text: "Connecting to the Internet" },
+            { type: "table", headers: ["Method", "Notes"], rows: [
+              ["Dial-up", "Landline and modem; slowest; ties up the phone line"],
+              ["DSL / ADSL", "Fast; works with the phone line"],
+              ["ISDN", "Digital telephone line, 64 kbps per channel"],
+              ["Leased line (T1)", "Dedicated line, ~1.5 Mbps"],
+              ["Cable TV", "Fast download, slower upload"],
+              ["Satellite, wireless, mobile", "2G/3G/4G-LTE"]
+            ]},
+            { type: "h3", text: "Reading a URL" },
+            { type: "p", text: "In http://www.shoes.com: http is the protocol, www is the web, and shoes.com is the domain name. Endings: .com commercial, .edu education, .gov government, .org non-profit, .net network; country codes such as .tt and .bb." },
+            { type: "h3", text: "Protocols" },
+            { type: "list", items: [
+              "TCP/IP: splits data into packets and reassembles them.",
+              "HTTP/HTTPS: transfers web pages (HTTPS is secure).",
+              "FTP: transfers files.",
+              "SMTP: sends e-mail; POP/IMAP receive it."
+            ]}
+          ],
+          keyTerms: [
+            { term: "Protocol", definition: "Rules for communication between devices" },
+            { term: "IP address", definition: "Unique number identifying a device" },
+            { term: "ISP", definition: "Company providing Internet access" },
+            { term: "URL", definition: "Uniform resource locator: a web address" },
+            { term: "Upload", definition: "Send a file to a remote computer" }
+          ],
+          checkQuestions: [
+            { q: "Distinguish an intranet from an extranet.", a: "An intranet is a private network for one organisation; an extranet is part of an intranet opened to approved outsiders." },
+            { q: "Explain upload and download.", a: "Upload = send a file to a remote computer; download = receive a file from one." },
+            { q: "Identify the protocol, the domain name and the domain type in https://www.moe.gov.tt.", a: "Protocol: https. Domain: moe.gov.tt. Type: .gov (government). Country: .tt (Trinidad and Tobago)." }
+          ]
+        }
+      ]
+    },
+    {
+      id: 3,
+      title: "Social and Economic Impact of IT",
+      icon: "🌍",
+      color: "#7c3aed",
+      syllabusSection: "Section 4B",
+      lessons: [
+        {
+          id: "3.1",
+          title: "Effects of IT, careers and applications",
+          objectives: [
+            "Explain advantages and disadvantages of IT in the workplace including telecommuting",
+            "Describe IT careers and their duties",
+            "Describe applications of IT in banking, retail, industry, education and communication"
+          ],
+          blocks: [
+            { type: "h3", text: "Effects of IT on work" },
+            { type: "table", headers: ["Advantages", "Disadvantages"], rows: [
+              ["Work is faster and more accurate", "Some jobs are lost"],
+              ["Tasks can be done 24 hours a day", "Workers need retraining"],
+              ["New jobs are created", "Health problems from long computer use"],
+              ["Telecommuting saves travel time and cost", "Social isolation"]
+            ]},
+            { type: "h3", text: "IT careers" },
+            { type: "list", items: [
+              "Programmer: writes programs.",
+              "Systems analyst: studies a problem and designs a computer solution.",
+              "Database administrator: manages the database (security, performance).",
+              "Network administrator: runs the network.",
+              "Web master: designs, creates and maintains websites.",
+              "Software tester: checks programs for errors.",
+              "Computer technician: repairs hardware."
+            ]},
+            { type: "h3", text: "Where IT is used" },
+            { type: "table", headers: ["Application", "How IT is used"], rows: [
+              ["Banking", "ATMs, EFT, debit/credit cards, online banking, MICR cheque clearing"],
+              ["Retail", "Barcode and POS systems; online shopping"],
+              ["Industry", "CAD designs products; CAM controls machines; robots"],
+              ["Medicine", "Expert systems, patient records, scanners"],
+              ["Education", "E-learning, simulations, online research"],
+              ["Communication", "E-mail, teleconferencing, telemarketing, VoIP"]
+            ]}
+          ],
+          keyTerms: [
+            { term: "Telecommuting", definition: "Working from home using ICT" },
+            { term: "CAD", definition: "Computer-aided design" },
+            { term: "CAM", definition: "Computer-aided manufacturing" },
+            { term: "Expert system", definition: "Stores expert knowledge and uses rules to give advice" }
+          ],
+          checkQuestions: [
+            { q: "Define telecommuting and give two advantages.", a: "Working from home via a computer link. Saves travel time and cost; flexible hours." },
+            { q: "State two jobs reduced by IT.", a: "Messengers, postal workers, typists." },
+            { q: "Distinguish CAD from CAM.", a: "CAD uses computers to design products; CAM uses computers to control machines that make them." }
+          ]
+        },
+        {
+          id: "3.2",
+          title: "Misuse of IT and computer crime",
+          objectives: [
+            "Define each computer crime and give examples",
+            "Explain the effects of misuse on individuals and organisations"
+          ],
+          blocks: [
+            { type: "table", headers: ["Crime / misuse", "Meaning"], rows: [
+              ["Software piracy", "Illegal copying and selling of programs"],
+              ["Hacking", "Unauthorised access to a computer system"],
+              ["Computer fraud", "Using computers to cheat people of money"],
+              ["Identity theft", "Using someone else's personal details"],
+              ["Phishing", "Fake messages or sites that trick people"],
+              ["Viruses, malware", "Harmful programs that damage or steal data"],
+              ["Electronic eavesdropping", "Secretly intercepting or monitoring messages"],
+              ["Industrial espionage", "Stealing a competitor's secrets"],
+              ["Violation of privacy", "Collecting or sharing personal data without permission"],
+              ["Propaganda", "One-sided information spread to influence people"]
+            ]},
+            { type: "callout", variant: "warn", text: "Encryption is NOT a computer crime. It is a security measure." },
+            { type: "h3", text: "More threats" },
+            { type: "table", headers: ["Threat", "Description"], rows: [
+              ["Virus", "Attaches to files and spreads when opened"],
+              ["Worm", "Spreads by itself across networks"],
+              ["Trojan", "Harmful program disguised as useful software"],
+              ["Spyware", "Secretly records what the user does"],
+              ["Ransomware", "Locks files until a payment is made"],
+              ["Denial of service", "Floods a server so users cannot reach it"],
+              ["Spam", "Unwanted bulk e-mail"],
+              ["Cyberbullying", "Using electronic media to harass someone"],
+              ["Plagiarism", "Copying work and passing it off as your own"]
+            ]}
+          ],
+          keyTerms: [
+            { term: "Hacking", definition: "Unauthorised access to a computer system" },
+            { term: "Phishing", definition: "Tricking people into revealing personal details" },
+            { term: "Identity theft", definition: "Using another person's details to commit fraud" },
+            { term: "Software piracy", definition: "Illegal copying and use of software" },
+            { term: "Malware", definition: "Malicious software" }
+          ],
+          checkQuestions: [
+            { q: "Define phishing.", a: "Fake messages or websites that trick people into giving personal details such as passwords or bank information." },
+            { q: "Distinguish a virus from spyware.", a: "A virus attaches to files and spreads when opened, often damaging data; spyware secretly records what the user does." },
+            { q: "State two effects of identity theft.", a: "Financial loss; damaged reputation; stress; loss of privacy." }
+          ]
+        },
+        {
+          id: "3.3",
+          title: "Protecting data, health and ethics",
+          objectives: [
+            "Describe physical and software security measures and backup practice",
+            "Describe health risks and ergonomic solutions",
+            "State ethical and legal responsibilities of computer users"
+          ],
+          blocks: [
+            { type: "h3", text: "Protecting data and systems" },
+            { type: "list", items: [
+              "Physical: locks, guards, biometric systems, fire/water-proof cabinets.",
+              "Software: passwords, encryption, firewalls, antivirus programs.",
+              "Backup: keep copies off-site so data can be restored if lost or corrupted."
+            ]},
+            { type: "h3", text: "Health, safety and ethics" },
+            { type: "list", items: [
+              "Health problems: eye strain, back and neck pain, repetitive strain injury (RSI).",
+              "Ergonomics: adjustable chairs, correct screen height, regular breaks, good lighting.",
+              "Ethics: respect copyright and software licences; do not share personal data; do not plagiarise."
+            ]},
+            { type: "callout", variant: "tip", text: "Strong passwords: long, mix of letters, numbers and symbols, changed regularly, never shared." }
+          ],
+          keyTerms: [
+            { term: "Encryption", definition: "Scrambling data so only authorised users can read it" },
+            { term: "Firewall", definition: "Software or hardware that filters network traffic" },
+            { term: "Backup", definition: "Spare copy of data" },
+            { term: "Biometrics", definition: "Identification using body features" },
+            { term: "Ergonomics", definition: "Designing equipment and work areas for comfort and safety" }
+          ],
+          checkQuestions: [
+            { q: "Describe two characteristics of a strong password.", a: "It is long; it mixes letters, numbers and symbols; it is changed regularly and never shared." },
+            { q: "Explain why backups should be stored off-site.", a: "So that data survives a fire, theft or other disaster that destroys the main location." },
+            { q: "State three ergonomic measures.", a: "Adjustable chair, screen at eye level, good lighting, wrist rest, regular breaks." }
+          ]
+        }
+      ]
+    }
   ]
 };
 
-// === QUIZZES ===
+// ---------------------------------------------------------------------------
+// 2. QUIZ BANK — one MCQ set + one short-answer set per topic
+// ---------------------------------------------------------------------------
 const QUIZZES = {
-  1: { mcq:[
-    { q:"Which component carries out arithmetic and comparisons?", opts:["Control unit","ALU","RAM","Buffer"], correct:1 },
-    { q:"Memory that loses its contents when the power is switched off is described as", opts:["non-volatile","volatile","permanent","read-only"], correct:1 },
-    { q:"The binary number 1001 equals which decimal number?", opts:["7","8","9","11"], correct:2 },
-    { q:"Which storage medium gives direct access and has no moving parts?", opts:["Magnetic tape","Hard disk","Flash drive","Floppy disk"], correct:2 },
-    { q:"Windows, icons and menus are features of a", opts:["command-line interface","graphical user interface","batch system","compiler"], correct:1 }
-  ]},
-  2: { mcq:[
-    { q:"A radio station sending programmes to listeners uses which mode?", opts:["Simplex","Half duplex","Duplex","None"], correct:0 },
-    { q:"Which transmission medium sends data as pulses of light?", opts:["Coaxial cable","Fibre-optic cable","Twisted pair","Microwave"], correct:1 },
-    { q:"Which method of connecting to the Internet is usually the slowest?", opts:["Dial-up","Cable","DSL","Leased line"], correct:0 },
-    { q:"Which protocol is used to move files between computers?", opts:["HTTP","FTP","SMTP","HTML"], correct:1 },
-    { q:"Which device sends data between different networks?", opts:["Hub","Router","Speaker","Scanner"], correct:1 }
-  ]},
-  3: { mcq:[
-    { q:"Fake e-mails that trick people into revealing bank details are called", opts:["phishing","encryption","cookies","piracy"], correct:0 },
-    { q:"Using another person's identity details to commit fraud is called", opts:["identity theft","plagiarism","eavesdropping","spam"], correct:0 },
-    { q:"A system that gives advice using the knowledge of human experts is a(n)", opts:["robot","expert system","plotter","search
+  1: {
+    mcq: [
+      { q: "Which component carries out arithmetic and comparisons?",
+        opts: ["Control unit", "ALU", "RAM", "Buffer"], correct: 1 },
+      { q: "Memory that loses its contents when the power is switched off is described as",
+        opts: ["non-volatile", "volatile", "permanent", "read-only"], correct: 1 },
+      { q: "The binary number 1001 equals which decimal number?",
+        opts: ["7", "8", "9", "11"], correct: 2 },
+      { q: "Which storage medium gives direct access and has no moving parts?",
+        opts: ["Magnetic tape", "Hard disk", "Flash drive", "Floppy disk"], correct: 2 },
+      { q: "Windows, icons and menus are features of a",
+        opts: ["command-line interface", "graphical user interface", "batch system", "compiler"], correct: 1 }
+    ],
+    short: [
+      { q: "Convert the decimal number 37 to binary. Show your working.", a: "37 ÷ 2 = 18 r1; 18 ÷ 2 = 9 r0; 9 ÷ 2 = 4 r1; 4 ÷ 2 = 2 r0; 2 ÷ 2 = 1 r0; 1 ÷ 2 = 0 r1. Reading bottom-up: 100101." },
+      { q: "Explain why a computer needs both RAM and secondary storage.", a: "RAM holds programs and data currently in use and is volatile; secondary storage keeps data permanently when the power is off." },
+      { q: "State TWO functions of an operating system.", a: "Any two: memory management, file management, device management, security, providing the user interface." }
+    ]
+  },
+  2: {
+    mcq: [
+      { q: "A radio station sending programmes to listeners uses which mode?",
+        opts: ["Simplex", "Half duplex", "Duplex", "None"], correct: 0 },
+      { q: "Which transmission medium sends data as pulses of light?",
+        opts: ["Coaxial cable", "Fibre-optic cable", "Twisted pair", "Microwave"], correct: 1 },
+      { q: "Which method of connecting to the Internet is usually the slowest?",
+        opts: ["Dial-up", "Cable", "DSL", "Leased line"], correct: 0 },
+      { q: "Which protocol is used to move files between computers?",
+        opts: ["HTTP", "FTP", "SMTP", "HTML"], correct: 1 },
+      { q: "Which device sends data between different networks?",
+        opts: ["Hub", "Router", "Speaker", "Scanner"], correct: 1 }
+    ],
+    short: [
+      { q: "Explain the term bandwidth.", a: "Bandwidth is the amount of data a connection can carry in a given time; higher bandwidth means faster data transfer." },
+      { q: "Identify the protocol and the domain name in https://www.example.edu.tt.", a: "Protocol: https. Domain name: example.edu.tt." },
+      { q: "Define a computer network and give ONE advantage of networking.", a: "A network links two or more computers to share data and devices. Advantage: users can share files, printers and software." }
+    ]
+  },
+  3: {
+    mcq: [
+      { q: "Fake e-mails that trick people into revealing bank details are called",
+        opts: ["phishing", "encryption", "cookies", "piracy"], correct: 0 },
+      { q: "Using another person's identity details to commit fraud is called",
+        opts: ["identity theft", "plagiarism", "eavesdropping", "spam"], correct: 0 },
+      { q: "A system that gives advice using the knowledge of human experts is a(n)",
+        opts: ["robot", "expert system", "plotter", "search engine"], correct: 1 },
+      { q: "Using a computer to help design a new product is called",
+        opts: ["CAM", "CAD", "EFT", "POS"], correct: 1 },
+      { q: "Which of the following is a PHYSICAL security measure?",
+        opts: ["Password", "Firewall", "Security guard", "Antivirus program"], correct: 2 }
+    ],
+    short: [
+      { q: "Explain how a firewall protects a network.", a: "A firewall filters incoming and outgoing network traffic, blocking unauthorised access while allowing legitimate communication." },
+      { q: "Define software piracy.", a: "Software piracy is the illegal copying, distribution or use of software without a licence." },
+      { q: "Explain what is meant by identity theft.", a: "Identity theft is using someone else's personal details (name, ID, bank details) to commit fraud or other crimes." }
+    ]
+  }
+};
+
+// ---------------------------------------------------------------------------
+// 3. STATE + STORAGE
+// ---------------------------------------------------------------------------
+const STORAGE_KEY = "itcoach_v1";
+const app = document.getElementById("app");
+
+const defaultState = () => ({
+  student: null,              // { name, class }
+  progress: {},               // { "1.1": true, ... }
+  quizResults: {},            // { "1": { mcq: {score, total, answers}, short: {selfRatings: [...]} } }
+  teacherMode: false,
+  view: { name: "home", params: {} }
+});
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return { ...defaultState(), ...parsed };
+  } catch { return defaultState(); }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// ---------------------------------------------------------------------------
+// 4. HELPERS
+// ---------------------------------------------------------------------------
+const $ = (html) => { app.innerHTML = html; };
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const getTopic = (id) => COURSE.topics.find(t => t.id === +id);
+const getLesson = (tid, lid) => getTopic(tid)?.lessons.find(l => l.id === lid);
+
+function topicProgress(topicId) {
+  const topic = getTopic(topicId);
+  const total = topic.lessons.length;
+  const done = topic.lessons.filter(l => state.progress[l.id]).length;
+  return { done, total, pct: Math.round(100 * done / total) };
+}
+function overallProgress() {
+  let done = 0, total = 0;
+  COURSE.topics.forEach(t => { const p = topicProgress(t.id); done += p.done; total += p.total; });
+  return { done, total, pct: Math.round(100 * done / total) };
+}
+
+function renderBlock(b) {
+  switch (b.type) {
+    case "h3": return `<h3 style="margin:14px 0 4px;font-size:15px;color:${'var(--primary-dark)'}">${esc(b.text)}</h3>`;
+    case "p": return `<p>${esc(b.text)}</p>`;
+    case "list": return `<ul style="margin:6px 0 6px 18px;padding:0">${b.items.map(i => `<li style="margin:4px 0;font-size:14px">${esc(i)}</li>`).join("")}</ul>`;
+    case "diagram": return `<div class="lesson-diagram">📊 ${esc(b.label)}</div>`;
+    case "callout": {
+      const colors = { tip: "#0f766e", info: "#0284c7", warn: "#ea580c" };
+      const bg = { tip: "#f0fdfa", info: "#eff6ff", warn: "#fff7ed" };
+      return `<div style="border-left:3px solid ${colors[b.variant]||colors.tip};background:${bg[b.variant]||bg.tip};padding:10px 12px;border-radius:8px;font-size:13.5px;margin:8px 0">${esc(b.text)}</div>`;
+    }
+    case "table": return `
+      <div style="overflow-x:auto;margin:8px 0">
+        <table><thead><tr>${b.headers.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+        <tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>
+      </div>`;
+    default: return "";
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 5. VIEWS
+// ---------------------------------------------------------------------------
+function renderHome() {
+  const ov = overallProgress();
+  const studentName = state.student?.name || "Student";
+  $(`
+    <header class="appbar">
+      <h1>IT Coach CSEC</h1>
+      <button onclick="go('teacher')">👩‍🏫 Teacher</button>
+      <button onclick="go('settings')">⚙️</button>
+    </header>
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <h2>Hi, ${esc(studentName)} 👋</h2>
+          <p class="muted">${ov.done} of ${ov.total} lessons completed</p>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:28px;font-weight:700;color:var(--primary)">${ov.pct}%</div>
+        </div>
+      </div>
+      <div class="progress-bar" style="margin-top:8px"><div style="width:${ov.pct}%"></div></div>
+    </div>
+    <div class="grid two">
+      ${COURSE.topics.map(t => {
+        const p = topicProgress(t.id);
+        return `
+          <div class="card" style="cursor:pointer" onclick="go('topic',{id:${t.id}})">
+            <div style="font-size:28px">${t.icon}</div>
+            <h2>${esc(t.title)}</h2>
+            <p class="muted">${t.lessons.length} lessons · ${t.syllabusSection}</p>
+            <div class="progress-bar" style="margin-top:8px"><div style="width:${p.pct}%;background:${t.color}"></div></div>
+            <p class="muted" style="margin-top:4px">${p.done}/${p.total} done</p>
+          </div>`;
+      }).join("")}
+    </div>
+    <div class="footer">Prototype v0.1 · Works offline · Data stored on this device</div>
+  `);
+}
+
+function renderTopic({ id }) {
+  const t = getTopic(id);
+  if (!t) return go("home");
+  const p = topicProgress(t.id);
+  $(`
+    <header class="appbar">
+      <button onclick="go('home')">← Back</button>
+      <h1>${t.icon} ${esc(t.title)}</h1>
+    </header>
+    <div class="card">
+      <p class="muted">${t.syllabusSection}</p>
+      <div class="progress-bar"><div style="width:${p.pct}%;background:${t.color}"></div></div>
+      <p class="muted" style="margin-top:6px">${p.done} of ${p.total} lessons complete</p>
+    </div>
+    ${t.lessons.map((l, i) => `
+      <div class="card" style="cursor:pointer;display:flex;align-items:center;gap:10px"
+           onclick="go('lesson',{tid:${t.id},lid:'${l.id}'})">
+        <div style="width:28px;height:28px;border-radius:50%;background:${state.progress[l.id] ? 'var(--correct)' : '#e2e8f0'};
+             color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">
+          ${state.progress[l.id] ? "✓" : i + 1}
+        </div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:14px">${esc(l.title)}</div>
+          <div class="muted" style="font-size:12px">${l.id} · ${l.objectives.length} objectives</div>
+        </div>
+        <div style="color:var(--muted)">›</div>
+      </div>
+    `).join("")}
+    <div class="card">
+      <h2>Assessment</h2>
+      <p>Multiple choice and short answer for this topic.</p>
+      <button class="btn" onclick="go('quiz',{topicId:${t.id}})" style="margin-top:8px">Start quiz →</button>
+    </div>
+  `);
+}
+
+function renderLesson({ tid, lid }) {
+  const l = getLesson(tid, lid);
+  const t = getTopic(tid);
+  if (!l) return go("home");
+  const done = !!state.progress[l.id];
+  $(`
+    <header class="appbar">
+      <button onclick="go('topic',{id:${tid}})">← Back</button>
+      <h1>${esc(l.id)} ${esc(l.title)}</h1>
+    </header>
+    <div class="card">
+      <span class="pill">Objectives</span>
+      <ul style="margin:8px 0 0 18px;padding:0">
+        ${l.objectives.map(o => `<li style="font-size:13.5px;margin:4px 0">${esc(o)}</li>`).join("")}
+      </ul>
+    </div>
+    ${l.blocks.map(renderBlock).join("")}
+    <div class="card">
+      <h2>Key terms</h2>
+      ${l.keyTerms.map(k => `<div class="keyterm"><b>${esc(k.term)}</b><span>${esc(k.definition)}</span></div>`).join("")}
+    </div>
+    <div class="card">
+      <h2>Check your understanding</h2>
+      <p class="muted">Tap each question to reveal the model answer.</p>
+      ${l.checkQuestions.map((q, i) => `
+        <div style="margin:10px 0">
+          <button class="btn ghost small" onclick="toggleAnswer('ca-${i}')">Q${i + 1}. ${esc(q.q)}</button>
+          <div id="ca-${i}" class="hidden" style="margin-top:8px;padding:10px;background:#f0fdfa;border-radius:8px;font-size:13.5px">
+            <b>Model answer:</b> ${esc(q.a)}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="card">
+      <button class="btn" onclick="markLesson('${l.id}',${!done})" style="width:100%;background:${done ? 'var(--muted)' : 'var(--primary)'}">
+        ${done ? "✓ Completed — tap to unmark" : "Mark lesson complete"}
+      </button>
+    </div>
+  `);
+}
+
+function renderQuiz({ topicId }) {
+  const t = getTopic(topicId);
+  const bank = QUIZZES[topicId];
+  if (!bank) return go("home");
+  const saved = state.quizResults[topicId] || {};
+
+  // Two-tab layout: MCQ / Short answer
+  $(`
+    <header class="appbar">
+      <button onclick="go('topic',{id:${topicId}})">← Back</button>
+      <h1>Quiz · ${esc(t.title)}</h1>
+    </header>
+    <div class="tabs">
+      <button class="tab active" id="tab-mcq" onclick="switchTab('mcq')">Multiple choice</button>
+      <button class="tab" id="tab-short" onclick="switchTab('short')">Short answer</button>
+    </div>
+    <div id="panel-mcq">
+      <div class="card">
+        <h2>Multiple choice (${bank.mcq.length} questions)</h2>
+        <p class="muted">Choose the best answer. Feedback shows immediately.</p>
+      </div>
+      ${bank.mcq.map((q, i) => `
+        <div class="card" id="mcq-card-${i}">
+          <div style="font-weight:600;font-size:14px;margin-bottom:6px">Q${i + 1}. ${esc(q.q)}</div>
+          ${q.opts.map((o, j) => `
+            <label class="opt" id="opt-${i}-${j}" onclick="answerMCQ(${i},${j},${q.correct})">
+              <input type="radio" name="q${i}" />${esc(o)}
+            </label>
+          `).join("")}
+          <div id="fb-${i}" class="hidden"></div>
+        </div>
+      `).join("")}
+      <div class="card">
+        <button class="btn" onclick="saveMCQ(${topicId})" style="width:100%">Save MCQ results</button>
+        <p class="muted" id="mcq-score" style="text-align:center;margin-top:8px"></p>
+      </div>
+    </div>
+    <div id="panel-short" class="hidden">
+      <div class="card">
+        <h2>Short answer (${bank.short.length} questions)</h2>
+        <p class="muted">Write your answer, then reveal the model answer and rate yourself.</p>
+      </div>
+      ${bank.short.map((q, i) => `
+        <div class="card">
+          <div style="font-weight:600;font-size:14px;margin-bottom:6px">Q${i + 1}. ${esc(q.q)}</div>
+          <textarea id="sa-${i}" placeholder="Type your answer here..."></textarea>
+          <div style="margin-top:8px">
+            <button class="btn ghost small" onclick="revealModel(${i})">Reveal model answer</button>
+          </div>
+          <div id="model-${i}" class="hidden" style="margin-top:8px;padding:10px;background:#f0fdfa;border-radius:8px;font-size:13.5px">
+            <b>Model answer:</b> ${esc(q.a)}
+          </div>
+          <div id="rate-${i}" class="hidden" style="margin-top:10px">
+            <div class="muted" style="margin-bottom:6px">How did you do?</div>
+            <div class="row">
+              <button class="btn small" style="background:var(--correct)" onclick="rate(${i},'got')">Got it</button>
+              <button class="btn small" style="background:var(--warn)" onclick="rate(${i},'almost')">Almost</button>
+              <button class="btn small" style="background:var(--wrong)" onclick="rate(${i},'review')">Need review</button>
+            </div>
+          </div>
+        </div>
+      `).join("")}
+      <div class="card">
+        <button class="btn" onclick="saveShort(${topicId})" style="width:100%">Save short-answer ratings</button>
+      </div>
+    </div>
+  `);
+
+  if (saved.mcq) {
+    document.getElementById("mcq-score").innerHTML =
+      `Saved: <b>${saved.mcq.score}/${saved.mcq.total}</b> · ${new Date(saved.mcq.at).toLocaleString()}`;
+  }
+}
+
+function renderTeacher() {
+  if (!state.teacherMode) {
+    $(`
+      <header class="appbar"><button onclick="go('home')">← Back</button><h1>Teacher dashboard</h1></header>
+      <div class="card">
+        <h2>Teacher access</h2>
+        <p class="muted">Enter the class PIN to unlock the dashboard. (Demo PIN: <b>1234</b>)</p>
+        <input type="password" id="pin" placeholder="PIN" style="margin:8px 0" />
+        <button class="btn" onclick="checkPin()">Unlock</button>
+      </div>
+      <div class="card">
+        <h2>How the prototype works</h2>
+        <p class="muted">Student data is stored on this device only. To aggregate results from many students, each student exports a short code from Settings → Export, and the teacher pastes all codes into the dashboard.</p>
+      </div>
+    `);
+  } else {
+    renderTeacherDashboard();
+  }
+}
+
+function renderTeacherDashboard() {
+  const rows = getLeaderboardData();
+  const totalStudents = rows.length;
+  const avgMCQ = rows.length ? Math.round(rows.reduce((a, r) => a + (r.mcqPct || 0), 0) / rows.length) : 0;
+  const avgProg = rows.length ? Math.round(rows.reduce((a, r) => a + r.progressPct, 0) / rows.length) : 0;
+
+  $(`
+    <header class="appbar">
+      <button onclick="go('home')">← Home</button>
+      <h1>Teacher dashboard</h1>
+      <button onclick="lockTeacher()">Lock</button>
+    </header>
+    <div class="kpis">
+      <div class="kpi"><div class="num">${totalStudents}</div><div class="lbl">Students</div></div>
+      <div class="kpi"><div class="num">${avgProg}%</div><div class="lbl">Avg progress</div></div>
+      <div class="kpi"><div class="num">${avgMCQ}%</div><div class="lbl">Avg MCQ</div></div>
+      <div class="kpi"><div class="num">${COURSE.topics.length}</div><div class="lbl">Topics</div></div>
+    </div>
+    <div class="card">
+      <h2>Import student codes</h2>
+      <p class="muted">Paste one or more codes exported from student devices. Each code is a Base64 string.</p>
+      <textarea id="importCodes" placeholder="Paste codes here, one per line..."></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="importCodes()">Import</button>
+        <button class="btn secondary" onclick="clearImported()">Clear imported</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Class results</h2>
+      ${rows.length === 0 ? `<p class="muted">No data yet. Import student codes above, or view your own progress as a demo.</p>` : `
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Student</th><th>Class</th><th>Progress</th><th>MCQ 1</th><th>MCQ 2</th><th>MCQ 3</th><th>Last active</th>
+          </tr></thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td><b>${esc(r.name)}</b></td>
+                <td>${esc(r.klass)}</td>
+                <td>${r.progressPct}%</td>
+                <td>${fmtPct(r.mcq1)}</td>
+                <td>${fmtPct(r.mcq2)}</td>
+                <td>${fmtPct(r.mcq3)}</td>
+                <td class="muted">${r.lastActive ? new Date(r.lastActive).toLocaleDateString() : "—"}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+    <div class="card">
+      <h2>Topic breakdown (class average)</h2>
+      ${COURSE.topics.map(t => {
+        const rowsForTopic = rows.filter(r => r.topicProgress && r.topicProgress[t.id] !== undefined);
+        const avg = rowsForTopic.length
+          ? Math.round(rowsForTopic.reduce((a, r) => a + r.topicProgress[t.id], 0) / rowsForTopic.length)
+          : 0;
+        return `
+          <div style="margin:8px 0">
+            <div class="row" style="justify-content:space-between">
+              <span style="font-size:13.5px;font-weight:600">${t.icon} ${esc(t.title)}</span>
+              <span class="muted">${avg}%</span>
+            </div>
+            <div class="progress-bar" style="margin-top:4px"><div style="width:${avg}%;background:${t.color}"></div></div>
+          </div>`;
+      }).join("")}
+    </div>
+    <div class="card">
+      <h2>Export class report (CSV)</h2>
+      <button class="btn secondary" onclick="exportCSV()">Download CSV</button>
+    </div>
+  `);
+}
+
+function fmtPct(v) {
+  if (v === undefined || v === null) return "—";
+  const color = v >= 70 ? "var(--correct)" : v >= 50 ? "var(--warn)" : "var(--wrong)";
+  return `<span style="color:${color};font-weight:700">${v}%</span>`;
+}
+
+function renderSettings() {
+  const student = state.student || {};
+  $(`
+    <header class="appbar"><button onclick="go('home')">← Back</button><h1>Settings</h1></header>
+    <div class="card">
+      <h2>Student profile</h2>
+      <label class="muted">Name</label>
+      <input type="text" id="s-name" value="${esc(student.name || "")}" placeholder="e.g. Jane Doe" />
+      <label class="muted" style="display:block;margin-top:10px">Class</label>
+      <input type="text" id="s-class" value="${esc(student.klass || "")}" placeholder="e.g. 5A" />
+      <button class="btn" onclick="saveProfile()" style="margin-top:12px">Save profile</button>
+    </div>
+    <div class="card">
+      <h2>Export my results</h2>
+      <p class="muted">Copy this code and send it to your teacher. It contains your progress and quiz scores only.</p>
+      <textarea id="exportBox" readonly>${makeExportCode()}</textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="copyExport()">Copy code</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Reset</h2>
+      <p class="muted">This clears your progress and quiz results on this device.</p>
+      <button class="btn" style="background:var(--wrong)" onclick="resetAll()">Reset all data</button>
+    </div>
+    <div class="footer">IT Coach CSEC · Prototype · Data stays on your device</div>
+  `);
+}
+
+// ---------------------------------------------------------------------------
+// 6. NAVIGATION
+// ---------------------------------------------------------------------------
+function go(name, params = {}) {
+  state.view = { name, params };
+  saveState();
+  window.scrollTo({ top: 0 });
+  const views = {
+    home: renderHome,
+    topic: renderTopic,
+    lesson: renderLesson,
+    quiz: renderQuiz,
+    teacher: renderTeacher,
+    settings: renderSettings
+  };
+  (views[name] || renderHome)(params);
+}
+window.go = go;
+
+function toggleAnswer(id) {
+  document.getElementById(id).classList.toggle("hidden");
+}
+window.toggleAnswer = toggleAnswer;
+
+function switchTab(which) {
+  document.getElementById("tab-mcq").classList.toggle("active", which === "mcq");
+  document.getElementById("tab-short").classList.toggle("active", which === "short");
+  document.getElementById("panel-mcq").classList.toggle("hidden", which !== "mcq");
+  document.getElementById("panel-short").classList.toggle("hidden", which !== "short");
+}
+window.switchTab = switchTab;
+
+// ---------------------------------------------------------------------------
+// 7. LESSON + QUIZ INTERACTIONS
+// ---------------------------------------------------------------------------
+function markLesson(lid, val) {
+  state.progress[lid] = val;
+  saveState();
+  go("lesson", { tid: +lid.split(".")[0], lid });
+}
+window.markLesson = markLesson;
+
+const mcqState = {};   // per-page-session answers
+function answerMCQ(qIdx, optIdx, correct) {
+  // Disable all options for this question
+  const card = document.getElementById(`mcq-card-${qIdx}`);
+  card.querySelectorAll(".opt").forEach(el => el.style.pointerEvents = "none");
+  const chosen = document.getElementById(`opt-${qIdx}-${optIdx}`);
+  const correctEl = document.getElementById(`opt-${qIdx}-${correct}`);
+  if (optIdx === correct) {
+    chosen.classList.add("correct");
+    document.getElementById(`fb-${qIdx}`).className = "feedback correct";
+    document.getElementById(`fb-${qIdx}`).textContent = "✓ Correct!";
+  } else {
+    chosen.classList.add("wrong");
+    correctEl.classList.add("correct");
+    document.getElementById(`fb-${qIdx}`).className = "feedback wrong";
+    document.getElementById(`fb-${qIdx}`).textContent = "✗ Not quite — the correct answer is highlighted.";
+  }
+  mcqState[qIdx] = (optIdx === correct);
+}
+window.answerMCQ = answerMCQ;
+
+function saveMCQ(topicId) {
+  const bank = QUIZZES[topicId].mcq;
+  let score = 0;
+  bank.forEach((_, i) => { if (mcqState[i]) score++; });
+  state.quizResults[topicId] = state.quizResults[topicId] || {};
+  state.quizResults[topicId].mcq = { score, total: bank.length, at: Date.now() };
+  state.lastActive = Date.now();
+  saveState();
+  document.getElementById("mcq-score").innerHTML =
+    `Saved: <b>${score}/${bank.length}</b> · ${new Date().toLocaleString()}`;
+}
+window.saveMCQ = saveMCQ;
+
+const shortRatings = {};
+function revealModel(i) {
+  document.getElementById(`model-${i}`).classList.remove("hidden");
+  document.getElementById(`rate-${i}`).classList.remove("hidden");
+}
+window.revealModel = revealModel;
+
+function rate(i, val) {
+  shortRatings[i] = val;
+  const colors = { got: "var(--correct)", almost: "var(--warn)", review: "var(--wrong)" };
+  document.querySelectorAll(`#rate-${i} button`).forEach(b => b.style.opacity = 0.4);
+  event.target.style.opacity = 1;
+  event.target.style.background = colors[val];
+}
+window.rate = rate;
+
+function saveShort(topicId) {
+  state.quizResults[topicId] = state.quizResults[topicId] || {};
+  state.quizResults[topicId].short = { ratings: { ...shortRatings }, at: Date.now() };
+  state.lastActive = Date.now();
+  saveState();
+  alert("Short-answer ratings saved.");
+}
+window.saveShort = saveShort;
+
+// ---------------------------------------------------------------------------
+// 8. TEACHER MODE
+// ---------------------------------------------------------------------------
+function checkPin() {
+  const pin = document.getElementById("pin").value.trim();
+  if (pin === "1234") {
+    state.teacherMode = true;
+    saveState();
+    renderTeacher();
+  } else {
+    alert("Incorrect PIN. Demo PIN is 1234.");
+  }
+}
+window.checkPin = checkPin;
+
+function lockTeacher() {
+  state.teacherMode = false;
+  saveState();
+  go("home");
+}
+window.lockTeacher = lockTeacher;
+
+// ---------------------------------------------------------------------------
+// 9. EXPORT / IMPORT
+// ---------------------------------------------------------------------------
+function makeExportCode() {
+  const payload = {
+    v: 1,
+    name: state.student?.name || "Anonymous",
+    klass: state.student?.klass || "",
+    progress: state.progress,
+    quizResults: state.quizResults,
+    lastActive: state.lastActive || Date.now()
+  };
+  try {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  } catch { return ""; }
+}
+window.makeExportCode = makeExportCode;
+
+function copyExport() {
+  const el = document.getElementById("exportBox");
+  el.select();
+  document.execCommand("copy");
+  alert("Code copied to clipboard.");
+}
+window.copyExport = copyExport;
+
+function importCodes() {
+  const raw = document.getElementById("importCodes").value.trim();
+  if (!raw) return;
+  const lines = raw.split(/\s+/).filter(Boolean);
+  const imported = JSON.parse(localStorage.getItem("itcoach_imported") || "[]");
+  let count = 0;
+  for (const line of lines) {
+    try {
+      const json = JSON.parse(decodeURIComponent(escape(atob(line))));
+      if (json && json.name) { imported.push(json); count++; }
+    } catch (e) { /* skip invalid */ }
+  }
+  // De-duplicate by name+lastActive
+  const seen = new Set();
+  const unique = imported.filter(r => {
+    const k = `${r.name}|${r.lastActive}`;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  });
+  localStorage.setItem("itcoach_imported", JSON.stringify(unique));
+  alert(`Imported ${count} record(s).`);
+  renderTeacherDashboard();
+}
+window.importCodes = importCodes;
+
+function clearImported() {
+  if (!confirm("Clear all imported student records?")) return;
+  localStorage.removeItem("itcoach_imported");
+  renderTeacherDashboard();
+}
+window.clearImported = clearImported;
+
+function getLeaderboardData() {
+  const imported = JSON.parse(localStorage.getItem("itcoach_imported") || "[]");
+  // Also include the current student as a demo row
+  const self = {
+    name: state.student?.name || "You (demo)",
+    klass: state.student?.klass || "—",
+    progress: state.progress,
+    quizResults: state.quizResults,
+    lastActive: state.lastActive || Date.now()
+  };
+  const all = [...imported, self];
+  const seen = new Set();
+  return all.filter(r => {
+    const k = `${r.name}|${r.lastActive}`;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  }).map(r => {
+    const progressKeys = Object.keys(r.progress || {}).filter(k => r.progress[k]);
+    const totalLessons = COURSE.topics.reduce((a, t) => a + t.lessons.length, 0);
+    const topicProgress = {};
+    COURSE.topics.forEach(t => {
+      const done = t.lessons.filter(l => r.progress && r.progress[l.id]).length;
+      topicProgress[t.id] = Math.round(100 * done / t.lessons.length);
+    });
+    const mcq = (tid) => {
+      const q = r.quizResults?.[tid]?.mcq;
+      return q ? Math.round(100 * q.score / q.total) : undefined;
+    };
+    return {
+      name: r.name || "Anonymous",
+      klass: r.klass || "—",
+      progressPct: Math.round(100 * progressKeys.length / totalLessons),
+      topicProgress,
+      mcq1: mcq(1), mcq2: mcq(2), mcq3: mcq(3),
+      lastActive: r.lastActive
+    };
+  });
+}
+window.getLeaderboardData = getLeaderboardData;
+
+function exportCSV() {
+  const rows = getLeaderboardData();
+  const header = "Name,Class,Progress %,MCQ Topic 1 %,MCQ Topic 2 %,MCQ Topic 3 %,Last Active\n";
+  const body = rows.map(r => [
+    `"${r.name}"`, `"${r.klass}"`, r.progressPct,
+    r.mcq1 ?? "", r.mcq2 ?? "", r.mcq3 ?? "",
+    r.lastActive ? new Date(r.lastActive).toISOString() : ""
+  ].join(",")).join("\n");
+  const blob = new Blob([header + body], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "it-coach-class-report.csv";
+  a.click(); URL.revokeObjectURL(url);
+}
+window.exportCSV = exportCSV;
+
+// ---------------------------------------------------------------------------
+// 10. PROFILE + RESET
+// ---------------------------------------------------------------------------
+function saveProfile() {
+  state.student = {
+    name: document.getElementById("s-name").value.trim() || "Student",
+    klass: document.getElementById("s-class").value.trim()
+  };
+  saveState();
+  alert("Profile saved.");
+  go("home");
+}
+window.saveProfile = saveProfile;
+
+function resetAll() {
+  if (!confirm("This will erase all your progress and quiz results on this device. Continue?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = defaultState();
+  go("home");
+}
+window.resetAll = resetAll;
+
+// ---------------------------------------------------------------------------
+// 11. BOOT
+// ---------------------------------------------------------------------------
+if (!state.student) {
+  // First-run: show settings so student can enter name
+  state.view = { name: "settings", params: {} };
+}
+go(state.view.name, state.view.params);
+</script>
+</body>
+</html>
