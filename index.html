@@ -1,587 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IT Coach CSEC</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root{--bg:#f6f8fa;--card:#fff;--primary:#0f766e;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--correct:#16a34a;--wrong:#dc2626;--warn:#ea580c;--radius:12px}
-  *{box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.5}
-  #app{max-width:760px;margin:0 auto;padding:16px 16px 80px}
-  .appbar{position:sticky;top:0;z-index:20;background:var(--primary);color:#fff;margin:-16px -16px 16px;padding:14px 16px;display:flex;align-items:center;gap:10px}
-  .appbar h1{font-size:16px;margin:0;font-weight:600;flex:1}
-  .appbar button{background:rgba(255,255,255,.15);color:#fff;border:0;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer}
-  .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border)}
-  .card h2{margin:0 0 6px;font-size:17px}
-  .card p{margin:6px 0;color:var(--muted);font-size:14px}
-  button.btn{background:var(--primary);color:#fff;border:0;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
-  button.btn.secondary{background:#e2e8f0;color:var(--text)}
-  button.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
-  button.btn.small{padding:6px 10px;font-size:13px}
-  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .grid.two{display:grid;grid-template-columns:1fr;gap:12px}
-  @media(min-width:560px){.grid.two{grid-template-columns:1fr 1fr}}
-  .progress-bar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}
-  .progress-bar>div{height:100%;background:var(--primary);transition:width .3s}
-  .opt{display:block;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;margin:8px 0;cursor:pointer;background:#fff;font-size:14px}
-  .opt.correct{border-color:var(--correct);background:#f0fdf4}
-  .opt.wrong{border-color:var(--wrong);background:#fef2f2}
-  .feedback{padding:10px 12px;border-radius:10px;font-size:13px;margin-top:10px}
-  .feedback.correct{background:#f0fdf4;color:#166534;border:1px solid #86efac}
-  .feedback.wrong{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5}
-  textarea,input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px}
-  textarea{min-height:80px}
-  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  @media(min-width:560px){.kpis{grid-template-columns:repeat(4,1fr)}}
-  .kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
-  .kpi .num{font-size:20px;font-weight:700;color:var(--primary)}
-  .kpi .lbl{font-size:11px;color:var(--muted);text-transform:uppercase}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border)}
-  .hidden{display:none}
-  .lesson-diagram{background:#f8fafc;border:1px dashed var(--border);border-radius:10px;padding:10px;text-align:center;font-size:12px;color:var(--muted);margin:8px 0}
-  .keyterm{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:13px}
-  .keyterm b{min-width:110px;color:#115e59}
-  .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f6f8fa;color:#0f172a;margin:0;line-height:1.5}
+#app{max-width:760px;margin:0 auto;padding:16px 16px 80px}
+.appbar{position:sticky;top:0;z-index:20;background:#0f766e;color:#fff;margin:-16px -16px 16px;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.appbar h1{font-size:16px;margin:0;font-weight:600;flex:1}
+.appbar button{background:rgba(255,255,255,.15);color:#fff;border:0;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #e2e8f0}
+.card h2{margin:0 0 6px;font-size:17px}
+.card p{margin:6px 0;color:#64748b;font-size:14px}
+button.btn{background:#0f766e;color:#fff;border:0;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+button.btn.secondary{background:#e2e8f0;color:#0f172a}
+button.btn.ghost{background:transparent;color:#0f766e;border:1px solid #0f766e}
+button.btn.small{padding:6px 10px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid.two{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:560px){.grid.two{grid-template-columns:1fr 1fr}}
+.progress-bar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-bar>div{height:100%;background:#0f766e;transition:width .3s}
+.opt{display:block;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;margin:8px 0;cursor:pointer;background:#fff;font-size:14px}
+.opt.correct{border-color:#16a34a;background:#f0fdf4}
+.opt.wrong{border-color:#dc2626;background:#fef2f2}
+.feedback{padding:10px 12px;border-radius:10px;font-size:13px;margin-top:10px}
+.feedback.correct{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+.feedback.wrong{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5}
+input,textarea{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:14px}
+textarea{min-height:90px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:560px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px;text-align:center}
+.kpi .num{font-size:20px;font-weight:700;color:#0f766e}
+.kpi .lbl{font-size:11px;color:#64748b;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid #e2e8f0}
+.hidden{display:none}
+.keyterm{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed #e2e8f0;font-size:13px}
+.keyterm b{min-width:110px;color:#115e59}
+.diagram{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:10px;padding:10px;text-align:center;font-size:12px;color:#64748b;margin:8px 0}
+.callout{border-left:3px solid #0f766e;background:#f0fdfa;padding:10px 12px;border-radius:8px;font-size:13.5px;margin:8px 0}
+.callout.warn{border-left-color:#ea580c;background:#fff7ed}
+.callout.info{border-left-color:#0284c7;background:#eff6ff}
+.footer{text-align:center;color:#64748b;font-size:12px;margin-top:24px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-/* ====== CONFIG: replace these two lines ====== */
-const SUPABASE_URL = sb_publishable_QjKt7Xxn2ZipLA0_FhrP8Q_sWok1R3v;
-const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF1am9mcnp4YWVkbXhsa3RqbHF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0MDg5MzQsImV4cCI6MjEwNjk4NDkzNH0.gfqZRlOijnMc1AJm6qXCbFj0wfjjRqQnaBz7pr0hNu0;
-/* ============================================= */
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-/* ============ COURSE CONTENT: TOPICS 1-4 ============ */
+// ================== COURSE CONTENT: TOPICS 1-3 ==================
 const COURSE = { topics: [
-{ id:1, title:"Fundamentals of IT", icon:"🖥️", color:"#0f766e", syllabusSection:"Sections 1 & 5",
+{ id:1, title:"Fundamentals of IT", icon:"🖥️", color:"#0f766e", section:"Sections 1 & 5",
   lessons:[
   { id:"1.1", title:"The computer system and primary storage",
     objectives:["Describe the IPOS cycle and the functions of the CPU components","Distinguish RAM, ROM, PROM and EPROM","State the units of storage"],
     blocks:[
       {type:"diagram",label:"IPOS Cycle: INPUT → PROCESSING → OUTPUT, with STORAGE"},
-      {type:"p",text:"A computer follows the IPOS cycle. Hardware is the physical equipment; software is the programs. Data is raw, unprocessed facts. Information is data that has been processed into something meaningful."},
+      {type:"p",text:"A computer follows the IPOS cycle: Input, Processing, Output and Storage. Hardware is the physical equipment; software is the programs. Data is raw, unprocessed facts. Information is data that has been processed into something meaningful."},
       {type:"h3",text:"The CPU and memory"},
-      {type:"p",text:"The CPU has a control unit, an arithmetic and logic unit (ALU), and registers. CPU speed is measured in gigahertz (GHz)."},
+      {type:"p",text:"The CPU has a control unit (coordinates and fetches, decodes, executes instructions), an arithmetic and logic unit (ALU) for calculations and comparisons, and registers (tiny, fast storage). CPU speed is measured in gigahertz (GHz)."},
       {type:"list",items:["RAM: volatile, holds programs and data in use","ROM: non-volatile, holds start-up instructions","PROM: programmed once","EPROM: can be erased and reprogrammed"]},
       {type:"callout",variant:"tip",text:"Units: 1 byte = 8 bits. 1 KB = 1024 bytes; 1 MB = 1024 KB; 1 GB = 1024 MB; 1 TB = 1024 GB."}
     ],
-    keyTerms:[{term:"Hardware",definition:"Physical parts of a computer"},{term:"Software",definition:"Programs that tell hardware what to do"},{term:"CPU",definition:"Control unit, ALU, registers"},{term:"RAM",definition:"Volatile memory holding programs and data in use"}],
-    checkQuestions:[{q:"Name the four basic functions of a computer system.",a:"Input, Processing, Output, Storage."},{q:"State two differences between RAM and ROM.",a:"RAM is volatile, ROM is non-volatile; RAM holds programs in use, ROM holds start-up instructions."},{q:"How many bits are in 2 KB?",a:"2 × 1024 × 8 = 16,384 bits."}]
+    keyTerms:[["Hardware","Physical parts of a computer"],["Software","Programs that tell hardware what to do"],["CPU","Control unit, ALU, registers"],["RAM","Volatile memory holding programs and data in use"],["Cache","Very fast memory next to the CPU"]],
+    checks:[["Name the four basic functions of a computer system.","Input, Processing, Output, Storage (IPOS)."],["State two differences between RAM and ROM.","RAM is volatile, ROM is non-volatile; RAM holds programs in use, ROM holds start-up instructions."],["How many bits are in 2 KB?","2 × 1024 × 8 = 16,384 bits."]]
   },
   { id:"1.2", title:"Input, output and secondary storage devices",
-    objectives:["Identify input and output devices","Compare printers","Compare secondary storage media"],
+    objectives:["Identify input and output devices and match them to applications","Compare printers and other output devices","Compare secondary storage media"],
     blocks:[
+      {type:"h3",text:"Input devices"},
       {type:"table",headers:["Device","Used for"],rows:[["Keyboard, mouse, touchscreen","Manual entry of data and commands"],["Scanner, camera","Capturing images and video"],["Barcode reader / POS","Reading product codes in shops"],["OMR","Reading pencil marks (multiple-choice)"],["OCR","Reading printed or typed characters"],["MICR","Reading magnetic ink on bank cheques"],["Sensors","Automatic input for control systems"]]},
       {type:"h3",text:"Printers compared"},
       {type:"table",headers:["Printer","Advantages","Disadvantages"],rows:[["Dot matrix","Carbon copies, cheap to run","Noisy, slow, low quality"],["Inkjet","Good colour, cheap to buy","Slow, ink costly, smudges"],["Laser","Fast, quiet, high quality","Costly, colour toner expensive"]]},
       {type:"h3",text:"Secondary storage"},
       {type:"table",headers:["Medium","Access / notes"],rows:[["Magnetic tape","Sequential only. Cheap, slow, used for backups."],["Floppy disk","Direct access, ~1.44 MB, obsolete."],["Hard disk","Direct access, fast, GB–TB."],["CD / DVD","Read/written with laser."],["Flash drive","Direct access, portable, no moving parts."]]}
     ],
-    keyTerms:[{term:"Sequential access",definition:"Reading records in order"},{term:"Direct access",definition:"Going straight to a record"},{term:"Track",definition:"A circle on a disk surface"},{term:"Sector",definition:"A wedge-shaped slice of a disk"}],
-    checkQuestions:[{q:"Name the device banks use to read characters on cheques.",a:"MICR."},{q:"Why is magnetic tape unsuitable when one record must be found quickly?",a:"It uses sequential access."},{q:"State two advantages of a laser printer over a dot matrix printer.",a:"Faster and quieter; higher print quality."}]
+    keyTerms:[["Sequential access","Reading records in order from the start"],["Direct access","Going straight to a record"],["Track","A circle on a disk surface"],["Sector","A wedge-shaped slice of a disk"]],
+    checks:[["Name the device banks use to read characters on cheques.","MICR."],["Why is magnetic tape unsuitable when one record must be found quickly?","It uses sequential access only."],["State two advantages of a laser printer over a dot matrix printer.","Faster and quieter; higher print quality."]]
   },
   { id:"1.3", title:"Data representation and number systems",
-    objectives:["Convert between binary, decimal, octal and hexadecimal","Add binary numbers","Explain ASCII and BCD"],
+    objectives:["Convert between binary, decimal, octal and hexadecimal","Add and subtract binary numbers","Explain how characters are coded (ASCII and BCD)"],
     blocks:[
       {type:"diagram",label:"Binary place values: 128 64 32 16 8 4 2 1 → 00001101 = 8 + 4 + 1 = 13"},
-      {type:"p",text:"Binary (base 2) place values: 128, 64, 32, 16, 8, 4, 2, 1. Hexadecimal (base 16) uses 0–9 and A–F."},
+      {type:"p",text:"Binary (base 2) place values: 128, 64, 32, 16, 8, 4, 2, 1. Decimal to binary: divide by 2 repeatedly and read remainders bottom-up."},
+      {type:"p",text:"Hexadecimal (base 16) uses 0–9 and A–F. Group binary in fours: 10111100 = BC."},
       {type:"p",text:"Binary addition: 0+0=0, 0+1=1, 1+1=10 (write 0, carry 1). 1011 + 0110 = 10001."},
       {type:"callout",variant:"info",text:"Two's complement of -5 in 8 bits: 00000101 → invert → 11111010 → add 1 → 11111011."}
     ],
-    keyTerms:[{term:"Bit",definition:"A single binary digit"},{term:"Byte",definition:"8 bits"},{term:"Hexadecimal",definition:"Base 16 number system"},{term:"Two's complement",definition:"Method for negative binary numbers"},{term:"ASCII",definition:"Code giving each character a binary number"}],
-    checkQuestions:[{q:"Convert 110101 to decimal.",a:"32 + 16 + 4 + 1 = 53."},{q:"Convert decimal 100 to binary.",a:"1100100."},{q:"Add 1101 and 1011.",a:"11000."}]
+    keyTerms:[["Bit","A single binary digit"],["Byte","8 bits"],["Hexadecimal","Base 16 number system"],["Two's complement","Method for negative binary numbers"],["ASCII","Code giving each character a binary number"]],
+    checks:[["Convert 110101 to decimal.","32 + 16 + 4 + 1 = 53."],["Convert decimal 100 to binary.","1100100."],["Add 1101 and 1011.","11000."]]
   },
   { id:"1.4", title:"Software and user interfaces",
-    objectives:["Distinguish system from application software","List OS functions","Compare user interfaces"],
+    objectives:["Distinguish system software from application software and list OS functions","Describe processing styles and utility programs","Compare types of user interface"],
     blocks:[
-      {type:"list",items:["System software controls the computer. The OS manages files, memory, security, I/O, and running programs.","Utilities do maintenance jobs (antivirus, file compression).","Application software: general-purpose, special-purpose, custom-purpose.","Windows is system software, not an application."]},
+      {type:"list",items:["System software controls the computer. The OS manages files, memory, security, I/O, the user interface and running programs.","Utilities do maintenance jobs (antivirus, file compression, uninstall programs).","Application software: general-purpose, special-purpose, custom-purpose.","Windows is system software, not an application."]},
       {type:"h3",text:"What an operating system does"},
-      {type:"list",items:["Process and memory management","File management","Device management via drivers","Security: user accounts and passwords","Input/output control and error handling","Providing the user interface"]}
+      {type:"list",items:["Process and memory management","File management","Device management (via drivers)","Security: user accounts and passwords","Input/output control and error handling","Providing the user interface"]},
+      {type:"callout",variant:"tip",text:"Multitasking = several programs at once. Multiprogramming = several in memory, CPU switches. Multiprocessing = more than one CPU. Time-sharing = many users share one CPU."}
     ],
-    keyTerms:[{term:"Operating system",definition:"Software that manages the computer"},{term:"Utility",definition:"Program that performs a maintenance task"},{term:"Translator",definition:"Converts source code to machine code"},{term:"GUI",definition:"Graphical user interface"}],
-    checkQuestions:[{q:"Distinguish system software from application software.",a:"System software controls the computer (e.g. Windows); application software performs user tasks (e.g. word processor)."},{q:"State three functions of an operating system.",a:"Any three of: memory management, file management, device management, security, user interface."},{q:"State one advantage of custom-written software.",a:"It is built to fit one client's exact needs."}]
+    keyTerms:[["Operating system","Software that manages the computer"],["Utility","Program that performs a maintenance task"],["Translator","Converts source code to machine code"],["GUI","Graphical user interface"]],
+    checks:[["Distinguish system software from application software.","System software controls the computer (e.g. Windows); application software performs user tasks (e.g. word processor)."],["State three functions of an operating system.","Any three of: memory management, file management, device management, security, user interface."],["State one advantage of custom-written software.","It is built to fit one client's exact needs."]]
   },
   { id:"1.5", title:"Information processing",
-    objectives:["Distinguish data from information","Explain validation and verification","Describe file types and processing modes"],
+    objectives:["Distinguish data from information and describe how data is captured","Explain validation and verification with examples","Describe file types, file organisation and processing modes"],
     blocks:[
       {type:"p",text:"Data becomes information after processing. Data enters through source documents or turnaround documents."},
+      {type:"h3",text:"Validation checks"},
       {type:"table",headers:["Check","What it does"],rows:[["Range","Rejects values outside limits"],["Data-type","Rejects letters in a number field"],["Length","Rejects the wrong number of characters"],["Presence","Rejects a blank required field"],["Format","Checks pattern, such as a date"],["Inconsistency","Compares fields"],["Check digit","Catches typing errors"]]},
       {type:"h3",text:"Processing modes"},
       {type:"list",items:["Batch: data collected then processed together (payroll, utility bills).","Real-time: immediate response (airline reservations, ATMs).","Online and time-sharing."]}
     ],
-    keyTerms:[{term:"Source document",definition:"Original form on which data is first recorded"},{term:"Validation",definition:"Automatic check that data is reasonable"},{term:"Verification",definition:"Check that data was copied accurately"},{term:"Master file",definition:"Permanent file of current records"},{term:"Batch processing",definition:"Processing of grouped transactions"}],
-    checkQuestions:[{q:"Define data and information.",a:"Data is raw facts; information is processed data."},{q:"Which validation check rejects a score of 105 out of 100?",a:"A range check."},{q:"Why is a payroll file suited to batch processing?",a:"Transactions are collected over a period and processed together."}]
+    keyTerms:[["Source document","Original form on which data is first recorded"],["Validation","Automatic check that data is reasonable"],["Verification","Check that data was copied accurately"],["Master file","Permanent file of current records"],["Batch processing","Processing of grouped transactions"]],
+    checks:[["Define data and information.","Data is raw facts; information is processed data."],["Which validation check rejects a score of 105 out of 100?","A range check."],["Why is a payroll file suited to batch processing?","Transactions are collected over a period and processed together."]]
   }]},
-{ id:2, title:"Networks and Communication", icon:"🌐", color:"#0284c7", syllabusSection:"Section 4A",
+{ id:2, title:"Networks and Communication", icon:"🌐", color:"#0284c7", section:"Section 4A",
   lessons:[
   { id:"2.1", title:"Networks, network types and hardware",
-    objectives:["Define a network","Distinguish LAN, MAN and WAN","Describe network hardware"],
+    objectives:["Define a network and state its advantages and disadvantages","Distinguish LAN, MAN and WAN, and peer-to-peer from client-server","Describe network hardware: NIC, hub, switch, router, modem and access point"],
     blocks:[
       {type:"p",text:"A network links two or more computers so they can communicate and share data, programs and devices."},
       {type:"list",items:["LAN: one building or site.","MAN: a city.","WAN: a large area such as a country; the Internet is the biggest WAN."]},
       {type:"table",headers:["Device","Role"],rows:[["NIC","Connects a computer to the network"],["Hub","Broadcasts data to every connected device"],["Switch","Sends data only to the device that needs it"],["Router","Joins different networks and finds the best path"],["Modem","Converts digital signals to/from telephone or cable lines"],["Wireless access point","Lets wireless devices join a wired network"]]}
     ],
-    keyTerms:[{term:"Network",definition:"Computers linked to share data and devices"},{term:"LAN",definition:"Local area network"},{term:"WAN",definition:"Wide area network"},{term:"Server",definition:"Computer that serves other computers"},{term:"Router",definition:"Device that connects networks"}],
-    checkQuestions:[{q:"Distinguish a LAN from a WAN.",a:"A LAN covers one building; a WAN covers a large area."},{q:"State two advantages and one disadvantage of networking computers.",a:"Advantages: share files/printers, central management. Disadvantage: a fault can affect everyone."},{q:"What does a router do?",a:"It joins different networks and finds the best path for data."}]
+    keyTerms:[["Network","Computers linked to share data and devices"],["LAN","Local area network"],["WAN","Wide area network"],["Server","Computer that serves other computers"],["Router","Device that connects networks"]],
+    checks:[["Distinguish a LAN from a WAN.","A LAN covers one building; a WAN covers a large area."],["State two advantages and one disadvantage of networking computers.","Advantages: share files/printers, central management. Disadvantage: a fault can affect everyone."],["What does a router do?","It joins different networks and finds the best path for data."]]
   },
   { id:"2.2", title:"Transmission media, communication modes and bandwidth",
-    objectives:["Compare wired and wireless media","Distinguish simplex, half duplex and duplex","Explain bandwidth"],
+    objectives:["Compare wired and wireless transmission media","Distinguish simplex, half duplex and duplex communication","Explain bandwidth and the types of connection speed"],
     blocks:[
       {type:"table",headers:["Medium","Notes"],rows:[["Twisted pair","Copper wires; cheap; telephone and LAN cabling"],["Coaxial cable","Insulated copper core"],["Fibre optic","Light through glass; very fast, long distances"],["Microwave, satellite","Wireless; satellite covers wide areas but has delay"],["Infrared","Wireless; line-of-sight"],["Bluetooth, Wi-Fi","Short-range wireless"]]},
       {type:"h3",text:"Communication modes"},
       {type:"list",items:["Simplex: one direction only (radio, TV).","Half duplex: both directions, one at a time (walkie-talkie).","Full duplex: both directions at the same time (telephone)."]},
       {type:"callout",variant:"warn",text:"Cabled media do NOT include satellite. A modem is NOT a transmission medium."}
     ],
-    keyTerms:[{term:"Bandwidth",definition:"Amount of data a connection carries in a given time"},{term:"Broadband",definition:"Fast connection with high capacity"},{term:"Simplex",definition:"One-way communication"},{term:"Duplex",definition:"Two-way communication"}],
-    checkQuestions:[{q:"State the communication mode of a telephone call.",a:"Full duplex."},{q:"Give two advantages of fibre optic over twisted pair.",a:"Much faster; no electrical interference."},{q:"Name a wireless technology that links a phone to a headset.",a:"Bluetooth."}]
+    keyTerms:[["Bandwidth","Amount of data a connection carries in a given time"],["Broadband","Fast connection with high capacity"],["Simplex","One-way communication"],["Duplex","Two-way communication"]],
+    checks:[["State the communication mode of a telephone call.","Full duplex."],["Give two advantages of fibre optic over twisted pair.","Much faster; no electrical interference."],["Name a wireless technology that links a phone to a headset.","Bluetooth."]]
   },
   { id:"2.3", title:"The Internet and its services",
-    objectives:["Compare ways of connecting to the Internet","Describe Internet services","Break a URL into its parts"],
+    objectives:["Compare ways of connecting to the Internet","Describe Internet services and the protocols behind them","Break a URL into its parts and explain intranet and extranet"],
     blocks:[
       {type:"table",headers:["Method","Notes"],rows:[["Dial-up","Landline and modem; slowest"],["DSL / ADSL","Fast; works with the phone line"],["ISDN","Digital telephone line, 64 kbps per channel"],["Leased line (T1)","Dedicated line, ~1.5 Mbps"],["Cable TV","Fast download, slower upload"],["Satellite, wireless, mobile","2G/3G/4G-LTE"]]},
       {type:"p",text:"In http://www.shoes.com: http is the protocol, www is the web, and shoes.com is the domain name. Endings: .com commercial, .edu education, .gov government, .org non-profit, .net network."},
       {type:"list",items:["TCP/IP: splits data into packets and reassembles them.","HTTP/HTTPS: transfers web pages.","FTP: transfers files.","SMTP: sends e-mail; POP/IMAP receive it."]}
     ],
-    keyTerms:[{term:"Protocol",definition:"Rules for communication between devices"},{term:"IP address",definition:"Unique number identifying a device"},{term:"ISP",definition:"Company providing Internet access"},{term:"URL",definition:"Uniform resource locator: a web address"},{term:"Upload",definition:"Send a file to a remote computer"}],
-    checkQuestions:[{q:"Distinguish an intranet from an extranet.",a:"Intranet is private to one organisation; extranet is opened to approved outsiders."},{q:"Explain upload and download.",a:"Upload = send to a remote computer; download = receive from one."},{q:"Identify the protocol and domain type in https://www.moe.gov.tt.",a:"Protocol: https. Domain: moe.gov.tt. Type: .gov. Country: .tt."}]
+    keyTerms:[["Protocol","Rules for communication between devices"],["IP address","Unique number identifying a device"],["ISP","Company providing Internet access"],["URL","Uniform resource locator: a web address"],["Upload","Send a file to a remote computer"]],
+    checks:[["Distinguish an intranet from an extranet.","Intranet is private to one organisation; extranet is opened to approved outsiders."],["Explain upload and download.","Upload = send to a remote computer; download = receive from one."],["Identify the protocol and domain type in https://www.moe.gov.tt.","Protocol: https. Domain: moe.gov.tt. Type: .gov. Country: .tt."]]
   }]},
-{ id:3, title:"Social and Economic Impact of IT", icon:"🌍", color:"#7c3aed", syllabusSection:"Section 4B",
+{ id:3, title:"Social and Economic Impact of IT", icon:"🌍", color:"#7c3aed", section:"Section 4B",
   lessons:[
   { id:"3.1", title:"Effects of IT, careers and applications",
-    objectives:["Explain advantages and disadvantages of IT in the workplace","Describe IT careers","Describe applications of IT"],
+    objectives:["Explain advantages and disadvantages of IT in the workplace including telecommuting","Describe IT careers and their duties","Describe applications of IT in banking, retail, industry, education and communication"],
     blocks:[
       {type:"table",headers:["Advantages","Disadvantages"],rows:[["Work is faster and more accurate","Some jobs are lost"],["Tasks can be done 24 hours a day","Workers need retraining"],["New jobs are created","Health problems from long computer use"],["Telecommuting saves travel time and cost","Social isolation"]]},
       {type:"h3",text:"IT careers"},
       {type:"list",items:["Programmer: writes programs.","Systems analyst: studies a problem and designs a computer solution.","Database administrator: manages the database.","Network administrator: runs the network.","Web master: designs, creates and maintains websites.","Software tester: checks programs for errors.","Computer technician: repairs hardware."]},
       {type:"table",headers:["Application","How IT is used"],rows:[["Banking","ATMs, EFT, online banking, MICR cheque clearing"],["Retail","Barcode and POS systems"],["Industry","CAD designs products; CAM controls machines"],["Medicine","Expert systems, patient records"],["Education","E-learning, simulations"],["Communication","E-mail, teleconferencing, VoIP"]]}
     ],
-    keyTerms:[{term:"Telecommuting",definition:"Working from home using ICT"},{term:"CAD",definition:"Computer-aided design"},{term:"CAM",definition:"Computer-aided manufacturing"},{term:"Expert system",definition:"Stores expert knowledge and uses rules to give advice"}],
-    checkQuestions:[{q:"Define telecommuting.",a:"Working from home via a computer link."},{q:"State two jobs reduced by IT.",a:"Messengers, postal workers, typists."},{q:"Distinguish CAD from CAM.",a:"CAD designs products; CAM controls machines that make them."}]
+    keyTerms:[["Telecommuting","Working from home using ICT"],["CAD","Computer-aided design"],["CAM","Computer-aided manufacturing"],["Expert system","Stores expert knowledge and uses rules to give advice"]],
+    checks:[["Define telecommuting.","Working from home via a computer link."],["State two jobs reduced by IT.","Messengers, postal workers, typists."],["Distinguish CAD from CAM.","CAD designs products; CAM controls machines that make them."]]
   },
   { id:"3.2", title:"Misuse of IT and computer crime",
-    objectives:["Define each computer crime","Explain the effects of misuse"],
+    objectives:["Define each computer crime and give examples","Explain the effects of misuse on individuals and organisations"],
     blocks:[
       {type:"table",headers:["Crime","Meaning"],rows:[["Software piracy","Illegal copying and selling of programs"],["Hacking","Unauthorised access to a computer system"],["Computer fraud","Using computers to cheat people of money"],["Identity theft","Using someone else's personal details"],["Phishing","Fake messages or sites that trick people"],["Viruses, malware","Harmful programs that damage or steal data"],["Electronic eavesdropping","Secretly intercepting messages"],["Industrial espionage","Stealing a competitor's secrets"],["Violation of privacy","Collecting personal data without permission"],["Propaganda","One-sided information to influence people"]]},
       {type:"callout",variant:"warn",text:"Encryption is NOT a computer crime. It is a security measure."},
       {type:"table",headers:["Threat","Description"],rows:[["Virus","Attaches to files and spreads when opened"],["Worm","Spreads by itself across networks"],["Trojan","Harmful program disguised as useful software"],["Spyware","Secretly records what the user does"],["Ransomware","Locks files until a payment is made"],["Denial of service","Floods a server so users cannot reach it"],["Spam","Unwanted bulk e-mail"],["Cyberbullying","Using electronic media to harass someone"],["Plagiarism","Copying work and passing it off as your own"]]}
     ],
-    keyTerms:[{term:"Hacking",definition:"Unauthorised access to a computer system"},{term:"Phishing",definition:"Tricking people into revealing personal details"},{term:"Identity theft",definition:"Using another person's details to commit fraud"},{term:"Software piracy",definition:"Illegal copying and use of software"},{term:"Malware",definition:"Malicious software"}],
-    checkQuestions:[{q:"Define phishing.",a:"Fake messages that trick people into giving personal details."},{q:"Distinguish a virus from spyware.",a:"A virus attaches to files and spreads; spyware secretly records user activity."},{q:"State two effects of identity theft.",a:"Financial loss; damaged reputation."}]
+    keyTerms:[["Hacking","Unauthorised access to a computer system"],["Phishing","Tricking people into revealing personal details"],["Identity theft","Using another person's details to commit fraud"],["Software piracy","Illegal copying and use of software"],["Malware","Malicious software"]],
+    checks:[["Define phishing.","Fake messages that trick people into giving personal details."],["Distinguish a virus from spyware.","A virus attaches to files and spreads; spyware secretly records user activity."],["State two effects of identity theft.","Financial loss; damaged reputation."]]
   },
   { id:"3.3", title:"Protecting data, health and ethics",
-    objectives:["Describe physical and software security","Describe health risks","State ethical responsibilities"],
+    objectives:["Describe physical and software security measures and backup practice","Describe health risks and ergonomic solutions","State ethical and legal responsibilities of computer users"],
     blocks:[
-      {type:"list",items:["Physical: locks, guards, biometric systems, fire/water-proof cabinets.","Software: passwords, encryption, firewalls, antivirus programs.","Backup: keep copies off-site so data can be restored."]},
-      {type:"list",items:["Health problems: eye strain, back and neck pain, RSI.","Ergonomics: adjustable chairs, correct screen height, regular breaks, good lighting.","Ethics: respect copyright and licences; do not share personal data."]},
+      {type:"list",items:["Physical: locks, guards, biometric systems, fire/water-proof cabinets.","Software: passwords, encryption, firewalls, antivirus programs.","Backup: keep copies off-site so data can be restored if lost or corrupted."]},
+      {type:"list",items:["Health problems: eye strain, back and neck pain, RSI.","Ergonomics: adjustable chairs, correct screen height, regular breaks, good lighting.","Ethics: respect copyright and licences; do not share personal data; do not plagiarise."]},
       {type:"callout",variant:"tip",text:"Strong passwords: long, mix of letters, numbers and symbols, changed regularly, never shared."}
     ],
-    keyTerms:[{term:"Encryption",definition:"Scrambling data so only authorised users can read it"},{term:"Firewall",definition:"Filters network traffic"},{term:"Backup",definition:"Spare copy of data"},{term:"Biometrics",definition:"Identification using body features"},{term:"Ergonomics",definition:"Designing equipment for comfort and safety"}],
-    checkQuestions:[{q:"Describe two characteristics of a strong password.",a:"It is long; it mixes letters, numbers and symbols."},{q:"Explain why backups should be stored off-site.",a:"So data survives a fire, theft or other disaster."},{q:"State three ergonomic measures.",a:"Adjustable chair, screen at eye level, regular breaks."}]
-  }]},
-{ id:4, title:"Word Processing, Presentations and Web Pages", icon:"📄", color:"#dc2626", syllabusSection:"Section 6",
-  lessons:[
-  { id:"4.1", title:"Word processing",
-    objectives:["Edit, format and combine documents","Use headers, footers, columns and tables","Set up and run a mail merge"],
-    blocks:[
-      {type:"p",text:"A word processor lets you create, edit, format and print documents. In insert mode new text pushes old text along; in type-over mode new text replaces what is already there."},
-      {type:"list",items:["Select a block of text first, then copy it or move it (cut and paste).","Search and replace finds a word and changes every copy at once.","Spell-check finds spelling mistakes."]},
-      {type:"h3",text:"Page features"},
-      {type:"list",items:["Header repeats at the top of every page; footer at the bottom.","Footnote explains a point at the foot of the page.","Columns split text like a newspaper; tables arrange data in rows and columns."]},
-      {type:"h3",text:"Mail merge"},
-      {type:"p",text:"Make a primary document with field names (such as Name) and a data file of names and addresses. The merge inserts each person's details into a copy of the letter."},
-      {type:"list",items:["1. Create the primary document with space for the fields.","2. Create or open the data file with one field per item.","3. Insert merge fields (e.g. <<Name>>).","4. Preview the merged letters.","5. Merge to a new document or printer.","6. Save both files for reuse."]}
-    ],
-    keyTerms:[{term:"Wordwrap",definition:"Text moves to the next line automatically"},{term:"Justification",definition:"Alignment of text to the margins"},{term:"Header/footer",definition:"Text repeated at the top or bottom of every page"},{term:"Field",definition:"One item of data in a data file"},{term:"Mail merge",definition:"Producing personalised copies of a document"}],
-    checkQuestions:[{q:"Distinguish insert mode from type-over mode.",a:"Insert pushes existing text along; type-over replaces it."},{q:"List the steps to set up a mail merge.",a:"Create primary doc → create data file → insert merge fields → preview → merge → save."},{q:"Explain the difference between left justification and full justification.",a:"Left aligns text to the left only; full aligns text to both margins."}]
-  },
-  { id:"4.2", title:"Presentation software",
-    objectives:["Plan and create a slide show","Apply animation, transitions and graphics","Deliver a presentation"],
-    blocks:[
-      {type:"list",items:["A slide is one page of the show. A template gives ready-made design.","Choose a slide layout that suits the information (title, bullets, picture).","The slide master sets headers and footers for every slide.","Speaker notes are private reminders for the presenter."]},
-      {type:"h3",text:"Designing an effective presentation"},
-      {type:"list",items:["Plan the purpose and audience first, then outline the slides.","Keep slides simple: a title, about six lines or fewer, large readable fonts.","Use high contrast between text and background.","Use relevant graphics, charts and short video clips.","Transitions control how one slide changes to the next; animations control how objects on a slide appear."]}
-    ],
-    keyTerms:[{term:"Slide master",definition:"Controls the layout and design of every slide"},{term:"Template",definition:"Ready-made design"},{term:"Layout",definition:"Arrangement of placeholders on a slide"},{term:"Transition",definition:"Effect between slides"},{term:"Animation",definition:"Effect applied to an object on a slide"}],
-    checkQuestions:[{q:"State three guidelines for an effective presentation.",a:"Plan for the audience; keep slides simple; use high contrast."},{q:"Distinguish a transition from an animation.",a:"A transition is between slides; an animation is applied to objects on a slide."},{q:"Give two uses of the slide master.",a:"Set a consistent design; add headers/footers to every slide."}]
-  },
-  { id:"4.3", title:"Web page design",
-    objectives:["Plan a website","Create pages with text, graphics and hyperlinks","Test, publish and maintain a website"],
-    blocks:[
-      {type:"p",text:"Plan: reason for the site, intended audience, number of pages, content of each page, layout."},
-      {type:"p",text:"Create: choose a design; insert text and graphics; wrap text around images; make thumbnails; build a home page and index page."},
-      {type:"h3",text:"Four types of hyperlink"},
-      {type:"list",items:["Link to another web page","Link to a place on the same page","Link to an e-mail address","Link to a user-created file"]},
-      {type:"p",text:"Test in a web browser, check every hyperlink works, ask a test audience. Publish: register a domain name, find a hosting company, upload your files using FTP."}
-    ],
-    keyTerms:[{term:"Home page",definition:"First page of a website"},{term:"Hyperlink",definition:"Link to another page, place, e-mail address or file"},{term:"Thumbnail",definition:"Small image linked to a larger one"},{term:"Domain name",definition:"Address of a website"},{term:"Host",definition:"Company whose server stores the website"}],
-    checkQuestions:[{q:"Name the four types of hyperlink.",a:"To another page; to a place on the same page; to an e-mail address; to a file."},{q:"Why are images compressed on a web page?",a:"So pages load quickly."},{q:"State the stages in creating a website.",a:"Plan, create, test, publish."}]
-  }]}
-],{ id:5, title:"Spreadsheets", icon:"📊", color:"#16a34a", syllabusSection:"Section 7",
-  lessons:[
-  { id:"5.1", title:"Spreadsheet basics",
-    objectives:["Use spreadsheet terminology","Enter and edit labels, values and formulae","Explain automatic recalculation"],
-    blocks:[
-      {type:"p",text:"A spreadsheet is a table of cells (in rows and columns) that holds accounting or financial data. It captures, displays and manipulates data and does calculations for you."},
-      {type:"list",items:["Row: across, numbered. Column: down, lettered.","Cell: intersection of a row and a column. Cell address: such as B5.","Label: text entry. Value: number entry. Formula: starts with = and calculates a result.","Range: rectangular group of cells such as B2:B6.","Workbook: file containing one or more worksheets."]},
-      {type:"callout",variant:"tip",text:"Numbers align right by default; labels align left."}
-    ],
-    keyTerms:[{term:"Cell",definition:"Intersection of a row and a column"},{term:"Label",definition:"Text entry"},{term:"Value",definition:"Number entry"},{term:"Formula",definition:"Instruction that calculates a result"},{term:"Workbook",definition:"File containing one or more worksheets"}],
-    checkQuestions:[{q:"State the address of the cell in column C, row 7.",a:"C7."},{q:"Distinguish a label from a value.",a:"A label is text; a value is a number."},{q:"Why do spreadsheets recalculate automatically?",a:"When a value changes, every formula depending on it updates."}]
-  },
-  { id:"5.2", title:"Functions, formulae and cell addressing",
-    objectives:["Write formulae and use built-in functions","Use relative, absolute and mixed addressing","Interpret common spreadsheet error messages"],
-    blocks:[
-      {type:"table",headers:["Function","What it does"],rows:[["SUM(B2:B6)","adds the values"],["AVERAGE(B2:B6)","finds the mean"],["MAX / MIN","finds the largest / smallest value"],["COUNT","counts the cells holding numbers"],["IF(B2>=50,\"Pass\",\"Fail\")","makes a decision"],["RANK","gives a value's position in a list"],["VLOOKUP","looks up a value in a table"]]},
-      {type:"h3",text:"Copying formulae and addressing"},
-      {type:"list",items:["Relative addressing: the address changes when the formula is copied. =B2*2 copied down becomes =B3*2.","Absolute addressing: $ signs lock the address, so $E$1 never changes when copied.","Mixed: $E1 fixes only the column, E$1 fixes only the row."]},
-      {type:"callout",variant:"info",text:"Errors: #DIV/0! (division by zero), #NAME? (unknown function), #REF! (cell reference no longer exists), #VALUE! (wrong type of value)."}
-    ],
-    keyTerms:[{term:"Function",definition:"Built-in formula such as SUM"},{term:"Relative address",definition:"Changes when copied"},{term:"Absolute address",definition:"Fixed using $ signs"},{term:"Range",definition:"Group of cells such as B2:B6"},{term:"VLOOKUP",definition:"Looks a value up in a table column"}],
-    checkQuestions:[{q:"Write a formula to find the highest value in C2:C20.",a:"=MAX(C2:C20)"},{q:"What does #DIV/0! mean?",a:"The formula divides by zero."},{q:"What is the difference between relative and absolute addressing?",a:"Relative changes when copied; absolute stays fixed."}]
-  },
-  { id:"5.3", title:"Layout, sorting and finding data",
-    objectives:["Format cells and manage rows and columns","Sort data on primary and secondary fields","Find records using simple and complex criteria"],
-    blocks:[
-      {type:"list",items:["Row and column title locking (freeze panes) keeps headings in view while you scroll.","Insert and delete columns and rows.","Format: number formats (currency, decimals, dates), text formatting, alignment and borders.","Sort by a primary field, then a secondary field that breaks ties, in ascending or descending order.","Simple criterion: Age = 15. Complex: Age > 15 AND Form = 4A."]}
-    ],
-    keyTerms:[{term:"Primary sort field",definition:"Main field used to order records"},{term:"Secondary sort field",definition:"Breaks ties in the primary field"},{term:"Criterion",definition:"Condition a record must meet"},{term:"Freeze panes",definition:"Keeps rows or columns in view"},{term:"Merge and centre",definition:"Joins cells and centres the contents"}],
-    checkQuestions:[{q:"Why use a secondary sort field?",a:"To break ties when primary field values are equal."},{q:"Write criteria to find marks from 50 to 70 inclusive.",a:"Marks >= 50 AND Marks <= 70."},{q:"State why title locking is useful.",a:"It keeps headings visible while scrolling in long lists."}]
-  },
-  { id:"5.4", title:"Charts, multiple worksheets and importing",
-    objectives:["Choose, create and label the right chart type","Use several worksheets to solve one problem","Import and export data and prepare a worksheet for printing"],
-    blocks:[
-      {type:"table",headers:["Chart","Best used for"],rows:[["Column or bar","Comparing amounts between categories"],["Line","Showing change over time (trends)"],["Pie","Showing each part as a share of a whole (one series, positive values)"]]},
-      {type:"p",text:"A good chart has a title, labels on both axes, a legend if there is more than one series, and an appropriate scale."},
-      {type:"p",text:"Several worksheets: use one sheet per month and a summary sheet that links to them, for example =January!B5+February!B5."},
-      {type:"p",text:"Importing and exporting: bring in text, CSV files, tables and graphics; save as .xlsx or .csv. Set the print area and page setup before printing."}
-    ],
-    keyTerms:[{term:"Chart",definition:"Graphical display of data"},{term:"Legend",definition:"Key explaining the colours or series"},{term:"Axis",definition:"Horizontal or vertical scale of a chart"},{term:"Worksheet link",definition:"Formula that refers to a cell on another sheet"},{term:"Import",definition:"Bring data from another file into a spreadsheet"}],
-    checkQuestions:[{q:"Which chart type shows a trend over time?",a:"Line graph."},{q:"Name three parts a chart should have.",a:"Title, axis labels, legend."},{q:"Write a formula adding cell B5 on Sheet2 to cell A1.",a:"=Sheet2!B5+A1"}]
-  }]},
-{ id:6, title:"Databases", icon:"🗄️", color:"#0891b2", syllabusSection:"Section 8",
-  lessons:[
-  { id:"6.1", title:"Database concepts and keys",
-    objectives:["Define database terms","Describe data types and field properties","Distinguish the types of key and relationships between tables"],
-    blocks:[
-      {type:"p",text:"A database is a repository of information: a collection of tables that are related to each other."},
-      {type:"list",items:["Table (relation): data about one subject. Entity: the thing the table describes.","Record = row = tuple. Field = column = attribute.","Data types: alphanumeric (text and numbers mixed), numeric, date, logical (yes/no)."]},
-      {type:"h3",text:"Keys"},
-      {type:"table",headers:["Key","Meaning"],rows:[["Primary key","Uniquely identifies each record; never repeated or blank"],["Candidate key","Any field that could be the primary key"],["Alternate key","A candidate key that was not chosen as primary"],["Secondary key","A field used to search or sort"],["Composite key","Two or more fields together identify a record"],["Foreign key","A field that matches the primary key of another table"]]}
-    ],
-    keyTerms:[{term:"Entity",definition:"Something about which data is stored"},{term:"Attribute",definition:"A property of an entity (a field)"},{term:"Primary key",definition:"Field that uniquely identifies each record"},{term:"Foreign key",definition:"Field linking to another table's primary key"},{term:"DBMS",definition:"Software that manages a database"}],
-    checkQuestions:[{q:"Define primary key.",a:"A field that uniquely identifies each record; never repeated or blank."},{q:"State suitable data types for StudentName, DateOfBirth and FeePaid (Yes/No).",a:"StudentName: alphanumeric/text. DateOfBirth: date. FeePaid: logical (yes/no)."},{q:"Distinguish a candidate key from an alternate key.",a:"A candidate key is any field that could be primary; an alternate key is a candidate that was not chosen."}]
-  },
-  { id:"6.2", title:"Designing and building a database",
-    objectives:["Explain the advantages and limitations of databases over file systems","Design, create and modify tables","Sort data and join tables through relationships"],
-    blocks:[
-      {type:"list",items:["Databases give faster searching, allow ad hoc queries, standardise the data, and show multiple views of the same data.","Limitations include higher cost and complexity, and the need for trained staff such as a database administrator.","Create a table structure with at least three data types and fill it with data.","Modify a table by adding fields, deleting fields or changing field definitions.","Relationships and joins: link tables through a common field to merge their data."]},
-      {type:"callout",variant:"tip",text:"Avoid redundancy: store each fact once. Referential integrity stops you entering a foreign key value that does not exist in the other table."}
-    ],
-    keyTerms:[{term:"Redundancy",definition:"Unnecessary repetition of data"},{term:"Relationship",definition:"Link between two tables"},{term:"Join",definition:"Combining data from related tables"},{term:"Referential integrity",definition:"Foreign keys must match existing primary keys"},{term:"DBA",definition:"Person responsible for managing the database"}],
-    checkQuestions:[{q:"State two advantages of a database over a file system.",a:"Faster searching; ad hoc queries; data standardisation; multiple views."},{q:"Why separate customers and orders into two tables?",a:"To avoid redundancy — each customer's details are stored once."},{q:"State two ways to modify a table structure.",a:"Add a field; delete a field; change a field size or type."}]
-  },
-  { id:"6.3", title:"Queries and reports",
-    objectives:["Write queries using relational and logical operators","Produce reports with sorting, grouping and summary functions","Distinguish queries, forms and reports"],
-    blocks:[
-      {type:"p",text:"A query selects records using one or more conditions and can use calculated fields, such as FEE = Credits * 250."},
-      {type:"list",items:["Relational operators: < > = <= >= <>","Logical operators: AND, OR, NOT","AND: records in BOTH circles. OR: records in EITHER circle. NOT: records outside the condition."]},
-      {type:"table",headers:["Object","Purpose"],rows:[["Table","Stores the data"],["Query","Finds and shows selected records"],["Form","Makes data entry and viewing easier, one record at a time"],["Report","Presents organised output on screen, printer or file"]]},
-      {type:"p",text:"Reports have a title, column headings, groups with headings, the detail lines and summaries at the end: count, sum and average."}
-    ],
-    keyTerms:[{term:"Query",definition:"Request for records meeting conditions"},{term:"Criterion",definition:"Condition used to select records"},{term:"Calculated field",definition:"Field whose value is worked out from other fields"},{term:"Report",definition:"Formatted output of database data"},{term:"Form",definition:"Screen layout for entering or viewing records"}],
-    checkQuestions:[{q:"Write a criterion to find students in 4A older than 15.",a:"Form = \"4A\" AND Age > 15"},{q:"Distinguish a query from a report.",a:"A query finds and shows selected records; a report presents organised output with headings and summaries."},{q:"What is a calculated field?",a:"A field whose value is worked out from other fields."}]
-  }]},
-{ id:7, title:"Problem Solving and Program Design", icon:"🧩", color:"#ea580c", syllabusSection:"Section 2",
-  lessons:[
-  { id:"7.1", title:"The problem-solving process and top-down design",
-    objectives:["State the steps in solving a problem","Decompose a problem into input, process, storage and output","Evaluate alternative solutions","Apply top-down design and stepwise refinement"],
-    blocks:[
-      {type:"p",text:"Define the problem, propose and evaluate solutions, choose the most efficient, develop and represent the algorithm, then test and validate it."},
-      {type:"p",text:"Decompose the problem into its parts: input, process, storage, output."},
-      {type:"p",text:"Top-down design (stepwise refinement) splits a problem with two or more tasks into smaller tasks, then refines each one."},
-      {type:"list",items:["Evaluating solutions: compare time needed, cost, accuracy, resources and how easy the solution is to maintain.","Each part can become a module (subprogram).","Breaking a problem down makes it easier to share work, test each part and fix errors."]}
-    ],
-    keyTerms:[{term:"Algorithm",definition:"Finite set of precise steps that solves a problem"},{term:"Decomposition",definition:"Breaking a problem into smaller parts"},{term:"Stepwise refinement",definition:"Repeatedly dividing tasks into simpler ones"},{term:"Module",definition:"Self-contained part of a program"},{term:"Validate",definition:"Check that the solution gives correct results"}],
-    checkQuestions:[{q:"List the steps in solving a problem.",a:"Define; propose and evaluate; choose best; develop algorithm; test and validate."},{q:"What is stepwise refinement?",a:"Repeatedly dividing tasks into simpler ones until each is simple enough to code."},{q:"Give the input, process and output for finding the area of a rectangle.",a:"Input: length and width. Process: length × width. Output: area."}]
-  },
-  { id:"7.2", title:"Data types, variables, constants and operators",
-    objectives:["Choose the correct data type for a value","Use variables, constants and meaningful names","Evaluate expressions using arithmetic, relational and logical operators and truth tables"],
-    blocks:[
-      {type:"list",items:["A variable is an area of storage whose value can change while the program runs.","A constant's value never changes (for example VAT rate).","Data types: integer (whole numbers), real (with a decimal part, such as money), character (one symbol), string (text), boolean (TRUE or FALSE)."]},
-      {type:"table",headers:["Data type","Example"],rows:[["Integer","Number of students"],["Real","Price of an item"],["Character","Grade letter"],["String","Student name"],["Boolean","Fee paid (yes/no)"]]},
-      {type:"h3",text:"Operators and truth tables"},
-      {type:"p",text:"Relational: < > = <= >= <>. Logical: AND, OR, NOT. Arithmetic: + - * /."},
-      {type:"table",headers:["A","B","A AND B","A OR B","NOT A"],rows:[["True","True","True","True","False"],["True","False","False","True","False"],["False","True","False","True","True"],["False","False","False","False","True"]]},
-      {type:"callout",variant:"tip",text:"Order of operations: brackets, powers, * / DIV MOD, then + -. 17 DIV 5 = 3 and 17 MOD 5 = 2."}
-    ],
-    keyTerms:[{term:"Variable",definition:"Storage location whose value can change"},{term:"Constant",definition:"Value that never changes"},{term:"Integer",definition:"Whole number"},{term:"Boolean",definition:"Data type holding TRUE or FALSE"},{term:"Operator",definition:"Symbol that performs an operation"}],
-    checkQuestions:[{q:"Choose a data type for: number of students, price, grade letter, student name.",a:"Integer, real, character, string."},{q:"Evaluate 17 DIV 5 and 17 MOD 5.",a:"17 DIV 5 = 3; 17 MOD 5 = 2."},{q:"Evaluate NOT (A OR B) when A and B are both FALSE.",a:"A OR B is FALSE, so NOT gives TRUE."}]
-  },
-  { id:"7.3", title:"Algorithms: pseudocode and flowcharts",
-    objectives:["Describe the characteristics of an algorithm","Write algorithms in pseudocode using sequence, selection and iteration","Draw and read flowcharts using standard symbols"],
-    blocks:[
-      {type:"p",text:"An algorithm is a set of steps that solves a problem. It has a finite number of steps, is precise and unambiguous, shows the flow of control, and terminates."},
-      {type:"p",text:"Represent algorithms as pseudocode (English-like steps) or a flowchart (shapes and arrows)."},
-      {type:"h3",text:"Flowchart symbols"},
-      {type:"table",headers:["Symbol","Meaning"],rows:[["Oval","Start / Stop"],["Parallelogram","Input / Output"],["Rectangle","Process"],["Diamond","Decision (Yes/No)"],["Arrow","Flow"]]},
-      {type:"h3",text:"The three constructs"},
-      {type:"list",items:["Sequence: steps in order.","Selection: IF, nested IF.","Iteration: FOR, WHILE, REPEAT."]}
-    ],
-    keyTerms:[{term:"Pseudocode",definition:"English-like way of writing an algorithm"},{term:"Selection",definition:"Choosing between actions using a condition"},{term:"Iteration",definition:"Repeating steps"},{term:"Flowchart",definition:"Diagram of an algorithm using symbols"},{term:"Sequence",definition:"Steps carried out in order"}],
-    checkQuestions:[{q:"Name the flowchart symbol that shows a decision.",a:"Diamond."},{q:"Write pseudocode to read two numbers and display the larger.",a:"Start; Read A, B; IF A > B THEN Write A ELSE Write B; Stop."},{q:"State the three constructs used in algorithms.",a:"Sequence, selection, iteration."}]
-  },
-  { id:"7.4", title:"Testing algorithms with trace tables",
-    objectives:["Complete trace tables for loops and decisions","Use test data to validate an algorithm","Recognise common algorithm errors"],
-    blocks:[
-      {type:"p",text:"A trace table has the variable names as column headings and one row for each pass."},
-      {type:"p",text:"Example: For N = 4 in \"Total = 0, For I = 1 to N, Total = Total + I\": I = 1, 2, 3, 4 gives Total = 1, 3, 6, 10."},
-      {type:"h3",text:"Common errors"},
-      {type:"list",items:["Infinite loop: the condition never becomes false.","Off-by-one error: loop runs one time too many or too few.","Uninitialised variable: Total not set to 0."]},
-      {type:"p",text:"Test data: normal, boundary (the limits) and invalid values."}
-    ],
-    keyTerms:[{term:"Trace table",definition:"Table recording variable values step by step"},{term:"Dry run",definition:"Checking an algorithm by hand"},{term:"Test data",definition:"Inputs chosen to check an algorithm"},{term:"Boundary value",definition:"Value at the edge of the allowed range"},{term:"Infinite loop",definition:"Loop that never ends"}],
-    checkQuestions:[{q:"What is the purpose of a trace table?",a:"To record the values of variables step by step as an algorithm runs."},{q:"Trace X = 3; Y = 4; X = X + Y; Y = X - Y. State X and Y.",a:"X = 7, Y = 3."},{q:"State one cause of an infinite loop.",a:"The condition never becomes false."}]
-  }]},
-{ id:8, title:"Programming in Pascal", icon:"💻", color:"#9333ea", syllabusSection:"Section 3",
-  lessons:[
-  { id:"8.1", title:"Programming languages and program development",
-    objectives:["Compare low-level and high-level languages and the language generations","Distinguish compilers, interpreters and assemblers","Describe the stages of program development and implementation"],
-    blocks:[
-      {type:"p",text:"Low-level: machine language (binary) and assembly language. High-level: Pascal and C, closer to English and easier to write, but they must be translated."},
-      {type:"h3",text:"Language generations"},
-      {type:"table",headers:["Generation","Example"],rows:[["1st","Machine code"],["2nd","Assembly"],["3rd","Pascal, C"],["4th","Query, report tools"],["5th","Natural language / AI"]]},
-      {type:"h3",text:"Steps in implementing a program"},
-      {type:"p",text:"Create the source code, compile it (translate into machine code), link it with library code, execute it, then maintain it."},
-      {type:"table",headers:["Translator","What it does"],rows:[["Assembler","Translates assembly language into machine code"],["Compiler","Translates the whole source program into machine code before it runs"],["Interpreter","Translates and runs one statement at a time"]]}
-    ],
-    keyTerms:[{term:"Source code",definition:"Program written in a high-level language"},{term:"Compiler",definition:"Translates the whole program before running"},{term:"Interpreter",definition:"Translates and runs one statement at a time"},{term:"Debugging",definition:"Finding and fixing errors in a program"},{term:"Syntax error",definition:"Breaks the rules of the language"}],
-    checkQuestions:[{q:"Distinguish a compiler from an interpreter.",a:"A compiler translates the whole program before running; an interpreter translates and runs one statement at a time."},{q:"State the generation of assembly language.",a:"Second generation."},{q:"Why do programmers prefer high-level languages?",a:"They are easier to read and write, and run on different computers."}]
-  },
-  { id:"8.2", title:"Pascal basics: declarations, input, output and arithmetic",
-    objectives:["Write a Pascal program with the correct structure","Declare variables and constants of the correct type","Read, display and calculate using Pascal statements"],
-    blocks:[
-      {type:"p",text:"A Pascal program: program heading; var and const declarations; begin ... end. main body."},
-      {type:"list",items:["Declare variables: var total: integer;","Declare constants: const VAT = 0.15;","Types: integer (whole numbers), real (decimals), char (one character), string (text), boolean (TRUE/FALSE).","Read: readln(x) reads a value. Write: writeln(x) displays one and moves to a new line.","Arithmetic: + - * /, plus DIV and MOD for whole numbers.","Output formatting: Total:0:2 shows two decimal places."]}
-    ],
-    keyTerms:[{term:"Variable",definition:"Named memory location holding a value"},{term:"Constant",definition:"Named value that does not change"},{term:"Assignment",definition:"Storing a value in a variable using :="},{term:"writeln",definition:"Displays output and moves to a new line"},{term:"Identifier",definition:"Name given to a variable or program"}],
-    checkQuestions:[{q:"Declare variables for a name (string), an age (integer) and a height (real).",a:"var Name: string; Age: integer; Height: real;"},{q:"State the values of 17 DIV 5 and 17 MOD 5.",a:"3 and 2."},{q:"Write a statement to display Hello.",a:"writeln('Hello');"}]
-  },
-  { id:"8.3", title:"Selection, loops, arrays and searching",
-    objectives:["Use IF-THEN-ELSE, FOR, WHILE and REPEAT correctly","Declare, fill and process a one-dimensional array","Write a linear search"],
-    blocks:[
-      {type:"list",items:["if-then / if-then-else: if mark >= 50 then writeln('Pass') else writeln('Fail'); (no semicolon before else).","for loop: for i := 1 to 5 do ... runs a set number of times (b - a + 1 passes).","while loop: while count <= 3 do ... repeats while true.","repeat loop: repeat ... until condition, always runs at least once."]},
-      {type:"p",text:"A 1-dimensional array holds a list of same-type values under one name. Read and write with Marks[i]; traverse with a for loop."},
-      {type:"p",text:"Linear search: check each item in turn until you find it or reach the end. Use a flag such as found."}
-    ],
-    keyTerms:[{term:"Selection",definition:"Choosing between actions"},{term:"Loop",definition:"Repeating statements"},{term:"Array",definition:"List of values of the same type"},{term:"Index",definition:"Number identifying an array element"},{term:"Linear search",definition:"Checking each element in order"}],
-    checkQuestions:[{q:"How many times does for i = 5 to 12 do run?",a:"8 times."},{q:"Write statements to total the five elements of the array Marks.",a:"total := 0; for i := 1 to 5 do total := total + Marks[i];"},{q:"Distinguish WHILE from REPEAT.",a:"WHILE tests first so it may never run; REPEAT tests at the end so it runs at least once."}]
-  },
-  { id:"8.4", title:"Testing, errors and documentation",
-    objectives:["Identify syntax, logic and run-time errors","Plan tests with normal, boundary and invalid data","Write internal and external documentation"],
-    blocks:[
-      {type:"table",headers:["Error","Example","When found"],rows:[["Syntax","Missing semicolon; undeclared variable","At compile time; the program will not run"],["Logic","Average := Total * Count instead of Total / Count","The program runs but the output is wrong"],["Run-time","Division by zero; reading text into an integer","While the program is running; it crashes"]]},
-      {type:"p",text:"Test data: normal (55 → Pass), boundary (50 → Pass, 49 → Fail), invalid (-5 or 'abc' → Error message)."},
-      {type:"list",items:["Internal documentation (inside the code): comments, mnemonic names, indentation, white space.","External documentation (outside the code): the user manual (purpose, installation, how to use) and technical documentation (algorithm, flowchart, source code, test results)."]}
-    ],
-    keyTerms:[{term:"Syntax error",definition:"Breaks the rules of the language"},{term:"Logic error",definition:"Program runs but gives wrong results"},{term:"Run-time error",definition:"Program crashes while running"},{term:"Test plan",definition:"List of test data with expected results"},{term:"Documentation",definition:"Written explanation of a program"}],
-    checkQuestions:[{q:"Classify: missing semicolon; average = total * count; division by zero.",a:"Syntax; logic; run-time."},{q:"Give two items of internal documentation.",a:"Comments and meaningful variable names."},{q:"State what a user manual contains.",a:"Purpose, installation, how to use the program, sample screens, troubleshooting."}]
+    keyTerms:[["Encryption","Scrambling data so only authorised users can read it"],["Firewall","Filters network traffic"],["Backup","Spare copy of data"],["Biometrics","Identification using body features"],["Ergonomics","Designing equipment for comfort and safety"]],
+    checks:[["Describe two characteristics of a strong password.","It is long; it mixes letters, numbers and symbols."],["Explain why backups should be stored off-site.","So data survives a fire, theft or other disaster."],["State three ergonomic measures.","Adjustable chair, screen at eye level, regular breaks."]]
   }]}
 ]};
 
-/* ============ QUIZ BANK ============ */
+// ================== QUIZZES ==================
 const QUIZZES = {
-  1: { mcq:[
-    { q:"Which component carries out arithmetic and comparisons?", opts:["Control unit","ALU","RAM","Buffer"], correct:1 },
-    { q:"Memory that loses its contents when the power is switched off is described as", opts:["non-volatile","volatile","permanent","read-only"], correct:1 },
-    { q:"The binary number 1001 equals which decimal number?", opts:["7","8","9","11"], correct:2 },
-    { q:"Which storage medium gives direct access and has no moving parts?", opts:["Magnetic tape","Hard disk","Flash drive","Floppy disk"], correct:2 },
-    { q:"Windows, icons and menus are features of a", opts:["command-line interface","graphical user interface","batch system","compiler"], correct:1 }
-  ]},
-  2: { mcq:[
-    { q:"A radio station sending programmes to listeners uses which mode?", opts:["Simplex","Half duplex","Duplex","None"], correct:0 },
-    { q:"Which transmission medium sends data as pulses of light?", opts:["Coaxial cable","Fibre-optic cable","Twisted pair","Microwave"], correct:1 },
-    { q:"Which method of connecting to the Internet is usually the slowest?", opts:["Dial-up","Cable","DSL","Leased line"], correct:0 },
-    { q:"Which protocol is used to move files between computers?", opts:["HTTP","FTP","SMTP","HTML"], correct:1 },
-    { q:"Which device sends data between different networks?", opts:["Hub","Router","Speaker","Scanner"], correct:1 }
-  ]},
-  3: { mcq:[
-    { q:"Fake e-mails that trick people into revealing bank details are called", opts:["phishing","encryption","cookies","piracy"], correct:0 },
-    { q:"Using another person's identity details to commit fraud is called", opts:["identity theft","plagiarism","eavesdropping","spam"], correct:0 },
-    { q:"A system that gives advice using the knowledge of human experts is a(n)", opts:["robot","expert system","plotter","search engine"], correct:1 },
-    { q:"Using a computer to help design a new product is called", opts:["CAM","CAD","EFT","POS"], correct:1 },
-    { q:"Which of the following is a PHYSICAL security measure?", opts:["Password","Firewall","Security guard","Antivirus program"], correct:2 }
-  ]},
-  4: { mcq:[
-    { q:"The quickest way to change every copy of a word in a long document is", opts:["search and replace","cut and paste","spell check","a page break"], correct:0 },
-    { q:"Text that repeats at the top of every page is called a", opts:["footer","header","footnote","endnote"], correct:1 },
-    { q:"Before bold can be applied to a phrase, you must first", opts:["copy it","select it","delete it","print it"], correct:1 },
-    { q:"Which key normally starts a slide show from the beginning?", opts:["F1","F5","F10","Esc"], correct:1 },
-    { q:"A link that opens the visitor's e-mail program is called", opts:["an e-mail hyperlink","a thumbnail","a footer","a macro"], correct:0 }
-  ]},
-  5: { mcq:[
-    { q:"A group of cells such as A1:C4 is called a", opts:["range","table","record","field"], correct:0 },
-    { q:"=IF(B2>=50,\"Pass\",\"Fail\") returns what when B2 holds 49?", opts:["Pass","Fail","49","An error"], correct:1 },
-    { q:"Which type of cell address does NOT change when a formula is copied?", opts:["Relative","Absolute","Typed","Linked"], correct:1 },
-    { q:"Which error message appears when a formula divides by zero?", opts:["#DIV/0!","#NAME?","#REF!","#VALUE!"], correct:0 },
-    { q:"Which feature keeps column headings in view while scrolling?", opts:["Freeze panes","Merge and centre","Sort","Wrap text"], correct:0 }
-  ]},
-  6: { mcq:[
-    { q:"A field that uniquely identifies each record is the", opts:["primary key","foreign key","report","query"], correct:0 },
-    { q:"Which object is designed for easy data entry, one record at a time?", opts:["Form","Report","Query","Index"], correct:0 },
-    { q:"A field that holds the primary key of another table is a", opts:["foreign key","composite key","alternate key","query key"], correct:0 },
-    { q:"The software used to create and manage a database is a", opts:["DBMS","browser","compiler","word processor"], correct:0 },
-    { q:"A query condition that needs BOTH tests to be true uses", opts:["AND","OR","NOT","XOR"], correct:0 }
-  ]},
-  7: { mcq:[
-    { q:"The value of NOT (FALSE OR FALSE) is", opts:["TRUE","FALSE","0","An error"], correct:0 },
-    { q:"17 DIV 5 equals", opts:["3","2","3.4","12"], correct:0 },
-    { q:"What is the FIRST step in solving a problem?", opts:["Define the problem","Write the program","Test the solution","Document the solution"], correct:0 },
-    { q:"A table that records the values of variables step by step is a", opts:["trace table","truth table","data table","decision table"], correct:0 },
-    { q:"Which flowchart symbol shows a decision?", opts:["Oval","Rectangle","Diamond","Parallelogram"], correct:2 }
-  ]},
-  8: { mcq:[
-    { q:"Which is a valid Pascal variable name?", opts:["2ndMark","Mark_2","my mark","end"], correct:1 },
-    { q:"Which program translates the whole source program before it runs?", opts:["Compiler","Interpreter","Browser","Editor"], correct:0 },
-    { q:"Which statement declares an array of 10 integers?", opts:["var A: array[1..10] of integer;","var A: integer[10];","array A = 10;","A := array 10;"], correct:0 },
-    { q:"Meaningful variable names and comments in the code are", opts:["internal documentation","external documentation","test data","object code"], correct:0 },
-    { q:"How many times does the loop for i = 2 to 6 do run?", opts:["4","5","6","7"], correct:1 }
-  ]}
-};/* ============ STATE ============ */
-const DEFAULT_STATE = () => ({
-  student: null,
-  progress: {},
-  quizResults: {},
-  teacherMode: false,
-  view: { name: "home", params: {} }
-});
+1:[
+  {q:"Which component carries out arithmetic and comparisons?",opts:["Control unit","ALU","RAM","Buffer"],correct:1},
+  {q:"Memory that loses contents when the power is switched off is described as",opts:["non-volatile","volatile","permanent","read-only"],correct:1},
+  {q:"The binary number 1001 equals which decimal number?",opts:["7","8","9","11"],correct:2},
+  {q:"Which storage medium gives direct access and has no moving parts?",opts:["Magnetic tape","Hard disk","Flash drive","Floppy disk"],correct:2},
+  {q:"Windows, icons and menus are features of a",opts:["command-line interface","graphical user interface","batch system","compiler"],correct:1}
+],
+2:[
+  {q:"A radio station sending programmes to listeners uses which mode?",opts:["Simplex","Half duplex","Duplex","None"],correct:0},
+  {q:"Which transmission medium sends data as pulses of light?",opts:["Coaxial cable","Fibre-optic cable","Twisted pair","Microwave"],correct:1},
+  {q:"Which method of connecting to the Internet is usually the slowest?",opts:["Dial-up","Cable","DSL","Leased line"],correct:0},
+  {q:"Which protocol is used to move files between computers?",opts:["HTTP","FTP","SMTP","HTML"],correct:1},
+  {q:"Which device sends data between different networks?",opts:["Hub","Router","Speaker","Scanner"],correct:1}
+],
+3:[
+  {q:"Fake e-mails that trick people into revealing bank details are called",opts:["phishing","encryption","cookies","piracy"],correct:0},
+  {q:"Using another person's identity details to commit fraud is called",opts:["identity theft","plagiarism","eavesdropping","spam"],correct:0},
+  {q:"A system that gives advice using the knowledge of human experts is a(n)",opts:["robot","expert system","plotter","search engine"],correct:1},
+  {q:"Using a computer to help design a new product is called",opts:["CAM","CAD","EFT","POS"],correct:1},
+  {q:"Which of the following is a PHYSICAL security measure?",opts:["Password","Firewall","Security guard","Antivirus program"],correct:2}
+]
+};
 
-let state = loadLocal();
-
-function loadLocal() {
-  try {
-    const raw = localStorage.getItem("itcoach_v2");
-    return raw ? { ...DEFAULT_STATE(), ...JSON.parse(raw) } : DEFAULT_STATE();
-  } catch { return DEFAULT_STATE(); }
-}
-function saveLocal() {
-  try { localStorage.setItem("itcoach_v2", JSON.stringify(state)); } catch {}
-}
-
-/* ============ SUPABASE SYNC ============ */
-async function pushProgress(lessonId) {
-  if (!state.student?.name) return;
-  try {
-    const { data: existing } = await supabase
-      .from("student_progress")
-      .select("id")
-      .eq("student_name", state.student.name)
-      .eq("lesson_id", lessonId)
-      .maybeSingle();
-
-    const row = {
-      student_name: state.student.name,
-      student_class: state.student.klass || "",
-      lesson_id: lessonId,
-      progress: state.progress,
-      mcq_topic1: state.quizResults[1]?.mcq?.score ?? null,
-      mcq_topic2: state.quizResults[2]?.mcq?.score ?? null,
-      mcq_topic3: state.quizResults[3]?.mcq?.score ?? null,
-      updated_at: new Date().toISOString()
-    };
-
-    if (existing?.id) {
-      await supabase.from("student_progress").update(row).eq("id", existing.id);
-    } else {
-      await supabase.from("student_progress").insert(row);
-    }
-  } catch (e) {
-    console.warn("Supabase sync failed — will retry on next action.", e);
-  }
-}
-
-async function pushQuiz(topicId) {
-  if (!state.student?.name) return;
-  // Push a synthetic row so the dashboard sees the latest quiz result even if no lesson was just completed
-  await pushProgress(`quiz-${topicId}`);
-}
-
-async function fetchAllProgress() {
-  const { data, error } = await supabase
-    .from("student_progress")
-    .select("*")
-    .order("updated_at", { ascending: false });
-  if (error) { console.warn(error); return []; }
-  // Aggregate latest row per student
-  const byStudent = {};
-  (data || []).forEach(r => {
-    if (!byStudent[r.student_name]) {
-      byStudent[r.student_name] = {
-        name: r.student_name,
-        klass: r.student_class,
-        progress: r.progress || {},
-        mcq1: r.mcq_topic1,
-        mcq2: r.mcq_topic2,
-        mcq3: r.mcq_topic3,
-        updated: r.updated_at
-      };
-    } else {
-      // Merge progress from older rows
-      Object.assign(byStudent[r.student_name].progress, r.progress || {});
-    }
-  });
-  return Object.values(byStudent);
-}
-
-/* ============ RENDER HELPERS ============ */
+// ================== STATE ==================
+const KEY = "itcoach_v3";
 const app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-const getTopic = id => COURSE.topics.find(t => t.id === +id);
-const getLesson = (tid, lid) => getTopic(tid)?.lessons.find(l => l.id === lid);
 
-function topicProgress(topicId) {
-  const t = getTopic(topicId);
-  const total = t.lessons.length;
-  const done = t.lessons.filter(l => state.progress[l.id]).length;
-  return { done, total, pct: total ? Math.round(100 * done / total) : 0 };
-}
-function overallProgress() {
-  let done = 0, total = 0;
-  COURSE.topics.forEach(t => {
-    const p = topicProgress(t.id);
-    done += p.done; total += p.total;
-  });
-  return { done, total, pct: total ? Math.round(100 * done / total) : 0 };
-}
+function defaultState(){return{student:null,progress:{},quizzes:{},teacherMode:false,view:{name:"home",params:{}}}}
+let state = (()=>{try{const r=localStorage.getItem(KEY);return r?{...defaultState(),...JSON.parse(r)}:defaultState()}catch{return defaultState()}})();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
 
-function renderBlock(b) {
-  switch (b.type) {
+// ================== HELPERS ==================
+const getTopic = id => COURSE.topics.find(t=>t.id===+id);
+const getLesson = (tid,lid) => getTopic(tid)?.lessons.find(l=>l.id===lid);
+function topicProgress(id){
+  const t=getTopic(id);
+  const done=t.lessons.filter(l=>state.progress[l.id]).length;
+  return{done,total:t.lessons.length,pct:Math.round(100*done/t.lessons.length)};
+}
+function overallProgress(){
+  let d=0,n=0;
+  COURSE.topics.forEach(t=>{const p=topicProgress(t.id);d+=p.done;n+=p.total});
+  return{done:d,total:n,pct:n?Math.round(100*d/n):0};
+}
+function renderBlock(b){
+  switch(b.type){
     case "h3": return `<h3 style="margin:14px 0 4px;font-size:15px;color:#115e59">${esc(b.text)}</h3>`;
     case "p": return `<p>${esc(b.text)}</p>`;
-    case "list": return `<ul style="margin:6px 0 6px 18px;padding:0">${b.items.map(i => `<li style="margin:4px 0;font-size:14px">${esc(i)}</li>`).join("")}</ul>`;
-    case "diagram": return `<div class="lesson-diagram">📊 ${esc(b.label)}</div>`;
+    case "list": return `<ul style="margin:6px 0 6px 18px;padding:0">${b.items.map(i=>`<li style="margin:4px 0;font-size:14px">${esc(i)}</li>`).join("")}</ul>`;
+    case "diagram": return `<div class="diagram">📊 ${esc(b.label)}</div>`;
     case "callout": {
-      const colors = { tip:"#0f766e", info:"#0284c7", warn:"#ea580c" };
-      const bg = { tip:"#f0fdfa", info:"#eff6ff", warn:"#fff7ed" };
-      return `<div style="border-left:3px solid ${colors[b.variant]||colors.tip};background:${bg[b.variant]||bg.tip};padding:10px 12px;border-radius:8px;font-size:13.5px;margin:8px 0">${esc(b.text)}</div>`;
+      const cls = b.variant==="warn"?"callout warn":b.variant==="info"?"callout info":"callout";
+      return `<div class="${cls}">${esc(b.text)}</div>`;
     }
-    case "table": return `
-      <div style="overflow-x:auto;margin:8px 0">
-        <table><thead><tr>${b.headers.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
-        <tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>
-      </div>`;
+    case "table": return `<div style="overflow-x:auto;margin:8px 0"><table><thead><tr>${b.headers.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${b.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
     default: return "";
   }
 }
 
-/* ============ VIEWS ============ */
-function renderHome() {
+// ================== VIEWS ==================
+function renderHome(){
   const ov = overallProgress();
-  const name = state.student?.name || "Student";
+  const n = state.student?.name || "Student";
   app.innerHTML = `
     <header class="appbar">
       <h1>IT Coach CSEC</h1>
@@ -590,415 +257,48 @@ function renderHome() {
     </header>
     <div class="card">
       <div class="row" style="justify-content:space-between">
-        <div>
-          <h2>Hi, ${esc(name)} 👋</h2>
-          <p class="muted">${ov.done} of ${ov.total} lessons completed</p>
-        </div>
-        <div style="font-size:28px;font-weight:700;color:var(--primary)">${ov.pct}%</div>
+        <div><h2>Hi, ${esc(n)} 👋</h2><p class="muted">${ov.done} of ${ov.total} lessons completed</p></div>
+        <div style="font-size:28px;font-weight:700;color:#0f766e">${ov.pct}%</div>
       </div>
       <div class="progress-bar" style="margin-top:8px"><div style="width:${ov.pct}%"></div></div>
     </div>
     <div class="grid two">
-      ${COURSE.topics.map(t => {
-        const p = topicProgress(t.id);
-        return `
-          <div class="card" style="cursor:pointer" onclick="go('topic',{id:${t.id}})">
-            <div style="font-size:28px">${t.icon}</div>
-            <h2>${esc(t.title)}</h2>
-            <p class="muted">${t.lessons.length} lessons · ${t.syllabusSection}</p>
-            <div class="progress-bar" style="margin-top:8px"><div style="width:${p.pct}%;background:${t.color}"></div></div>
-            <p class="muted" style="margin-top:4px">${p.done}/${p.total} done</p>
-          </div>`;
+      ${COURSE.topics.map(t=>{
+        const p=topicProgress(t.id);
+        return `<div class="card" style="cursor:pointer" onclick="go('topic',{id:${t.id}})">
+          <div style="font-size:28px">${t.icon}</div>
+          <h2>${esc(t.title)}</h2>
+          <p class="muted">${t.lessons.length} lessons · ${t.section}</p>
+          <div class="progress-bar" style="margin-top:8px"><div style="width:${p.pct}%;background:${t.color}"></div></div>
+          <p class="muted" style="margin-top:4px">${p.done}/${p.total} done</p>
+        </div>`;
       }).join("")}
     </div>
-    <div class="footer">Data syncs live · Works offline for lessons</div>
+    <div class="footer">Prototype v3 · 3 topics · Data saved on this device</div>
   `;
 }
 
-function renderTopic({ id }) {
-  const t = getTopic(id);
-  if (!t) return go("home");
-  const p = topicProgress(t.id);
+function renderTopic({id}){
+  const t=getTopic(id); if(!t)return go("home");
+  const p=topicProgress(t.id);
   app.innerHTML = `
     <header class="appbar">
       <button onclick="go('home')">← Back</button>
       <h1>${t.icon} ${esc(t.title)}</h1>
     </header>
     <div class="card">
-      <p class="muted">${t.syllabusSection}</p>
+      <p class="muted">${t.section}</p>
       <div class="progress-bar"><div style="width:${p.pct}%;background:${t.color}"></div></div>
       <p class="muted" style="margin-top:6px">${p.done} of ${p.total} lessons complete</p>
     </div>
-    ${t.lessons.map((l, i) => `
-      <div class="card" style="cursor:pointer;display:flex;align-items:center;gap:10px"
-           onclick="go('lesson',{tid:${t.id},lid:'${l.id}'})">
-        <div style="width:28px;height:28px;border-radius:50%;background:${state.progress[l.id] ? 'var(--correct)' : '#e2e8f0'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">
-          ${state.progress[l.id] ? "✓" : i + 1}
-        </div>
+    ${t.lessons.map((l,i)=>`
+      <div class="card" style="cursor:pointer;display:flex;align-items:center;gap:10px" onclick="go('lesson',{tid:${t.id},lid:'${l.id}'})">
+        <div style="width:28px;height:28px;border-radius:50%;background:${state.progress[l.id]?'#16a34a':'#e2e8f0'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">${state.progress[l.id]?"✓":i+1}</div>
         <div style="flex:1">
           <div style="font-weight:600;font-size:14px">${esc(l.title)}</div>
           <div class="muted" style="font-size:12px">${l.id} · ${l.objectives.length} objectives</div>
         </div>
-        <div style="color:var(--muted)">›</div>
+        <div style="color:#64748b">›</div>
       </div>
     `).join("")}
-    <div class="card">
-      <h2>Assessment</h2>
-      <p>Multiple choice quiz for this topic.</p>
-      <button class="btn" onclick="go('quiz',{topicId:${t.id}})" style="margin-top:8px">Start quiz →</button>
-    </div>
-  `;
-}
-
-function renderLesson({ tid, lid }) {
-  const l = getLesson(tid, lid);
-  if (!l) return go("home");
-  const done = !!state.progress[l.id];
-  app.innerHTML = `
-    <header class="appbar">
-      <button onclick="go('topic',{id:${tid}})">← Back</button>
-      <h1>${esc(l.id)} ${esc(l.title)}</h1>
-    </header>
-    <div class="card">
-      <span style="background:#ccfbf1;color:#115e59;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600">Objectives</span>
-      <ul style="margin:8px 0 0 18px;padding:0">
-        ${l.objectives.map(o => `<li style="font-size:13.5px;margin:4px 0">${esc(o)}</li>`).join("")}
-      </ul>
-    </div>
-    ${l.blocks.map(renderBlock).join("")}
-    <div class="card">
-      <h2>Key terms</h2>
-      ${l.keyTerms.map(k => `<div class="keyterm"><b>${esc(k.term)}</b><span>${esc(k.definition)}</span></div>`).join("")}
-    </div>
-    <div class="card">
-      <h2>Check your understanding</h2>
-      <p class="muted">Tap each question to reveal the model answer.</p>
-      ${l.checkQuestions.map((q, i) => `
-        <div style="margin:10px 0">
-          <button class="btn ghost small" onclick="toggleAnswer('ca-${i}')">Q${i + 1}. ${esc(q.q)}</button>
-          <div id="ca-${i}" class="hidden" style="margin-top:8px;padding:10px;background:#f0fdfa;border-radius:8px;font-size:13.5px">
-            <b>Model answer:</b> ${esc(q.a)}
-          </div>
-        </div>
-      `).join("")}
-    </div>
-    <div class="card">
-      <button class="btn" onclick="markLesson('${l.id}',${!done})" style="width:100%;background:${done ? 'var(--muted)' : 'var(--primary)'}">
-        ${done ? "✓ Completed — tap to unmark" : "Mark lesson complete"}
-      </button>
-    </div>
-  `;
-}
-
-function renderQuiz({ topicId }) {
-  const t = getTopic(topicId);
-  const bank = QUIZZES[topicId];
-  if (!bank) return go("home");
-  const saved = state.quizResults[topicId]?.mcq;
-
-  app.innerHTML = `
-    <header class="appbar">
-      <button onclick="go('topic',{id:${topicId}})">← Back</button>
-      <h1>Quiz · ${esc(t.title)}</h1>
-    </header>
-    <div class="card">
-      <h2>Multiple choice (${bank.mcq.length} questions)</h2>
-      <p class="muted">Choose the best answer. Feedback shows immediately.</p>
-      ${saved ? `<div style="margin-top:8px;padding:8px;background:#f0fdf4;border-radius:8px;font-size:13px">Last saved: <b>${saved.score}/${saved.total}</b> · ${new Date(saved.at).toLocaleString()}</div>` : ""}
-    </div>
-    ${bank.mcq.map((q, i) => `
-      <div class="card" id="mcq-card-${i}">
-        <div style="font-weight:600;font-size:14px;margin-bottom:6px">Q${i + 1}. ${esc(q.q)}</div>
-        ${q.opts.map((o, j) => `
-          <label class="opt" id="opt-${i}-${j}" onclick="answerMCQ(${i},${j},${q.correct})">
-            <input type="radio" name="q${i}" />${esc(o)}
-          </label>
-        `).join("")}
-        <div id="fb-${i}" class="hidden"></div>
-      </div>
-    `).join("")}
-    <div class="card">
-      <button class="btn" onclick="saveMCQ(${topicId})" style="width:100%">Save results & sync</button>
-    </div>
-  `;
-}
-
-async function renderTeacher() {
-  if (!state.teacherMode) {
-    app.innerHTML = `
-      <header class="appbar"><button onclick="go('home')">← Back</button><h1>Teacher dashboard</h1></header>
-      <div class="card">
-        <h2>Teacher access</h2>
-        <p class="muted">Enter the class PIN. Demo PIN: <b>1234</b></p>
-        <input type="password" id="pin" placeholder="PIN" style="margin:8px 0" />
-        <button class="btn" onclick="checkPin()">Unlock</button>
-      </div>
-    `;
-    return;
-  }
-  app.innerHTML = `
-    <header class="appbar">
-      <button onclick="go('home')">← Home</button>
-      <h1>Live dashboard</h1>
-      <button onclick="lockTeacher()">Lock</button>
-    </header>
-    <div class="card">
-      <div class="row">
-        <span class="muted" id="live-status">Connecting…</span>
-        <span style="margin-left:auto;font-size:11px;color:var(--correct)">● LIVE</span>
-      </div>
-    </div>
-    <div id="dash-content"><div class="card"><p class="muted">Loading results…</p></div></div>
-  `;
-  await loadDashboard();
-  subscribeRealtime();
-}
-
-let realtimeChannel = null;
-function subscribeRealtime() {
-  if (realtimeChannel) supabase.removeChannel(realtimeChannel);
-  realtimeChannel = supabase
-    .channel("progress-live")
-    .on("postgres_changes", { event: "*", schema: "public", table: "student_progress" }, () => {
-      loadDashboard();
-    })
-    .subscribe(status => {
-      const el = document.getElementById("live-status");
-      if (el) el.textContent = status === "SUBSCRIBED" ? "Connected · updates appear instantly" : "Reconnecting…";
-    });
-}
-
-async function loadDashboard() {
-  const rows = await fetchAllProgress();
-  const container = document.getElementById("dash-content");
-  if (!container) return;
-
-  const totalLessons = COURSE.topics.reduce((a, t) => a + t.lessons.length, 0);
-  const enriched = rows.map(r => {
-    const done = Object.keys(r.progress || {}).filter(k => r.progress[k]).length;
-    return { ...r, progressPct: totalLessons ? Math.round(100 * done / totalLessons) : 0 };
-  });
-
-  const avgProgress = enriched.length ? Math.round(enriched.reduce((a, r) => a + r.progressPct, 0) / enriched.length) : 0;
-  const withMcq = enriched.filter(r => r.mcq1 != null);
-  const avgMcq = withMcq.length ? Math.round(withMcq.reduce((a, r) => a + r.mcq1, 0) / withMcq.length) : 0;
-
-  container.innerHTML = `
-    <div class="kpis" style="margin-bottom:12px">
-      <div class="kpi"><div class="num">${enriched.length}</div><div class="lbl">Students</div></div>
-      <div class="kpi"><div class="num">${avgProgress}%</div><div class="lbl">Avg progress</div></div>
-      <div class="kpi"><div class="num">${avgMcq}%</div><div class="lbl">Avg MCQ T1</div></div>
-      <div class="kpi"><div class="num">${COURSE.topics.length}</div><div class="lbl">Topics</div></div>
-    </div>
-    <div class="card">
-      <h2>Student results</h2>
-      ${enriched.length === 0 ? `<p class="muted">No students have synced yet. As soon as a student marks a lesson complete, their row will appear here.</p>` : `
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Student</th><th>Class</th><th>Progress</th><th>T1 MCQ</th><th>T2 MCQ</th><th>T3 MCQ</th><th>Updated</th></tr></thead>
-          <tbody>
-            ${enriched.map(r => `
-              <tr>
-                <td><b>${esc(r.name)}</b></td>
-                <td>${esc(r.klass || "—")}</td>
-                <td>${r.progressPct}%</td>
-                <td>${fmt(r.mcq1)}</td>
-                <td>${fmt(r.mcq2)}</td>
-                <td>${fmt(r.mcq3)}</td>
-                <td class="muted">${r.updated ? new Date(r.updated).toLocaleDateString() : "—"}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>`}
-    </div>
-    <div class="card">
-      <h2>Topic breakdown (class average)</h2>
-      ${COURSE.topics.map(t => {
-        const avg = enriched.length
-          ? Math.round(enriched.reduce((a, r) => {
-              const p = r.progress || {};
-              const done = t.lessons.filter(l => p[l.id]).length;
-              return a + Math.round(100 * done / t.lessons.length);
-            }, 0) / enriched.length)
-          : 0;
-        return `
-          <div style="margin:8px 0">
-            <div class="row" style="justify-content:space-between">
-              <span style="font-size:13.5px;font-weight:600">${t.icon} ${esc(t.title)}</span>
-              <span class="muted">${avg}%</span>
-            </div>
-            <div class="progress-bar" style="margin-top:4px"><div style="width:${avg}%;background:${t.color}"></div></div>
-          </div>`;
-      }).join("")}
-    </div>
-    <div class="card">
-      <button class="btn secondary" onclick="exportCSV()">Download CSV</button>
-    </div>
-  `;
-}
-
-function fmt(v) {
-  if (v == null) return `<span class="muted">—</span>`;
-  const pct = v * 10; // MCQ is out of 10 max — scale to %
-  const color = v >= 4 ? "var(--correct)" : v >= 3 ? "var(--warn)" : "var(--wrong)";
-  return `<span style="color:${color};font-weight:700">${v}</span>`;
-}
-
-async function exportCSV() {
-  const rows = await fetchAllProgress();
-  const totalLessons = COURSE.topics.reduce((a, t) => a + t.lessons.length, 0);
-  const header = "Name,Class,Progress %,MCQ T1,MCQ T2,MCQ T3,Last Updated\n";
-  const body = rows.map(r => {
-    const done = Object.keys(r.progress || {}).filter(k => r.progress[k]).length;
-    const pct = totalLessons ? Math.round(100 * done / totalLessons) : 0;
-    return [
-      `"${r.name}"`, `"${r.klass || ""}"`, pct,
-      r.mcq1 ?? "", r.mcq2 ?? "", r.mcq3 ?? "",
-      r.updated ? new Date(r.updated).toISOString() : ""
-    ].join(",");
-  }).join("\n");
-  const blob = new Blob([header + body], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "it-coach-class.csv";
-  a.click(); URL.revokeObjectURL(url);
-}
-
-function renderSettings() {
-  const s = state.student || {};
-  app.innerHTML = `
-    <header class="appbar"><button onclick="go('home')">← Back</button><h1>Settings</h1></header>
-    <div class="card">
-      <h2>Student profile</h2>
-      <p class="muted">Your name is how the teacher sees you on the dashboard. Use the same name every time.</p>
-      <label class="muted">Name</label>
-      <input type="text" id="s-name" value="${esc(s.name || "")}" placeholder="e.g. Jane Doe" />
-      <label class="muted" style="display:block;margin-top:10px">Class</label>
-      <input type="text" id="s-class" value="${esc(s.klass || "")}" placeholder="e.g. 5A" />
-      <button class="btn" onclick="saveProfile()" style="margin-top:12px">Save & sync</button>
-    </div>
-    <div class="card">
-      <h2>Sync status</h2>
-      <p class="muted">Your progress syncs to the teacher dashboard automatically. You must be online for the first save.</p>
-      <button class="btn secondary" onclick="pushAll()">Force re-sync now</button>
-    </div>
-    <div class="card">
-      <h2>Reset</h2>
-      <button class="btn" style="background:var(--wrong)" onclick="resetAll()">Reset all data</button>
-    </div>
-    <div class="footer">IT Coach CSEC · v2 with Supabase sync</div>
-  `;
-}
-
-/* ============ ACTIONS ============ */
-function go(name, params = {}) {
-  state.view = { name, params };
-  saveLocal();
-  window.scrollTo({ top: 0 });
-  const views = {
-    home: renderHome, topic: renderTopic, lesson: renderLesson,
-    quiz: renderQuiz, teacher: renderTeacher, settings: renderSettings
-  };
-  (views[name] || renderHome)(params);
-}
-
-function toggleAnswer(id) {
-  document.getElementById(id).classList.toggle("hidden");
-}
-
-function markLesson(lid, val) {
-  state.progress[lid] = val;
-  saveLocal();
-  pushProgress(lid);
-  go("lesson", { tid: +lid.split(".")[0], lid });
-}
-
-const mcqState = {};
-function answerMCQ(qIdx, optIdx, correct) {
-  const card = document.getElementById(`mcq-card-${qIdx}`);
-  card.querySelectorAll(".opt").forEach(el => el.style.pointerEvents = "none");
-  const chosen = document.getElementById(`opt-${qIdx}-${optIdx}`);
-  const correctEl = document.getElementById(`opt-${qIdx}-${correct}`);
-  const fb = document.getElementById(`fb-${qIdx}`);
-  fb.classList.remove("hidden");
-  if (optIdx === correct) {
-    chosen.classList.add("correct");
-    fb.className = "feedback correct";
-    fb.textContent = "✓ Correct!";
-    mcqState[qIdx] = true;
-  } else {
-    chosen.classList.add("wrong");
-    correctEl.classList.add("correct");
-    fb.className = "feedback wrong";
-    fb.textContent = "✗ Not quite — the correct answer is highlighted.";
-    mcqState[qIdx] = false;
-  }
-}
-
-async function saveMCQ(topicId) {
-  const bank = QUIZZES[topicId].mcq;
-  let score = 0;
-  bank.forEach((_, i) => { if (mcqState[i]) score++; });
-  state.quizResults[topicId] = state.quizResults[topicId] || {};
-  state.quizResults[topicId].mcq = { score, total: bank.length, at: Date.now() };
-  saveLocal();
-  await pushQuiz(topicId);
-  alert(`Saved ${score}/${bank.length}. Syncing to teacher dashboard.`);
-  go("topic", { id: topicId });
-}
-
-function checkPin() {
-  const pin = document.getElementById("pin").value.trim();
-  if (pin === "1234") {
-    state.teacherMode = true;
-    saveLocal();
-    renderTeacher();
-  } else {
-    alert("Incorrect PIN. Demo PIN is 1234.");
-  }
-}
-
-function lockTeacher() {
-  state.teacherMode = false;
-  if (realtimeChannel) { supabase.removeChannel(realtimeChannel); realtimeChannel = null; }
-  saveLocal();
-  go("home");
-}
-
-function saveProfile() {
-  const name = document.getElementById("s-name").value.trim();
-  const klass = document.getElementById("s-class").value.trim();
-  if (!name) { alert("Please enter your name."); return; }
-  state.student = { name, klass };
-  saveLocal();
-  pushProgress("__profile__");
-  alert("Profile saved and synced.");
-  go("home");
-}
-
-async function pushAll() {
-  for (const lid of Object.keys(state.progress)) {
-    if (state.progress[lid]) await pushProgress(lid);
-  }
-  for (const tid of [1, 2, 3]) {
-    if (state.quizResults[tid]?.mcq) await pushQuiz(tid);
-  }
-  alert("Re-synced all progress.");
-}
-
-function resetAll() {
-  if (!confirm("Erase all progress on this device? (Teacher dashboard keeps its records.)")) return;
-  localStorage.removeItem("itcoach_v2");
-  state = DEFAULT_STATE();
-  go("home");
-}
-
-/* ============ BOOT ============ */
-if (!state.student) {
-  state.view = { name: "settings", params: {} };
-}
-go(state.view.name, state.view.params);
-</script>
-</body>
-</html>
+    <div
