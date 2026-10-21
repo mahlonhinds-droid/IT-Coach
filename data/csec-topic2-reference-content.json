@@ -1,0 +1,85 @@
+{
+  "source": "IT_Coach_CSEC_Workbook_Complete_DRAFT.pdf",
+  "topicId": "T2",
+  "title": "Networks and Communication",
+  "status": "reference implementation content; student wording should remain aligned to the supplied draft",
+  "lessons": [
+    {
+      "id": "T2.1",
+      "title": "Types of networks and wireless technologies",
+      "objectives": [
+        "Distinguish among LAN, MAN, WAN and mobile networks",
+        "Describe wireless network technologies and levels of privacy (intranet, extranet, Internet)"
+      ],
+      "concepts": [
+        "network",
+        "stand-alone computer",
+        "LAN",
+        "MAN",
+        "WAN",
+        "peer-to-peer",
+        "client-server",
+        "modem",
+        "router",
+        "NIC",
+        "wireless access point",
+        "hotspot",
+        "mobile network",
+        "Bluetooth",
+        "Wi-Fi",
+        "intranet",
+        "extranet",
+        "Internet"
+      ],
+      "activities": [
+        "Classify examples as LAN, MAN or WAN",
+        "Match network hardware to its function",
+        "Compare intranet, extranet and Internet access levels"
+      ]
+    },
+    {
+      "id": "T2.2",
+      "title": "Network components and transmission media",
+      "objectives": [
+        "Identify common network components and their functions",
+        "Compare transmission media and communication modes",
+        "Explain bandwidth in a network context"
+      ],
+      "activities": [
+        "Identify components in a simple network diagram",
+        "Choose suitable transmission media for scenarios",
+        "Classify communication as simplex, half duplex or full duplex"
+      ]
+    },
+    {
+      "id": "T2.3",
+      "title": "Mobile communication technologies",
+      "objectives": [
+        "Describe mobile communication technologies and their uses",
+        "Relate mobile generations to changes in speed and service",
+        "Apply mobile technology concepts to practical scenarios"
+      ],
+      "activities": [
+        "Order mobile generations by development",
+        "Match mobile technologies to uses",
+        "Evaluate a mobile-network scenario"
+      ]
+    },
+    {
+      "id": "T2.4",
+      "title": "Web technologies and the Internet",
+      "objectives": [
+        "Explain common Internet and web technologies",
+        "Distinguish Internet services and their uses",
+        "Apply Internet concepts to school and business scenarios"
+      ],
+      "activities": [
+        "Match Internet services to uses",
+        "Identify client/server roles in web scenarios",
+        "Choose an appropriate Internet service for a scenario"
+      ]
+    }
+  ],
+  "knowledgeCheckGuidance": "Create checks directly from lesson objectives and source terminology. Do not expose teacher answer keys in the student runtime.",
+  "note": "T2.2-T2.4 activity descriptions are engine mappings; exact source-derived question wording and answers must be populated from the reviewed workbook content."
+}
