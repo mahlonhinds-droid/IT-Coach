@@ -38,3 +38,35 @@ const ITCoachCurriculumQuestions=[
 ];
 function ITCoachQuestionsForLesson(topic,lesson){return ITCoachCurriculumQuestions.filter(q=>q.topic===String(topic)&&q.lesson===String(lesson));}
 function ITCoachQuestionsForSkill(topic,skill){return ITCoachCurriculumQuestions.filter(q=>q.topic===String(topic)&&q.skill===skill);}
+
+
+/* Expanded prototype question metadata/variants. These are author-generated practice items and require workbook/teacher-key review. */
+ITCoachCurriculumQuestions.forEach(q=>q.difficulty="foundation");
+const ITCoachExpandedPrototypeQuestions=[
+{topic:"1",lesson:"1.2",skill:"Hardware, memory and storage",difficulty:"developing",prompt:"Which storage device retains data when power is removed?",options:["SSD","RAM","Cache"],answer:0},
+{topic:"1",lesson:"1.5",skill:"Information processing",difficulty:"developing",prompt:"Which IPOS stage changes input data into useful information?",options:["Processing","Output","Storage"],answer:0},
+{topic:"1",lesson:"1.6",skill:"Performance and troubleshooting",difficulty:"developing",prompt:"A computer is slow. Which is an appropriate first step?",options:["Gather symptoms and identify possible causes","Replace every device","Delete the operating system"],answer:0},
+{topic:"2",lesson:"2.1",skill:"Network types and wireless technologies",difficulty:"developing",prompt:"Which network generally connects devices across a large geographic area?",options:["WAN","LAN","PAN"],answer:0},
+{topic:"2",lesson:"2.2",skill:"Network components and transmission media",difficulty:"developing",prompt:"Which device directs traffic between networks?",options:["Router","Keyboard","Scanner"],answer:0},
+{topic:"2",lesson:"2.3",skill:"Mobile communication technologies",difficulty:"developing",prompt:"A mobile phone connects to a cellular network mainly through:",options:["A mobile network connection","A printer cable","A spreadsheet"],answer:0},
+{topic:"2",lesson:"2.4",skill:"Web technologies and Internet",difficulty:"developing",prompt:"Which term refers to a network of linked web pages and resources accessed through the Internet?",options:["World Wide Web","RAM","LAN"],answer:0},
+{topic:"3",lesson:"3.1",skill:"Security, misuse and affected groups",difficulty:"developing",prompt:"Which activity is an example of computer misuse?",options:["Phishing","Backing up files","Updating software"],answer:0},
+{topic:"3",lesson:"3.2",skill:"Countermeasures and personal security",difficulty:"developing",prompt:"Which practice strengthens account security?",options:["Using strong unique passwords","Sharing passwords","Using the same password everywhere"],answer:0},
+{topic:"3",lesson:"3.4",skill:"ICT applications and impacts",difficulty:"developing",prompt:"Which is a possible organizational impact of a cyber attack?",options:["Loss of data and customer trust","Guaranteed higher profits","No operational effect"],answer:0},
+{topic:"4",lesson:"4.1",skill:"Word processing",difficulty:"developing",prompt:"Which feature changes the appearance of selected text?",options:["Text formatting","Routing","Compilation"],answer:0},
+{topic:"4",lesson:"4.2",skill:"Advanced word processing",difficulty:"developing",prompt:"Mail merge combines a main document with:",options:["A data source containing recipient information","A network router","A trace table"],answer:0},
+{topic:"4",lesson:"4.3",skill:"Presentation software",difficulty:"developing",prompt:"Which design choice can improve presentation readability?",options:["Clear hierarchy and appropriate text size","Filling every slide with text","Using unrelated animations everywhere"],answer:0},
+{topic:"4",lesson:"4.4",skill:"Web page design",difficulty:"developing",prompt:"Why is consistent navigation useful on a website?",options:["It helps users find content predictably","It prevents all errors","It removes the need for content"],answer:0},
+{topic:"5",lesson:"5.2",skill:"Formulae, functions and absolute references",difficulty:"developing",prompt:"What is the purpose of an absolute cell reference?",options:["Keep a referenced cell fixed when a formula is copied","Delete a worksheet","Sort records"],answer:0},
+{topic:"5",lesson:"5.3",skill:"Layout, sorting and finding data",difficulty:"developing",prompt:"Which operation arranges records from smallest to largest?",options:["Ascending sort","Encryption","Mail merge"],answer:0},
+{topic:"5",lesson:"5.4",skill:"Charts and multiple worksheets",difficulty:"developing",prompt:"Why might a spreadsheet use multiple worksheets?",options:["To organize related data separately","To remove all formulas","To replace the operating system"],answer:0},
+{topic:"6",lesson:"6.1",skill:"Database concepts and terminology",difficulty:"developing",prompt:"In a database table, a field represents:",options:["An attribute or category of data","A complete collection of tables","A presentation slide"],answer:0},
+{topic:"6",lesson:"6.3",skill:"Forms, queries and reports",difficulty:"developing",prompt:"What is a report commonly used for?",options:["Presenting selected database information in a readable format","Connecting a computer to Wi-Fi","Writing Pascal code"],answer:0},
+{topic:"7",lesson:"7.1",skill:"Problem solving and top-down design",difficulty:"developing",prompt:"Top-down design starts by considering:",options:["The overall problem before breaking it into smaller tasks","Only the final output","Only the programming language"],answer:0},
+{topic:"7",lesson:"7.3",skill:"Algorithms, pseudocode and flowcharts",difficulty:"developing",prompt:"Pseudocode is useful because it:",options:["Describes algorithm logic in a structured human-readable form","Automatically compiles into machine code","Stores database records"],answer:0},
+{topic:"7",lesson:"7.4",skill:"Trace tables and testing",difficulty:"developing",prompt:"A trace table can help a programmer:",options:["Follow changes in variables step by step","Design a presentation","Connect a router"],answer:0},
+{topic:"8",lesson:"8.2",skill:"Pascal basics",difficulty:"developing",prompt:"Which Pascal statement is an assignment statement?",options:["total := price + tax;","total == price + tax;","total => price + tax;"],answer:0},
+{topic:"8",lesson:"8.3",skill:"Selection and loops",difficulty:"developing",prompt:"Which control structure selects between alternative actions?",options:["IF...THEN...ELSE","FOR printing","COMMENT"],answer:0},
+{topic:"8",lesson:"8.4",skill:"Testing, debugging and documentation",difficulty:"developing",prompt:"Why is testing performed after a program is developed?",options:["To identify whether the program behaves as expected","To increase monitor resolution","To create database fields"],answer:0}
+];
+ITCoachCurriculumQuestions.push(...ITCoachExpandedPrototypeQuestions);
