@@ -1,0 +1,134 @@
+{
+  "source": "IT_Coach_CSEC_Workbook_Complete_DRAFT.pdf",
+  "status": "source-mapped reference layer; exact student wording/questions require teacher review",
+  "topics": {
+    "T4": {
+      "title": "Word Processing, Presentations and Web Pages",
+      "lessons": [
+        {
+          "id": "T4.1",
+          "title": "Word processing: creating, formatting and editing",
+          "activity": "document-formatting workspace"
+        },
+        {
+          "id": "T4.2",
+          "title": "Advanced word processing: table of contents, mail merge and fillable forms",
+          "activity": "document-production task"
+        },
+        {
+          "id": "T4.3",
+          "title": "Web page design",
+          "activity": "HTML/web-page planning task"
+        },
+        {
+          "id": "T4.4",
+          "title": "Enrichment: presentation software",
+          "activity": "presentation-design task"
+        }
+      ]
+    },
+    "T5": {
+      "title": "Spreadsheets",
+      "lessons": [
+        {
+          "id": "T5.1",
+          "title": "Spreadsheet basics",
+          "activity": "cell-entry and formula workspace"
+        },
+        {
+          "id": "T5.2",
+          "title": "Formulae, functions and absolute references",
+          "activity": "formula-building workspace"
+        },
+        {
+          "id": "T5.3",
+          "title": "Layout, sorting and finding data",
+          "activity": "data-management workspace"
+        },
+        {
+          "id": "T5.4",
+          "title": "Pivot tables, charts and multiple worksheets",
+          "activity": "analysis and chart workspace"
+        }
+      ]
+    },
+    "T6": {
+      "title": "Databases",
+      "lessons": [
+        {
+          "id": "T6.1",
+          "title": "Database concepts and terminology",
+          "activity": "table-and-record identification"
+        },
+        {
+          "id": "T6.2",
+          "title": "Creating and modifying a database",
+          "activity": "database design workspace"
+        },
+        {
+          "id": "T6.3",
+          "title": "Forms, queries and reports",
+          "activity": "query-and-report workspace"
+        }
+      ]
+    },
+    "T7": {
+      "title": "Problem Solving and Program Design",
+      "lessons": [
+        {
+          "id": "T7.1",
+          "title": "The problem-solving process and the divide-and-conquer approach",
+          "activity": "problem-decomposition workspace"
+        },
+        {
+          "id": "T7.2",
+          "title": "Variables, constants, data types and operators",
+          "activity": "data-type and expression workspace"
+        },
+        {
+          "id": "T7.3",
+          "title": "Algorithms: pseudocode and flowcharts",
+          "activity": "algorithm/flowchart workspace"
+        },
+        {
+          "id": "T7.4",
+          "title": "Testing algorithms with trace tables",
+          "activity": "trace-table workspace"
+        }
+      ]
+    },
+    "T8": {
+      "title": "Programming in Pascal",
+      "lessons": [
+        {
+          "id": "T8.1",
+          "title": "Programming languages and implementing a program",
+          "activity": "translator/program-cycle activity"
+        },
+        {
+          "id": "T8.2",
+          "title": "Declaring variables and constants, input, output and assignment",
+          "activity": "Pascal coding workspace"
+        },
+        {
+          "id": "T8.3",
+          "title": "Conditional branching and loops",
+          "activity": "Pascal control-flow workspace"
+        },
+        {
+          "id": "T8.4",
+          "title": "Testing, debugging and documentation",
+          "activity": "code-testing and debugging workspace"
+        }
+      ]
+    }
+  },
+  "assessmentMapping": {
+    "T4": "Paper 01, Paper 02 and practical Paper 03/032 content",
+    "T5": "Paper 01, Paper 02 and practical Paper 03/032 content",
+    "T6": "Paper 01, Paper 02 and practical Paper 03/032 content",
+    "T7": "Paper 01, Paper 02 and Paper 03/032 content",
+    "T8": "Paper 01, Paper 02 and Paper 03/032 content"
+  },
+  "note": "The Complete Draft states that practical papers test Sections 4 to 8, so Topics 4-8 are the primary practical-learning area. This map defines the app activity contracts; it does not invent answer keys."
+}
