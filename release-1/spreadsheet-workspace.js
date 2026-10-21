@@ -44,3 +44,14 @@ function ITCoachSpreadsheetCheck(){
  for(const cell of Object.keys(ITCoachSpreadsheet.load().cells)){const v=ITCoachSpreadsheet.value(cell);if(typeof v==="string"&&v.startsWith("=")&&ITCoachSpreadsheetCellValue(cell)==="#UNSUPPORTED")issues.push(cell)}
  const e=document.getElementById("spreadsheetFeedback");if(e)e.innerHTML=issues.length?'<p>Review formula cells: '+issues.join(", ")+'</p>':'<p>Prototype check complete. Formula syntax is supported for the current workspace features.</p>';
 }
+
+function ITCoachSpreadsheetSort(column){
+ const d=ITCoachSpreadsheet.load(); const rows=[];
+ for(let r=1;r<=d.rows;r++) rows.push({r,v:d.cells[column+r]??""});
+ rows.sort((a,b)=>String(a.v).localeCompare(String(b.v),undefined,{numeric:true}));
+ const ordered={}; rows.forEach((x,i)=>{const nr=i+1;for(let c=0;c<d.cols;c++){const col=String.fromCharCode(65+c);ordered[col+nr]=d.cells[col+x.r]??"";}});
+ d.cells=ordered;ITCoachSpreadsheet.save(d);ITCoachRenderSpreadsheetWorkspace();
+}
+function ITCoachSpreadsheetChartData(column){
+ const d=ITCoachSpreadsheet.load(),out=[];for(let r=1;r<=d.rows;r++){const v=Number(d.cells[column+r]);if(!isNaN(v))out.push({row:r,value:v});}return out;
+}
