@@ -11,16 +11,15 @@ const ITCoachSkillMap={
 };
 function ITCoachSkillSnapshot(topicNo){
  const t=String(topicNo), runtime=JSON.parse(localStorage.getItem("itcoachRuntime")||"{}");
- const topicScore=(runtime.scores||{})[t];
- return (ITCoachSkillMap[t]||[]).map((x,i)=>{
-  const derived=topicScore==null?null:Math.max(0,Math.min(100,Math.round(topicScore+(i%3===0?6:i%3===1?-7:2))));
-  return {id:x[1],name:x[0],score:derived,status:derived==null?"Not assessed":derived<70?"Remediate":derived<80?"Practice / Review":"Consolidate"};
+ const evidence=(runtime.skillScores||{})[t]||{};
+ return (ITCoachSkillMap[t]||[]).map(x=>{
+  const score=evidence[x[1]];
+  return {id:x[1],name:x[0],score:score==null?null:Number(score),status:score==null?"Not assessed":score<70?"Remediate":score<80?"Practice / Review":"Consolidate"};
  });
 }
 function ITCoachSkillRecommendation(topicNo){
  const rows=ITCoachSkillSnapshot(topicNo).filter(x=>x.score!==null).sort((a,b)=>a.score-b.score);
- if(!rows.length)return null;
- return rows[0];
+ return rows.length?rows[0]:null;
 }
 function ITCoachRenderSkillAnalytics(topicNo,containerId){
  const el=document.getElementById(containerId);if(!el)return;
