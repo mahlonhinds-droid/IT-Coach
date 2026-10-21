@@ -1,56 +1,20 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IT Coach — Student Runtime</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#f4f7fb;color:#172033}
-header{background:#172033;color:white;padding:18px}
-main{max-width:900px;margin:auto;padding:18px}
-.card{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #0001}
-button{border:0;border-radius:10px;padding:11px 14px;margin:5px 3px;background:#1f6feb;color:white;cursor:pointer}
-button.secondary{background:#e8eef7;color:#172033}
-.option{display:block;width:100%;text-align:left;background:#eef4ff;color:#172033;margin:8px 0}
-.progress{height:10px;background:#e4e9f0;border-radius:10px;overflow:hidden}.bar{height:100%;background:#1f6feb}
-.small{color:#667085;font-size:.92rem}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#edf2f7;margin:3px}
-</style>
-</head>
-<body>
-<header><strong>IT Coach</strong><div class="small" style="color:#d7e2f0">Student Runtime • Browser-only prototype</div></header>
-<main id="app"></main>
-<script>
-const lessons=[
-{id:'1.1',t:'Information technology and types of computer systems',o:['Understand information technology and types of computer systems']},
-{id:'1.2',t:'Computer hardware, memory and storage',o:['Identify major hardware, memory and storage concepts']},
-{id:'1.3',t:'Input and output devices',o:['Recognise input and output functions']},
-{id:'1.4',t:'Software and user interfaces',o:['Distinguish software and user-interface concepts']},
-{id:'1.5',t:'Information processing',o:['Describe information processing using the computer system']},
-{id:'1.6',t:'Computer performance and troubleshooting',o:['Apply basic performance and troubleshooting concepts']},
-{id:'1.7',t:'Enrichment: number systems and codes',o:['Practise number-system and coding concepts']}
-];
-const state=JSON.parse(localStorage.itcoachRuntime||'{}');
-state.done=state.done||{};state.scores=state.scores||{};
-let current=null;
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IT Coach — Student Runtime 1.1</title><style>body{font-family:system-ui;margin:0;background:#f4f7fb;color:#172033}header{background:#172033;color:#fff;padding:18px}main{max-width:960px;margin:auto;padding:18px}.card{background:#fff;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #0001}button{border:0;border-radius:10px;padding:11px 14px;margin:5px 3px;background:#1f6feb;color:#fff;cursor:pointer}.secondary{background:#e8eef7;color:#172033}.option{display:block;width:100%;text-align:left;background:#eef4ff;color:#172033}.small{color:#667085;font-size:.92rem}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#edf2f7;margin:3px}.progress{height:10px;background:#e4e9f0;border-radius:10px;overflow:hidden}.bar{height:100%;background:#1f6feb}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}</style></head><body><header><strong>IT Coach</strong><div class="small" style="color:#d7e2f0">Student Runtime • Browser-only prototype</div></header><main id="app"></main><script>
+const topics=[
+['1','Fundamentals of IT',['1.1 Information technology and types of computer systems','1.2 Computer hardware, memory and storage','1.3 Input and output devices','1.4 Software and user interfaces','1.5 Information processing','1.6 Computer performance and troubleshooting','1.7 Enrichment: number systems and codes']],
+['2','Networks and Communication',['2.1 Types of networks and wireless technologies','2.2 Network components and transmission media','2.3 Mobile communication technologies','2.4 Web technologies and the Internet']],
+['3','Social and Economic Impact of IT',['3.1 Computer security, misuse and who is affected','3.2 Countermeasures and personal security practices','3.3 Impact on job skills and careers','3.4 Impact of ICT on education, medicine, business, law enforcement and recreation','3.5 Enrichment: health, safety and ethics']],
+['4','Word Processing, Presentations and Web Pages',['4.1 Word processing: creating, formatting and editing','4.2 Advanced word processing: table of contents, mail merge and fillable forms','4.3 Web page design','4.4 Enrichment: presentation software']],
+['5','Spreadsheets',['5.1 Spreadsheet basics','5.2 Formulae, functions and absolute references','5.3 Layout, sorting and finding data','5.4 Pivot tables, charts and multiple worksheets']],
+['6','Databases',['6.1 Database concepts and terminology','6.2 Creating and modifying a database','6.3 Forms, queries and reports']],
+['7','Problem Solving and Program Design',['7.1 Problem-solving process and the divide-and-conquer approach','7.2 Variables, constants, data types and operators','7.3 Algorithms: pseudocode and flowcharts','7.4 Testing algorithms with trace tables']],
+['8','Programming in Pascal',['8.1 Programming languages and implementing a program','8.2 Declaring variables and constants, input, output and assignment','8.3 Conditional branching and loops','8.4 Testing, debugging and documentation']]];
+const state=JSON.parse(localStorage.itcoachRuntime||'{}');state.done=state.done||{};let selected;
 function save(){localStorage.itcoachRuntime=JSON.stringify(state)}
-function home(){
-app.innerHTML='<div class="card"><h1>Student Dashboard</h1><p>Core learning cycle: Learn → Practice → Assess → Diagnose → Remediate → Reassess → Master.</p><div class="progress"><div class="bar" style="width:'+Math.round(Object.keys(state.done).length/lessons.length*100)+'%"></div></div><p class="small">'+Object.keys(state.done).length+' of '+lessons.length+' Topic 1 lessons completed</p></div>'+
-'<div class="card"><h2>Topic 1 — Fundamentals of IT</h2>'+lessons.map((l,i)=>'<button class="option" onclick="lesson('+i+')">'+(state.done[l.id]?'✓ ':'')+l.id+' '+l.t+'</button>').join('')+'</div>';
-}
-function lesson(i){
-current=lessons[i];
-app.innerHTML='<div class="card"><div class="small">Topic 1 / Lesson '+current.id+'</div><h1>'+current.t+'</h1><h3>Objectives</h3><ul>'+current.o.map(x=>'<li>'+x+'</li>').join('')+'</ul>'+
-'<div class="card"><h3>Learn</h3><p>This lesson is loaded through the reusable IT Coach student runtime. Approved workbook content blocks will populate this area as the source-reviewed content is connected.</p><span class="pill">Source-reviewed content layer</span><span class="pill">Interactive runtime</span></div>'+
-'<button onclick="check()">Knowledge Check</button><button class="secondary" onclick="home()">Back to lessons</button></div>';
-}
-function check(){
-app.innerHTML='<div class="card"><div class="small">Knowledge Check</div><h2>Which stage should come after learning in the IT Coach learning cycle?</h2><button class="option" onclick="answer(false)">Stop studying</button><button class="option" onclick="answer(true)">Practice</button><button class="option" onclick="answer(false)">Skip assessment</button><div id="feedback"></div></div>';
-}
-function answer(ok){
-feedback.innerHTML='<div class="card"><strong>'+(ok?'Correct.':'Review this sequence.')+'</strong><p>The prototype learning cycle is Learn → Practice → Assess → Diagnose → Remediate → Reassess → Master.</p><button onclick="complete()">Continue to Practice</button></div>';
-}
-function complete(){state.done[current.id]=true;save();home()}
-home();
-</script>
-</body>
-</html>
+function dashboard(){app.innerHTML='<div class="card"><h1>Student Dashboard</h1><p><b>Learn → Practice → Assess → Diagnose → Remediate → Reassess → Master</b></p><p class="small">Browser-only learning record. Prototype rules are not official CXC grades.</p></div><div class="grid">'+topics.map(t=>{let n=t[2].length,d=t[2].filter((_,i)=>state.done[t[0]+'.'+(i+1)]).length;return '<div class="card"><h2>Topic '+t[0]+'</h2><p>'+t[1]+'</p><div class="progress"><div class="bar" style="width:'+Math.round(d/n*100)+'%"></div></div><p class="small">'+d+'/'+n+' lessons completed</p><button onclick="topic(\''+t[0]+'\')">Open Topic</button></div>'}).join('')+'</div>'}
+function topic(n){selected=topics.find(t=>t[0]===n);app.innerHTML='<div class="card"><div class="small">CSEC Information Technology</div><h1>Topic '+selected[0]+': '+selected[1]+'</h1>'+selected[2].map((x,i)=>'<button class="option" onclick="lesson('+i+')">'+(state.done[selected[0]+'.'+(i+1)]?'✓ ':'')+x+'</button>').join('')+'<button class="secondary" onclick="dashboard()">Back</button></div>'}
+function lesson(i){let id=selected[0]+'.'+(i+1),title=selected[2][i];app.innerHTML='<div class="card"><div class="small">Topic '+selected[0]+' / Lesson '+id+'</div><h1>'+title+'</h1><h3>Learning objectives</h3><p class="small">Source-reviewed objectives will populate this area as each content layer is approved.</p><div class="card"><h3>Learn</h3><p>The reusable lesson runtime is active. Approved workbook content blocks and interactive activities can now be connected to this lesson.</p><span class="pill">Source-derived layer</span><span class="pill">Reusable runtime</span></div><button onclick="check(\''+id+'\')">Knowledge Check</button><button class="secondary" onclick="topic(\''+selected[0]+'\')">Back to topic</button></div>'}
+function check(id){app.innerHTML='<div class="card"><div class="small">Knowledge Check</div><h2>What comes after a learning activity in the IT Coach cycle?</h2><button class="option" onclick="feedback(\''+id+'\',true)">Practice or assess the learning</button><button class="option" onclick="feedback(\''+id+'\',false)">End the learning cycle</button><div id="feedback"></div></div>'}
+function feedback(id,ok){document.getElementById('feedback').innerHTML='<div class="card"><strong>'+(ok?'Correct.':'Review the learning cycle.')+'</strong><p>The runtime continues through practice, assessment, diagnosis, remediation, reassessment and mastery.</p><button onclick="finish(\''+id+'\')">Complete Lesson</button></div>'}
+function finish(id){state.done[id]=true;save();topic(id.split('.')[0])}
+dashboard();
+</script></body></html>
