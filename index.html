@@ -3,53 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IT Coach V5.2 Simple Working Edition</title>
+<title>IT Coach</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{background:#173b67;color:white;padding:18px}
-h1{margin:0;font-size:24px}.badge{display:inline-block;background:#f5c542;color:#172033;padding:5px 9px;border-radius:14px;font-weight:bold;margin-top:8px}
-nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:white;position:sticky;top:0;z-index:2;box-shadow:0 2px 6px #bbb}
-button{border:0;border-radius:8px;padding:10px 13px;background:#1769aa;color:white;cursor:pointer}
-button:hover{opacity:.9}.secondary{background:#52657a}
-main{max-width:1050px;margin:auto;padding:18px}.card{background:white;border-radius:12px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #d8dee8}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.topic{border-left:6px solid #1769aa}.visual{background:#eef5ff;border-radius:10px;padding:16px;margin:12px 0}
-.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.node{padding:14px;border-radius:10px;background:white;border:2px solid #1769aa;text-align:center;min-width:90px}.arrow{font-size:24px}
-table{border-collapse:collapse;width:100%}td,th{border:1px solid #b9c3d0;padding:8px;text-align:left}
-.question{font-weight:bold;font-size:18px}.choice{display:block;width:100%;margin:7px 0;text-align:left;background:#e9f0f8;color:#172033}
-.choice.correct{background:#c9f0d1}.choice.wrong{background:#ffd2d2}
-.small{color:#5d6878}.progress{height:14px;background:#e1e6ed;border-radius:8px;overflow:hidden}.bar{height:100%;background:#1769aa;width:0}
-footer{text-align:center;padding:25px;color:#667}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}header{background:#173b67;color:#fff;padding:18px}nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:#fff;position:sticky;top:0;z-index:2;box-shadow:0 2px 6px #bbb}button{border:0;border-radius:8px;padding:10px 13px;background:#1769aa;color:#fff;cursor:pointer}.secondary{background:#52657a}main{max-width:1050px;margin:auto;padding:18px}.card{background:#fff;border-radius:12px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #d8dee8}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.topic{border-left:6px solid #1769aa}.small{color:#5d6878}.progress{height:14px;background:#e1e6ed;border-radius:8px;overflow:hidden}.bar{height:100%;background:#1769aa;width:0}footer{text-align:center;padding:25px;color:#667}code{background:#eef2f7;padding:2px 5px;border-radius:4px}
 </style>
 </head>
 <body>
-<header>
-<h1>IT Coach — V5.2 Simple Working Edition</h1>
-<div class="badge">GRAPHICS MODE ACTIVE • ALL 8 TOPICS</div>
-</header>
+<header><h1>IT Coach — Full Content Browser</h1><p>Interactive learning and assessment prototype • All 8 topics</p></header>
 <nav id="nav"></nav>
 <main id="app"></main>
-<footer>IT Coach V5.2 • Browser-only • No server • No external libraries</footer>
+<footer>IT Coach • Browser-only prototype • Local progress storage</footer>
 <script>
 const topics=[
-["1","Fundamentals of IT","IPOS, CPU, memory, storage, number systems, software and information processing",
-["An information system follows the basic cycle: Input → Processing → Output → Storage.","RAM is temporary working memory; ROM stores instructions that are retained when power is removed.","Data can be represented using binary, decimal, octal and hexadecimal number systems."]],
-["2","Networks and Communication","Network types, hardware, transmission and Internet services",
-["A network connects devices so they can communicate and share resources.","Common equipment includes switches, routers, wireless access points and network interface hardware.","Internet services include the web, email, file transfer, cloud services and online communication."]],
-["3","Social and Economic Impact of IT","Work, society, crime, security, health, ethics and law",
-["Technology can improve productivity and communication but also creates security, privacy and ethical risks.","Controls include strong passwords, access restrictions, backups, updates and user awareness.","Responsible IT use considers privacy, intellectual property, safety and appropriate behaviour."]],
-["4","Word Processing, Presentations and Web Pages","Documents, presentations and basic web content",
-["Word processors support formatting, editing, tables, images and document layout.","Presentation software communicates ideas using slides, text, graphics and other media.","Web pages use structured content and links to communicate information through a browser."]],
-["5","Spreadsheets","Cells, formulas, functions, sorting, charts and worksheets",
-["A spreadsheet stores data in rows and columns. A cell can contain text, numbers or formulas.","Formulas calculate values; functions such as SUM and AVERAGE perform common calculations.","Charts turn spreadsheet data into visual information and sorting helps organize records."]],
-["6","Databases","Tables, keys, queries, reports and validation",
-["A database organizes related information in structured tables.","A primary key uniquely identifies a record; a foreign key can connect related tables.","Queries retrieve selected information and reports present information in a useful format."]],
-["7","Problem Solving and Program Design","Algorithms, pseudocode, flowcharts, data types and testing",
-["An algorithm is a finite sequence of steps for solving a problem.","Flowcharts visually represent program logic using standard symbols.","Trace tables help test an algorithm by recording how variables change step by step."]],
-["8","Programming in Pascal","Languages, Pascal syntax, control structures, arrays, testing and documentation",
-["Pascal programs use structured statements, variables, input/output and control structures.","Selection makes decisions; repetition performs instructions multiple times.","Testing checks whether a program produces the expected results for normal, boundary and invalid inputs."]]
+["1","Fundamentals of IT","IPOS, CPU, memory, storage, number systems, software and information processing",["Input → Processing → Output → Storage (IPOS).","RAM is temporary working memory; ROM retains instructions.","Data is represented using binary, decimal, octal and hexadecimal."]],
+["2","Networks and Communication","Network types, hardware, transmission and Internet services",["Networks connect devices to communicate and share resources.","Switches, routers and wireless access points support connectivity.","Internet services include web, email, cloud and online communication."]],
+["3","Social and Economic Impact of IT","Work, society, security, health, ethics and law",["IT improves productivity and communication while creating privacy and security risks.","Security controls include passwords, access restrictions, backups and updates.","Responsible IT use considers privacy, intellectual property and safety."]],
+["4","Word Processing, Presentations and Web Pages","Documents, presentations and web content",["Word processors support editing, formatting, tables and images.","Presentation software communicates ideas using slides and media.","Web pages organize information for viewing through browsers."]],
+["5","Spreadsheets","Cells, formulas, functions, sorting, charts and worksheets",["Spreadsheets organize information in rows and columns.","Formulas and functions calculate values.","Charts visualize data and sorting organizes records."]],
+["6","Databases","Tables, keys, queries, reports and validation",["Databases organize related information in tables.","A primary key uniquely identifies a record.","Queries retrieve selected information and reports present results."]],
+["7","Problem Solving and Program Design","Algorithms, pseudocode, flowcharts, data types and testing",["An algorithm is a finite sequence of steps.","Flowcharts visually represent program logic.","Trace tables help test variable changes."]],
+["8","Programming in Pascal","Pascal syntax, control structures, arrays, testing and documentation",["Pascal uses structured statements, variables and input/output.","Selection makes decisions and repetition repeats instructions.","Testing checks normal, boundary and invalid inputs."]]
 ];
-
 const checks=[
 ["Which stage comes after Input in IPOS?","Processing",["Storage","Processing","Output","Validation"]],
 ["Which device commonly connects different networks?","Router",["Keyboard","Router","Monitor","Printer"]],
@@ -60,59 +34,15 @@ const checks=[
 ["What is a finite sequence of steps to solve a problem?","Algorithm",["Algorithm","Database","Network","Report"]],
 ["Which control structure repeats instructions?","Repetition",["Selection","Repetition","Declaration","Input"]]
 ];
-
-const nav=document.getElementById("nav"), app=document.getElementById("app");
-let score=0, answered=0;
-function button(label,fn,cls=""){const b=document.createElement("button");b.textContent=label;b.onclick=fn;if(cls)b.className=cls;return b}
-function home(){
-app.innerHTML='<div class="card"><h2>Welcome to IT Coach V5.2</h2><p>This is the simplified browser test build. It opens directly from the HTML file and does not require a server or internet connection.</p><div class="grid">'+topics.map(t=>'<div class="card topic"><h3>Topic '+t[0]+' — '+t[1]+'</h3><p>'+t[2]+'</p><button onclick="topic(\''+t[0]+'\')">Open Topic</button></div>').join("")+'</div></div><div class="card"><h2>Learning Cycle</h2><div class="flow"><div class="node">Learn</div><div class="arrow">→</div><div class="node">Practice</div><div class="arrow">→</div><div class="node">Assess</div><div class="arrow">→</div><div class="node">Improve</div></div></div>';
-}
-function topic(n){
-const t=topics.find(x=>x[0]===n);
-app.innerHTML='<div class="card"><h2>Topic '+t[0]+' — '+t[1]+'</h2><p>'+t[2]+'</p><div class="visual">'+visual(n)+'</div><h3>Lesson points</h3>'+t[3].map((x,i)=>'<div class="card"><b>'+(i+1)+'.</b> '+x+'</div>').join("")+'<div class="card"><h3>Quick practice</h3><p>'+checks[Number(n)-1][0]+'</p><div id="choices"></div><p id="feedback"></p></div><button onclick="home()">Back to Topics</button></div>';
-const c=checks[Number(n)-1], box=document.getElementById("choices");
-c[2].forEach(ch=>{const b=button(ch,()=>answer(b,ch,c[1]),"choice");box.appendChild(b)});
-}
-function answer(b,ch,correct){
-document.querySelectorAll(".choice").forEach(x=>x.disabled=true);
-if(ch===correct){b.classList.add("correct");score++;document.getElementById("feedback").textContent="Correct!";}
-else{b.classList.add("wrong");document.getElementById("feedback").textContent="Not quite. Correct answer: "+correct;}
-answered++;updateStatus();
-}
-function updateStatus(){}
-function visual(n){
-if(n==="1")return '<h3>IPOS Process</h3><div class="flow"><div class="node">INPUT<br>Keyboard / Data</div><div class="arrow">→</div><div class="node">PROCESS<br>CPU</div><div class="arrow">→</div><div class="node">OUTPUT<br>Screen / Print</div><div class="arrow">→</div><div class="node">STORAGE<br>Disk / Cloud</div></div>';
-if(n==="2")return '<h3>Simple Network</h3><div class="flow"><div class="node">Computer</div><div class="arrow">↔</div><div class="node">Switch</div><div class="arrow">↔</div><div class="node">Router</div><div class="arrow">↔</div><div class="node">Internet</div></div>';
-if(n==="3")return '<h3>Security Controls</h3><div class="flow"><div class="node">Threat</div><div class="arrow">→</div><div class="node">Password<br>Access Control</div><div class="arrow">→</div><div class="node">Protected<br>Information</div></div>';
-if(n==="4")return '<h3>Digital Publishing</h3><div class="flow"><div class="node">Create</div><div class="arrow">→</div><div class="node">Format</div><div class="arrow">→</div><div class="node">Review</div><div class="arrow">→</div><div class="node">Publish</div></div>';
-if(n==="5")return '<h3>Spreadsheet</h3><table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td>Item</td><td>Qty</td><td>Cost</td></tr><tr><th>2</th><td>Book</td><td>3</td><td>=B2*10</td></tr><tr><th>3</th><td>Pen</td><td>5</td><td>=B3*2</td></tr></table>';
-if(n==="6")return '<h3>Database Workflow</h3><div class="flow"><div class="node">Tables</div><div class="arrow">→</div><div class="node">Query</div><div class="arrow">→</div><div class="node">Results</div><div class="arrow">→</div><div class="node">Report</div></div>';
-if(n==="7")return '<h3>Algorithm Flow</h3><div class="flow"><div class="node">START</div><div class="arrow">→</div><div class="node">INPUT</div><div class="arrow">→</div><div class="node">PROCESS</div><div class="arrow">→</div><div class="node">DECISION</div><div class="arrow">→</div><div class="node">OUTPUT</div></div>';
-return '<h3>Pascal Program Structure</h3><div class="card"><code>program Example;<br>var x : integer;<br>begin<br>&nbsp;&nbsp;readln(x);<br>&nbsp;&nbsp;writeln(x);<br>end.</code></div>';
-}
-function practice(){
-app.innerHTML='<div class="card"><h2>Practice Centre</h2><p>Answer all 8 quick questions. Score: <b id="sc">0</b>/8</p><div id="practice"></div></div>';
-const p=document.getElementById("practice");
-checks.forEach((c,i)=>{
-const d=document.createElement("div");d.className="card";d.innerHTML='<div class="question">'+(i+1)+'. '+c[0]+'</div>';
-c[2].forEach(ch=>{const b=button(ch,()=>{d.querySelectorAll("button").forEach(x=>x.disabled=true);if(ch===c[1]){b.classList.add("correct");score++;}else{b.classList.add("wrong")}document.getElementById("sc").textContent=score;},"choice");d.appendChild(b)});p.appendChild(d);
-});
-}
-function assess(){
-let pct=Math.round(score/8*100);
-app.innerHTML='<div class="card"><h2>Assessment Snapshot</h2><p>Your current practice score is <b>'+score+'</b>/8 ('+pct+'%).</p><div class="progress"><div class="bar" style="width:'+pct+'%"></div></div><p>'+(pct>=80?"Strong performance — consolidate your knowledge.":"Targeted revision recommended — revisit the topics you found difficult.")+'</p><button onclick="practice()">Retake Practice</button></div>';
-}
-function status(){
-app.innerHTML='<div class="card"><h2>Progress</h2><p>Questions answered: '+answered+'</p><p>Correct answers: '+score+'</p><p>Accuracy: '+(answered?Math.round(score/answered*100):0)+'%</p><div class="progress"><div class="bar" style="width:'+(answered?score/answered*100:0)+'%"></div></div></div>';
-}
-function buildNav(){
-nav.innerHTML="";
-nav.appendChild(button("Dashboard",home));
-nav.appendChild(button("Practice",practice));
-nav.appendChild(button("Assessment",assess));
-nav.appendChild(button("Progress",status));
-topics.forEach(t=>nav.appendChild(button("T"+t[0],()=>topic(t[0]),"secondary")));
-}
+let score=0,answered=0;
+const app=document.getElementById("app"),nav=document.getElementById("nav");
+function btn(label,fn,cls=""){const b=document.createElement("button");b.textContent=label;b.onclick=fn;if(cls)b.className=cls;return b}
+function home(){app.innerHTML='<div class="card"><h2>Dashboard</h2><p>Choose a topic to learn, practice and assess.</p><div class="grid">'+topics.map(t=>'<div class="card topic"><h3>Topic '+t[0]+' — '+t[1]+'</h3><p>'+t[2]+'</p><button onclick="topic(\''+t[0]+'\')">Open Topic</button></div>').join("")+'</div></div>'}
+function topic(n){const t=topics.find(x=>x[0]===n),c=checks[+n-1];app.innerHTML='<div class="card"><h2>Topic '+t[0]+' — '+t[1]+'</h2><p>'+t[2]+'</p><h3>Lesson</h3>'+t[3].map((x,i)=>'<div class="card"><b>'+(i+1)+'.</b> '+x+'</div>').join("")+'<div class="card"><h3>Knowledge Check</h3><p><b>'+c[0]+'</b></p><div id="choices"></div><p id="feedback"></p></div></div>';const box=document.getElementById("choices");c[2].forEach(ch=>{const b=btn(ch,()=>{box.querySelectorAll("button").forEach(x=>x.disabled=true);if(ch===c[1]){score++;b.textContent=ch+" ✓";}else{b.textContent=ch+" ✗";}answered++;document.getElementById("feedback").textContent="Correct answer: "+c[1]}, "choice");box.appendChild(b)})}
+function practice(){app.innerHTML='<div class="card"><h2>Practice Centre</h2><p>Answer the 8 topic questions.</p><div id="p"></div></div>';const p=document.getElementById("p");checks.forEach((c,i)=>{const d=document.createElement("div");d.className="card";d.innerHTML="<b>"+(i+1)+". "+c[0]+"</b>";c[2].forEach(ch=>{const b=btn(ch,()=>{d.querySelectorAll("button").forEach(x=>x.disabled=true);if(ch===c[1]){score++;b.textContent=ch+" ✓"}else b.textContent=ch+" ✗";answered++});d.appendChild(b)});p.appendChild(d)})}
+function assess(){const pct=answered?Math.round(score/answered*100):0;app.innerHTML='<div class="card"><h2>Assessment Results</h2><p>Correct: <b>'+score+'</b> of '+answered+' attempted.</p><p>Accuracy: <b>'+pct+'%</b></p><div class="progress"><div class="bar" style="width:'+pct+'%"></div></div><p>'+(pct>=80?"Strong performance. Continue to consolidate.":"Revision recommended. Revisit the weaker topics and try again.")+'</p></div>'}
+function progress(){const pct=answered?Math.round(score/answered*100):0;app.innerHTML='<div class="card"><h2>Progress</h2><p>Questions answered: '+answered+'</p><p>Correct answers: '+score+'</p><p>Current accuracy: '+pct+'%</p><div class="progress"><div class="bar" style="width:'+pct+'%"></div></div></div>'}
+function buildNav(){nav.innerHTML="";nav.append(btn("Dashboard",home));nav.append(btn("Practice",practice));nav.append(btn("Assessment",assess));nav.append(btn("Progress",progress));topics.forEach(t=>nav.append(btn("T"+t[0],()=>topic(t[0]),"secondary")))}
 buildNav();home();
 </script>
 </body>
