@@ -1,0 +1,88 @@
+{
+  "source": "IT_Coach_CSEC_Workbook_Complete_DRAFT.pdf",
+  "status": "source-mapped; detailed lesson text and answer keys still require approval/review",
+  "topics": [
+    {
+      "id": "T1",
+      "title": "Fundamentals of IT",
+      "lessons": [
+        "1.1 Information technology and types of computer systems",
+        "1.2 Computer hardware, memory and storage",
+        "1.3 Data representation and number systems",
+        "1.4 Software and user interfaces",
+        "1.5 Information processing"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Networks and Communication",
+      "lessons": [
+        "2.1 Types of networks and wireless technologies",
+        "2.2 Network components and transmission media",
+        "2.3 Mobile communication technologies",
+        "2.4 Web technologies and the Internet"
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Social and Economic Impact of IT",
+      "lessons": [
+        "3.1 Effects of IT, careers and applications",
+        "3.2 Misuse of IT and computer crime",
+        "3.3 Security, privacy and countermeasures",
+        "3.4 IT, health and the environment",
+        "3.5 Social and economic impact"
+      ]
+    },
+    {
+      "id": "T4",
+      "title": "Word Processing, Presentations and Web Pages",
+      "lessons": [
+        "4.1 Word processing: creating, formatting and editing",
+        "4.2 Advanced word processing: table of contents, mail merge and fillable forms",
+        "4.3 Web page design",
+        "4.4 Enrichment: presentation software"
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "Spreadsheets",
+      "lessons": [
+        "5.1 Spreadsheet basics",
+        "5.2 Formulae, functions and absolute references",
+        "5.3 Layout, sorting and finding data",
+        "5.4 Pivot tables, charts and multiple worksheets"
+      ]
+    },
+    {
+      "id": "T6",
+      "title": "Databases",
+      "lessons": [
+        "6.1 Database concepts and terminology",
+        "6.2 Creating and modifying a database",
+        "6.3 Forms, queries and reports"
+      ]
+    },
+    {
+      "id": "T7",
+      "title": "Problem Solving and Program Design",
+      "lessons": [
+        "7.1 The problem-solving process and top-down design",
+        "7.2 Data types, variables, constants and operators",
+        "7.3 Algorithms: pseudocode and flowcharts",
+        "7.4 Testing algorithms with trace tables"
+      ]
+    },
+    {
+      "id": "T8",
+      "title": "Programming in Pascal",
+      "lessons": [
+        "8.1 Programming languages and program development",
+        "8.2 Pascal basics: declarations, input, output and arithmetic",
+        "8.3 Selection, loops, arrays and searching",
+        "8.4 Testing, errors and documentation"
+      ]
+    }
+  ],
+  "next": "Convert each lesson into objectives, approved content blocks, knowledge checks, practice questions and assessment mappings after source-level review."
+}
