@@ -16,7 +16,7 @@ function ITCoachAnswerAdaptive(choice){
  const result=ITCoachScoreTaggedAssessment(a.questions,a.answers);
  localStorage.setItem("itcoachLastAdaptive",JSON.stringify({topic:a.topic,result,questions:a.questions,answers:a.answers,date:new Date().toISOString()}));
  const best=Object.entries(result.skillScores).sort((x,y)=>x[1]-y[1])[0];
- const action=result.score<70?"Remediate":result.score<80?"Practice / Review":"Consolidate";
+ const progression=ITCoachProgressionDecision(result.score);\n const action=progression.action;
  const e=document.getElementById("adaptiveAssessment");
  e.innerHTML='<div class="card"><h2>Assessment Result</h2><p class="score">'+result.score+'%</p><p>'+result.correct+' of '+result.total+' correct</p><h3>Skill breakdown</h3>'+Object.entries(result.skillScores).map(x=>'<p><b>'+x[0]+'</b>: '+x[1]+'%</p>').join('')+'<h3>Recommended next step</h3><p><b>'+action+'</b>'+(best?'. Priority skill: <b>'+best[0]+'</b> ('+best[1]+'%)':"")+'</p><button onclick="ITCoachLaunchTargetedRevision(a.topic,best?best[0]:'')">Reassess</button></div>';
 }
