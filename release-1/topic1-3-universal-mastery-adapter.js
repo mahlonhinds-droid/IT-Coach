@@ -11,9 +11,9 @@ function ITCoachUniversalSkillsForTopic(topicNo){
 function ITCoachEnsureTopic13Evidence(studentId){
   const rows=JSON.parse(localStorage.getItem("itcoachInteractive13Results")||"[]");
   let added=0;
-  rows.filter(x=>x.studentId===studentId).forEach(x=>{
+  rows.filter(x=>String(x.studentId)===String(studentId)).forEach(x=>{
     const all=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]");
-    const dup=all.some(e=>e.studentId===studentId&&e.topicNo===x.topicNo&&e.skill===x.skill&&e.type==="interactive"&&e.evidence===x.activityId&&Number(e.score)===Number(x.score));
+    const dup=all.some(e=>String(e.studentId)===String(studentId)&&e.topicNo===x.topicNo&&e.skill===x.skill&&e.type==="interactive"&&e.evidence===x.activityId&&Number(e.score)===Number(x.score));
     if(!dup&&x.skill){ITCoachRecordUniversalEvidence({studentId,topicNo:x.topicNo,skill:x.skill,score:x.score,type:"interactive",source:"topic1-3-interactive",evidence:x.activityId});added++;}
   });
   return added;
