@@ -17,3 +17,9 @@ function ITCoachScorePractice(q,choice){
  const correct=Number(choice)===q.answer;
  return {correct,score:correct?100:0,feedback:correct?"Correct.":q.explanation};
 }
+
+function ITCoachRecordPracticeResult(studentId,q,result){
+ if(typeof ITCoachRecordUniversalEvidence==="function")return ITCoachRecordUniversalEvidence({studentId,topicNo:q.topic,skill:q.skill,type:"knowledge",score:result.score,source:"practice-engine",evidence:q.id});
+ return null;
+}
+function ITCoachPracticeSession(topic,studentId){const q=ITCoachGetPractice(topic)[0]||null;return q?{studentId,topic:String(topic),question:q}:null;}
