@@ -1,8 +1,9 @@
-/* Teacher intervention alerts + progression safeguard 1.0 */
-const ITCoachInterventionAlertPolicy={failedAttempts:3,alertType:"teacher-intervention",blocking:false};
+/* Teacher intervention alerts + progression safeguard 1.1 */
+const ITCoachInterventionAlertPolicy={failedAttempts:3,alertType:"teacher-intervention",blocking:false,threshold:70};
+function ITCoachEvidenceTime(x){return new Date(x.timestamp||x.at||0).getTime();}
 function ITCoachSkillFailureHistory(studentId,topicNo,skill){
- const ev=ITCoachUniversalEvidence(studentId,topicNo).filter(x=>x.skill===skill);
- return ev.filter(x=>Number(x.score)<70).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+ const ev=ITCoachUniversalEvidence(studentId,topicNo).filter(x=>x.skill===skill&&Number(x.score)<ITCoachInterventionAlertPolicy.threshold);
+ return ev.sort((a,b)=>ITCoachEvidenceTime(a)-ITCoachEvidenceTime(b));
 }
 function ITCoachTeacherInterventionAlert(studentId,topicNo,skill){
  const failures=ITCoachSkillFailureHistory(studentId,topicNo,skill);
@@ -14,10 +15,8 @@ function ITCoachProgressionStatus(studentId,topicNo){
 }
 function ITCoachClassInterventionAlerts(studentIds){
  const out=[];(studentIds||[]).forEach(studentId=>{
-   Object.keys(ITCoachTopic48Skills).forEach(topicNo=>{
-     ITCoachTopic48Skills[topicNo].forEach(skill=>{
-       const a=ITCoachTeacherInterventionAlert(studentId,Number(topicNo),skill);if(a.alert)out.push(a);
-     });
-   });
+  const ev=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>x.studentId===studentId);
+  const keys=[...new Map(ev.map(x=>[String(x.topicNo)+"|"+x.skill,{topicNo:Number(x.topicNo),skill:x.skill}])).values()];
+  keys.forEach(k=>{const a=ITCoachTeacherInterventionAlert(studentId,k.topicNo,k.skill);if(a.alert)out.push(a);});
  });return out;
 }
