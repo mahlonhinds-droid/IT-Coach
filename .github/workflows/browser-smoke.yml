@@ -1,0 +1,52 @@
+name: IT Coach Browser Smoke Test
+
+on:
+  push:
+    branches:
+      - itcoach-1-0-foundation
+  workflow_dispatch:
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright
+        run: npm install --no-save playwright
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start local app server
+        run: |
+          python3 -m http.server 8000 --directory release-1 > /tmp/itcoach-server.log 2>&1 &
+          sleep 2
+
+      - name: Run browser smoke test
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({headless:true});
+            const page = await browser.newPage({viewport:{width:390,height:844}});
+            const errors = [];
+            page.on('pageerror', e => errors.push(e.message));
+            await page.goto('http://127.0.0.1:8000/runtime.html', {waitUntil:'networkidle'});
+            const button = page.getByText('Run System Self-Test', {exact:true});
+            if (await button.count() !== 1) throw new Error('System Self-Test button not found');
+            await button.click();
+            await page.waitForTimeout(300);
+            const status = await page.locator('#integrationSelfTest').innerText();
+            console.log(status);
+            if (!status.includes('Status: PASS')) throw new Error('Integration Self-Test did not pass');
+            if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
+            await browser.close();
+          })().catch(err => { console.error(err); process.exit(1); });
+          NODE
