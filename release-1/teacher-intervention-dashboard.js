@@ -6,7 +6,7 @@ function ITCoachRenderTeacherInterventions(containerId,status){
 }
 
 function ITCoachBuildStudentInterventionProfile(studentId,topicNo,skill){
- const evidence=ITCoachUniversalEvidence(studentId,topicNo).filter(x=>!skill||x.skill===skill).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+ const evidence=ITCoachUniversalEvidence(studentId,topicNo).filter(x=>!skill||x.skill===skill).sort((a,b)=>new Date(a.timestamp||a.at||0)-new Date(b.timestamp||b.at||0));
  const failures=evidence.filter(x=>Number(x.score)<70);
  const intervention=ITCoachTeacherInterventions().filter(x=>x.studentId===studentId&&Number(x.topicNo)===Number(topicNo)&&(!skill||x.skill===skill));
  const first=evidence[0]?.score??null,last=evidence[evidence.length-1]?.score??null;
