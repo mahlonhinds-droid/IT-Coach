@@ -15,7 +15,7 @@ const ITCoachInteractive13={
   {id:"t3-countermeasure-match",title:"Countermeasure Match",type:"matching",prompt:"Match the security problem with an appropriate countermeasure.",pairs:[["Unauthorised access","Access control"],["Malicious software","Security software"],["Data loss","Backup"]]},
   {id:"t3-ethics-decision",title:"Digital Ethics Decision",type:"scenario",prompt:"Choose the most responsible action when technology use could negatively affect another person.",choices:["Ignore the impact","Consider the impact and act responsibly","Share the material"],correct:"Consider the impact and act responsibly"}
  ]};
-function ITCoachInteractive13(topicNo){return ITCoachInteractive13[topicNo]||[]}
+function ITCoachGetInteractive13(topicNo){return ITCoachInteractive13[topicNo]||[]}
 function ITCoachRenderInteractive13(topicNo,containerId){
  const e=document.getElementById(containerId),items=ITCoachInteractive13[topicNo]||[];if(!e)return;
  e.innerHTML='<div class="card"><h2>Interactive Lab — Topic '+topicNo+'</h2>'+items.map((a,i)=>'<div style="border:1px solid #ddd;padding:12px;margin:10px 0"><h3>'+a.title+'</h3><p>'+a.prompt+'</p><div id="ia13_'+topicNo+'_'+i+'"></div><button onclick="ITCoachRunInteractive13('+topicNo+','+i+',\'ia13_'+topicNo+'_'+i+'\')">Start Activity</button></div>').join('')+'</div>';
