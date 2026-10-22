@@ -34,6 +34,26 @@ function assessment(topicNo,reassess=false){let pool=assessmentBank.filter(q=>q[
 function submitAssessment(){let a=window.currentAssessment,correct=0,skills={};a.qs.forEach((q,i)=>{let el=document.querySelector('input[name=q'+i+']:checked'),ok=el&&Number(el.value)===q[4];if(ok)correct++;skills[q[1]]=skills[q[1]]||{correct:0,total:0};skills[q[1]].total++;if(ok)skills[q[1]].correct++});let score=Math.round(correct/a.qs.length*100);state.scores=state.scores||{};state.scores[a.topic]=score;state.attempted=state.attempted||{};state.attempted[a.topic]=state.attempted[a.topic]||[];a.qs.forEach(q=>{if(!state.attempted[a.topic].includes(q[1]+q[2]))state.attempted[a.topic].push(q[1]+q[2])});save();let action=score<70?'Remediate':score<80?'Practice / Review':'Consolidate';let weak=Object.entries(skills).sort((x,y)=>x[1].correct/x[1].total-y[1].correct/y[1].total)[0];app.innerHTML='<div class="card"><div class="small">Assessment Result</div><h1>'+score+'%</h1><p><b>'+correct+' / '+a.qs.length+' correct</b></p><p>Recommended action: <b>'+action+'</b></p><h3>Skill breakdown</h3>'+Object.entries(skills).map(([k,v])=>'<p>'+k+': '+Math.round(v.correct/v.total*100)+'%</p>').join('')+(weak?'<div class="card"><b>Priority area:</b> '+weak[0]+'</div>':'')+'<button onclick="topic(\''+a.topic+'\')">Return to Topic</button>'+(score<80?'<button onclick="assessment(\''+a.topic+'\',true)">Reassess</button>':'<button onclick="dashboard()">Continue</button>')+'</div>'}
 function finish(id){state.done[id]=true;save();topic(id.split('.')[0])}
 dashboard();renderStudentAssignments();ITCoachRenderAnalytics('analyticsPanel');ITCoachRenderSkillAnalytics(1,'skillPanel');renderRemediationPanel(1);ITCoachRenderLearningPath(1,'learningPathPanel');ITCoachRenderCoach(1,'coachPanel');ITCoachRenderTutor(1,'Hardware, memory and storage','tutorPanel');ITCoachRenderGrowth('growthPanel');if(typeof ITCoachStudentReport==='function'){const sr=ITCoachStudentReport(1);document.getElementById('studentReportPanel').innerHTML='<div class="card"><h2>My Learning Report</h2><p><b>Latest score:</b> '+(sr.latest===null?'Not assessed':sr.latest+'%')+' &nbsp; <b>Growth:</b> '+(sr.growth===null?'—':(sr.growth>=0?'+':'')+sr.growth+' points')+'</p><p><b>Priority:</b> '+(sr.weaknesses[0]?sr.weaknesses[0].name:'No recorded weak skill')+'</p></div>';} 
+/* IT Coach 1.0 integrated student dashboard render pass */
+(function(){
+ const sid=1;
+ const calls=[
+  ()=>ITCoachRenderStudentCommandCentre(sid,'studentCommandCentre'),
+  ()=>ITCoachRenderGoalProgress(sid,'studentGoalProgress'),
+  ()=>ITCoachRenderStudentAssignments(sid,'studentAssignments'),
+  ()=>ITCoachRenderTodayPlan(sid,'studentTodayPlan'),
+  ()=>ITCoachRenderStudentPlanner(sid,'studentPlanner'),
+  ()=>ITCoachRenderFinalCrunchPlan(sid,30,'finalCrunchPlan'),
+  ()=>ITCoachRenderExamReadiness(sid,'examReadiness'),
+  ()=>ITCoachRenderExamErrorAnalysis(sid,'examErrorAnalysis'),
+  ()=>{const e=document.getElementById('finalExamReadiness');if(e){const x=ITCoachBuildFinalReadiness(sid);e.innerHTML='<div class="card"><h2>Final Exam Readiness</h2><p><b>Recommendation:</b> '+x.recommendation+'</p><p><b>Simulation average:</b> '+(x.simulationAverage===null?'No simulations':x.simulationAverage+'%')+'</p></div>';}},
+  ()=>ITCoachRenderFinal7DayPlan(sid,7,'final7DayCountdown'),
+  ()=>ITCoachRenderExamDayChecklist(sid,'examDayChecklist'),
+  ()=>ITCoachRenderPostExamNextCycle(sid,'postExamNextCycle'),
+  ()=>ITCoachRenderIntegrationHealth('integrationHealth')
+ ];
+ calls.forEach(fn=>{try{fn();}catch(err){console.warn('IT Coach panel render skipped',err);}});
+})();
 </script></body></html>
 function showLessonContent(id){const d=ITCoachGetLessonContent(id);const e=document.getElementById('lessonContent');if(d&&e)e.innerHTML='<div class="card"><h3>Key learning points</h3><ul>'+d.points.map(x=>'<li>'+x+'</li>').join('')+'</ul><p><b>Activity:</b> '+d.activity+'</p></div>';}\nfunction showWorkspace(topicNo){const d=ITCoachGetWorkspace(topicNo);if(!d){alert('No practical workspace is mapped to this topic yet.');return;}app.innerHTML='<div class="card"><div class="small">Practical Learning</div><h1>'+d.name+'</h1><p>This browser-only workspace is a learning simulation.</p>'+d.tasks.map((x,i)=>'<div class="card"><b>Task '+(i+1)+'</b><p>'+x+'</p><textarea style="width:100%;min-height:70px;border:1px solid #ccd5e1;border-radius:8px" placeholder="Enter your response..."></textarea></div>').join('')+'<button onclick="topic(\\''+topicNo+'\\')">Return to Topic</button></div>';}
 
