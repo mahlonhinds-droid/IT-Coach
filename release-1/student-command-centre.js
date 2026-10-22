@@ -18,3 +18,8 @@ function ITCoachRenderStudentCommandCentre(studentId,containerId){
  const c=ITCoachBuildStudentCommandCentre(studentId),n=ITCoachCommandCentreNextAction(studentId);
  e.innerHTML='<div class="card"><h1>My IT Coach</h1><p><b>Mode:</b> '+c.mode+'</p><div class="card"><h2>Continue Learning</h2><p>'+n.message+'</p><button onclick="ITCoachLaunchIntervention(\''+studentId+'\','+(n.topicNo||1)+')">Continue</button></div><div class="card"><h2>My Progress</h2><p>Sessions: '+c.stats.sessions+' | Minutes: '+c.stats.minutes+' | Topics active: '+c.stats.topics+'</p></div><div class="card"><h2>Topics</h2>'+c.topics.map(x=>'<p><b>Topic '+x.topicNo+'</b>: '+x.status+' — '+(x.average===null?"Not assessed":x.average+"%")+'</p>').join('')+'</div></div>';
 }
+
+function ITCoachRenderNextBestAction(studentId,containerId){
+ const e=document.getElementById(containerId);if(!e)return;const n=ITCoachStudentNextBestAction(studentId);
+ e.innerHTML='<div class="card"><h2>'+n.title+'</h2><p>'+n.message+'</p>'+(n.topicNo?'<button onclick="ITCoachLaunchIntervention(\\''+studentId+'\\','+n.topicNo+')">Start Now</button>':'')+'</div>';
+}
