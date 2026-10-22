@@ -25,7 +25,7 @@ function ITCoachRunIntegrationSelfTest(studentId){
   const mastery=ITCoachUniversalTopicMastery(tempId,1);
   functional.push({name:"Topic 1 mastery",ok:mastery&&mastery.average!==null});
   const alert=ITCoachTeacherInterventionAlert(tempId,1,"hardware");
-  functional.push({name:"Teacher intervention evaluation",ok=!!alert});
+  functional.push({name:"Teacher intervention evaluation",ok:!!alert});
  }catch(e){functional.push({name:"Core evidence/mastery smoke",ok:false,error:String(e?.message||e)});}
  try{
   for(const topicNo of [1,2,3,4,5,6,7,8]){
