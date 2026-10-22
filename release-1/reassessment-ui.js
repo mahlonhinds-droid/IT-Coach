@@ -2,7 +2,7 @@
 let ITCoachReassessment={questions:[],answers:[],index:0,topic:"1",previous:null};
 function ITCoachStartReassessment(topicNo,lessonId,skillName){
  const previous=JSON.parse(localStorage.getItem("itcoachLastAdaptive")||"null");
- ITCoachReassessment={questions:ITCoachBuildReassessment(topicNo,lessonId,skillName,previous?previous.questions:[]),answers:[],index:0,topic:String(topicNo),previous};
+ ITCoachReassessment={questions:ITCoachBuildReassessment(topicNo,lessonId,skillName,previous?previous.questions:[]),answers:[],index:0,topic:String(topicNo),previous,studentId:1};
  ITCoachRenderReassessment();
 }
 function ITCoachRenderReassessment(){
@@ -20,7 +20,7 @@ function ITCoachAnswerReassessment(choice){
  if(typeof ITCoachRecordUniversalEvidence==="function"){
   const skillTotals={};
   (current.details||[]).forEach(d=>{const s=d.skill||"General";skillTotals[s]=skillTotals[s]||{correct:0,total:0};skillTotals[s].total++;if(d.correct)skillTotals[s].correct++;});
-  Object.entries(skillTotals).forEach(([skill,v])=>ITCoachRecordUniversalEvidence({studentId:1,topicNo:a.topic,skill,type:"reassessment",score:Math.round(v.correct/v.total*100),source:"adaptive-reassessment",evidence:"Tagged reassessment result"}));
+  Object.entries(skillTotals).forEach(([skill,v])=>ITCoachRecordUniversalEvidence({studentId:(a.studentId||1),topicNo:a.topic,skill,type:"reassessment",score:Math.round(v.correct/v.total*100),source:"adaptive-reassessment",evidence:"Tagged reassessment result"}));
  }
  const action=current.score<70?"Continue targeted remediation":current.score<80?"Continue practice and reassess":"Consolidate mastery";
  const e=document.getElementById("adaptiveAssessment");
