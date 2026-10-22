@@ -5,7 +5,7 @@ const ITCoachTopic13UniversalSkills={
   3:["security","countermeasure","ethics"]
 };
 function ITCoachUniversalSkillsForTopic(topicNo){
-  const topic48=typeof window!=="undefined"&&window.ITCoachTopic48Skills?window.ITCoachTopic48Skills:{};
+  const topic48=typeof ITCoachTopic48Skills!=="undefined"?ITCoachTopic48Skills:{};
   return topic48[Number(topicNo)]||ITCoachTopic13UniversalSkills[Number(topicNo)]||[];
 }
 function ITCoachEnsureTopic13Evidence(studentId){
