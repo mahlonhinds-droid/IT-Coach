@@ -2,7 +2,7 @@
 let ITCoachReassessment={questions:[],answers:[],index:0,topic:"1",previous:null};
 function ITCoachStartReassessment(topicNo,lessonId,skillName){
  const previous=JSON.parse(localStorage.getItem("itcoachLastAdaptive")||"null");
- ITCoachReassessment={questions:ITCoachBuildReassessment(topicNo,lessonId,skillName,previous?previous.questions:[]),answers:[],index:0,topic:String(topicNo),previous,studentId:1};
+ ITCoachReassessment={questions:ITCoachBuildReassessment(topicNo,lessonId,skillName,previous?previous.questions:[]),answers:[],index:0,topic:String(topicNo),previous,studentId:ITCoachGetActiveStudentId()};
  ITCoachRenderReassessment();
 }
 function ITCoachRenderReassessment(){
