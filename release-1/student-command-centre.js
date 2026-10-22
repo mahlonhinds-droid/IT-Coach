@@ -23,3 +23,8 @@ function ITCoachRenderNextBestAction(studentId,containerId){
  const e=document.getElementById(containerId);if(!e)return;const n=ITCoachStudentNextBestAction(studentId);
  e.innerHTML='<div class="card"><h2>'+n.title+'</h2><p>'+n.message+'</p>'+(n.topicNo?'<button onclick="ITCoachLaunchIntervention(\\''+studentId+'\\','+n.topicNo+')">Start Now</button>':'')+'</div>';
 }
+
+function ITCoachRenderGoalProgress(studentId,containerId){
+ const e=document.getElementById(containerId);if(!e)return;const g=ITCoachGetStudentGoal(studentId),a=ITCoachStudentAchievements(studentId);
+ e.innerHTML='<div class="card"><h2>My Goal</h2><p>'+(g?g.goal:"Set a learning goal to guide your journey.")+'</p><p>Topics started: '+a.topicsStarted+'/8</p><p>Topics mastered: '+a.topicsMastered+'</p><p>Skills with evidence: '+a.skillsWithEvidence+'</p></div>';
+}
