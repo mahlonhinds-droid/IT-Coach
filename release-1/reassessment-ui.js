@@ -1,4 +1,4 @@
-/* Student reassessment flow */
+/* Student reassessment flow 1.1 */
 let ITCoachReassessment={questions:[],answers:[],index:0,topic:"1",previous:null};
 function ITCoachStartReassessment(topicNo,lessonId,skillName){
  const previous=JSON.parse(localStorage.getItem("itcoachLastAdaptive")||"null");
@@ -17,6 +17,11 @@ function ITCoachAnswerReassessment(choice){
  const current=ITCoachScoreTaggedAssessment(a.questions,a.answers);
  const comparison=ITCoachReassessmentComparison(a.previous? a.previous.result:null,current);
  localStorage.setItem("itcoachLastReassessment",JSON.stringify({topic:a.topic,result:current,comparison,questions:a.questions,date:new Date().toISOString()}));
+ if(typeof ITCoachRecordUniversalEvidence==="function"){
+  const skillTotals={};
+  (current.details||[]).forEach(d=>{const s=d.skill||"General";skillTotals[s]=skillTotals[s]||{correct:0,total:0};skillTotals[s].total++;if(d.correct)skillTotals[s].correct++;});
+  Object.entries(skillTotals).forEach(([skill,v])=>ITCoachRecordUniversalEvidence({studentId:1,topicNo:a.topic,skill,type:"reassessment",score:Math.round(v.correct/v.total*100),source:"adaptive-reassessment",evidence:"Tagged reassessment result"}));
+ }
  const action=current.score<70?"Continue targeted remediation":current.score<80?"Continue practice and reassess":"Consolidate mastery";
  const e=document.getElementById("adaptiveAssessment");
  e.innerHTML='<div class="card"><h2>Reassessment Result</h2><p class="score">'+current.score+'%</p><p>'+current.correct+' of '+current.total+' correct</p><p>Previous score: '+(comparison.previous===null?"—":comparison.previous+"%")+'</p><p>Change: '+(comparison.growth===null?"—":(comparison.growth>=0?"+":"")+comparison.growth+" percentage points")+'</p><h3>Next step</h3><p>'+action+'</p></div>';
