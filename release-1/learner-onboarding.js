@@ -5,7 +5,8 @@ function ITCoachCreateLearner(studentId,name,mode){
  if(existing)return existing;
  const learner={studentId,name:name||"Learner",mode:mode||"self-directed",createdAt:new Date().toISOString()};
  learners.push(learner);localStorage.setItem("itcoachLearners",JSON.stringify(learners));
- ITCoachSetLearnerMode(studentId,learner.mode);\n ITCoachSetActiveStudentId(studentId);return learner;
+ ITCoachSetLearnerMode(studentId,learner.mode);
+ ITCoachSetActiveStudentId(studentId);return learner;
 }
 function ITCoachGetLearner(studentId){
  return JSON.parse(localStorage.getItem("itcoachLearners")||"[]").find(x=>x.studentId===studentId)||null;
