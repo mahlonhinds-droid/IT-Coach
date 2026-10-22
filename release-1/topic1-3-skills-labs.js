@@ -20,4 +20,4 @@ const ITCoachTopic13Labs={
  {id:"t3-ict-impact",title:"ICT Impact Investigation",skills:["ICT impact across society"],task:"Assess ICT impacts in education, medicine, business, law enforcement or recreation."},
  {id:"t3-ethics",title:"Digital Ethics Case",skills:["Health, safety and ethics"],task:"Evaluate a technology-use scenario and propose responsible actions."}
 ]};
-function ITCoachTopic13Labs(topicNo){return ITCoachTopic13Labs[topicNo]||[]}
+function ITCoachGetTopic13Labs(topicNo){return ITCoachTopic13Labs[topicNo]||[]}
