@@ -1,11 +1,11 @@
-/* IT Coach Student Planner 1.0 */
+/* IT Coach Student Planner 1.1 */
 function ITCoachBuildStudentPlanner(studentId){
  const items=[];
- ITCoachStudentAssignments(studentId).forEach(a=>items.push({id:a.id,type:"assignment",title:a.title,date:a.dueDate||null,topicNo:a.topicNo||null,priority:"normal"}));
+ (ITCoachStudentAssignments(studentId)||[]).forEach(a=>items.push({id:a.id,type:"assignment",title:a.title,date:a.dueDate||null,topicNo:a.topicNo||null,priority:"normal"}));
  const c=ITCoachBuildStudentCommandCentre(studentId);
- if(c.priority)items.push({id:"priority-"+c.priority.topicNo,type:"learning",title:"Priority learning: Topic "+c.priority.topicNo,date:null,topicNo:c.priority.topicNo,priority:"high"});
+ if(c&&c.priority)items.push({id:"priority-"+c.priority.topicNo,type:"learning",title:"Priority learning: Topic "+c.priority.topicNo,date:null,topicNo:c.priority.topicNo,priority:"high"});
  const notes=ITCoachBuildStudentNotifications(studentId);
- notes.filter(n=>n.type==="support").forEach((n,i)=>items.push({id:"support-"+i,type:"support",title:"Review learning support",date:null,topicNo:n.topicNo,priority:"high"}));
+ (notes||[]).filter(n=>n.type==="support").forEach((n,i)=>items.push({id:"support-"+i,type:"support",title:"Review learning support",date:null,topicNo:n.topicNo,priority:"high"}));
  return items;
 }
 function ITCoachPlannerDayKey(date){return date?String(date).slice(0,10):"no-date";}
