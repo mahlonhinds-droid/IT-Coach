@@ -5,9 +5,9 @@ const ITCoachActionCatalog={
  "database-design":["database-workspace","6.1"],queries:["database-workspace","6.3"],"forms-subform":["database-workspace","6.3"],reports:["database-workspace","6.3"],
  "problem-solving":["topic1-3-course","7.1"],"data-types-operators":["topic1-3-course","7.2"],algorithms:["topic1-3-course","7.3"],"trace-tables":["topic1-3-course","7.4"],
  "programming-languages":["topic1-3-course","8.1"],"input-output-assignment":["topic1-3-course","8.2"],"selection-loops":["topic1-3-course","8.3"],"testing-debugging":["topic1-3-course","8.4"],
- "hardware":["topic1-3-course","1.2"],"information-processing":["topic1-3-course","1.5"],"number-systems":["topic1-3-course","1.7"],
- "networks":["topic1-3-course","2.1"],"network-components":["topic1-3-course","2.2"],"internet":["topic1-3-course","2.4"],
- "security":["topic1-3-course","3.1"],"countermeasures":["topic1-3-course","3.2"],"ict-impact":["topic1-3-course","3.4"]
+ "hardware":["topic1-3-course","1.2"],"information-processing":["topic1-3-course","1.5"],"troubleshooting":["topic1-3-course","1.6"],"number-systems":["topic1-3-course","1.7"],
+ "networks":["topic1-3-course","2.1"],"transmission-media":["topic1-3-course","2.2"],"network-components":["topic1-3-course","2.2"],"web":["topic1-3-course","2.4"],"internet":["topic1-3-course","2.4"],
+ "security":["topic1-3-course","3.1"],"countermeasure":["topic1-3-course","3.2"],"countermeasures":["topic1-3-course","3.2"],"ethics":["topic1-3-course","3.5"],"ict-impact":["topic1-3-course","3.4"]
 };
 function ITCoachResolveInterventionAction(studentId,topicNo){
  const x=ITCoachBuildIntervention(studentId,topicNo),target=x.skill?ITCoachActionCatalog[x.skill]:null;
