@@ -19,9 +19,11 @@ function ITCoachResolveTeacherIntervention(id,note){
 }
 function ITCoachSyncTeacherAlerts(studentIds){
  const out=[];(studentIds||[]).forEach(studentId=>{
-  Object.keys(ITCoachTopic48Skills).forEach(t=>ITCoachTopic48Skills[t].forEach(skill=>{
-   const a=ITCoachTeacherInterventionAlert(studentId,Number(t),skill);
-   if(a.alert)out.push(ITCoachCreateTeacherIntervention(studentId,Number(t),skill,a.message));
-  }));
+  const ev=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>String(x.studentId)===String(studentId));
+  const keys=[...new Map(ev.map(x=>[String(x.topicNo)+"|"+x.skill,{topicNo:Number(x.topicNo),skill:x.skill}])).values()];
+  keys.forEach(k=>{
+   const a=ITCoachTeacherInterventionAlert(studentId,k.topicNo,k.skill);
+   if(a.alert)out.push(ITCoachCreateTeacherIntervention(studentId,k.topicNo,k.skill,a.message));
+  });
  });return out;
 }
