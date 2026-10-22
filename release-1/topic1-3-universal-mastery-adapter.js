@@ -5,7 +5,7 @@ const ITCoachTopic13UniversalSkills={
   3:["security","countermeasure","ethics"]
 };
 function ITCoachUniversalSkillsForTopic(topicNo){
-  return ITCoachTopic48Skills?.[Number(topicNo)]||ITCoachTopic13UniversalSkills[Number(topicNo)]||[];
+  const topic48=typeof window!=="undefined"&&window.ITCoachTopic48Skills?window.ITCoachTopic48Skills:{};\n  return topic48[Number(topicNo)]||ITCoachTopic13UniversalSkills[Number(topicNo)]||[];
 }
 function ITCoachEnsureTopic13Evidence(studentId){
   const rows=JSON.parse(localStorage.getItem("itcoachInteractive13Results")||"[]");
