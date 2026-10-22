@@ -5,7 +5,7 @@ function ITCoachRecordUniversalEvidence(input){
  const all=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]");all.push(rec);localStorage.setItem("itcoachUniversalEvidence",JSON.stringify(all));return rec;
 }
 function ITCoachUniversalEvidence(studentId,topicNo){
- return JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>x.studentId===studentId&&Number(x.topicNo)===Number(topicNo));
+ return JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>String(x.studentId)===String(studentId)&&Number(x.topicNo)===Number(topicNo));
 }
 function ITCoachUniversalSkillSummary(studentId,topicNo){
  const all=ITCoachUniversalEvidence(studentId,topicNo),map={};
