@@ -15,7 +15,7 @@ function ITCoachProgressionStatus(studentId,topicNo){
 }
 function ITCoachClassInterventionAlerts(studentIds){
  const out=[];(studentIds||[]).forEach(studentId=>{
-  const ev=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>x.studentId===studentId);
+  const ev=JSON.parse(localStorage.getItem("itcoachUniversalEvidence")||"[]").filter(x=>String(x.studentId)===String(studentId));
   const keys=[...new Map(ev.map(x=>[String(x.topicNo)+"|"+x.skill,{topicNo:Number(x.topicNo),skill:x.skill}])).values()];
   keys.forEach(k=>{const a=ITCoachTeacherInterventionAlert(studentId,k.topicNo,k.skill);if(a.alert)out.push(a);});
  });return out;
