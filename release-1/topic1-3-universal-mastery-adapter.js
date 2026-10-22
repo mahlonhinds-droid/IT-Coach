@@ -27,3 +27,14 @@ function ITCoachUniversalTopic13Mastery(studentId,topicNo){
   const average=assessed.length?Math.round(assessed.reduce((a,x)=>a+x.score,0)/assessed.length):null;
   return {topicNo:Number(topicNo),average,status:average===null?"Not Assessed":average>=80?"Mastered":average>=70?"Developing":"Needs Attention",skills:rows,priority:assessed.sort((a,b)=>a.score-b.score)[0]||null};
 }
+function ITCoachUniversalTopicMasteryAll(studentId,topicNo){
+  const n=Number(topicNo);
+  if(n<=3)return ITCoachUniversalTopic13Mastery(studentId,n);
+  const skills=ITCoachUniversalSkillsForTopic(n),evidence=ITCoachUniversalEvidence(studentId,n);
+  const recorded=[...new Set(evidence.map(x=>x.skill))];
+  const rows=[...new Set([...skills,...recorded])].map(skill=>ITCoachUniversalSkillMastery(studentId,n,skill));
+  const assessed=rows.filter(x=>x.score!==null);
+  const average=assessed.length?Math.round(assessed.reduce((a,x)=>a+x.score,0)/assessed.length):null;
+  return {topicNo:n,average,status:average===null?"Not Assessed":average>=80?"Mastered":average>=70?"Developing":"Needs Attention",skills:rows,priority:assessed.sort((a,b)=>a.score-b.score)[0]||null};
+}
+window.ITCoachUniversalTopicMastery=ITCoachUniversalTopicMasteryAll;
