@@ -66,7 +66,7 @@
    3:{security:"3.1",countermeasure:"3.2",countermeasures:"3.2",ethics:"3.5","ict-impact":"3.4"},
    4:{"word-processing":"4.1","advanced-word-processing":"4.1",presentation:"4.2","web-page":"4.3"},
    5:{"spreadsheet-purpose":"5.1","formula-functions":"5.2","data-management":"5.3",charts:"5.4"},
-   6:{"database-design":"6.1",queries:"6.2","forms-subform":"6.2",reports:"6.3"},
+   6:{"database-design":"6.1",queries:"6.3","forms-subform":"6.3",reports:"6.3"},
    7:{"problem-solving":"7.1","data-types-operators":"7.2",algorithms:"7.3","trace-tables":"7.4"},
    8:{"programming-languages":"8.1","input-output-assignment":"8.2","selection-loops":"8.3","testing-debugging":"8.4"}
   };
