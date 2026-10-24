@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "course": {
+    "id": "csec-it",
+    "title": "CSEC Information Technology",
+    "source": "CSEC student workbook",
+    "topics": [
+      {
+        "id": 1,
+        "title": "Fundamentals of IT",
+        "lessons": [
+          {
+            "id": "1.1",
+            "title": "Source-defined lesson title",
+            "objectives": [],
+            "contentBlocks": [],
+            "activities": [],
+            "knowledgeChecks": [],
+            "practiceQuestions": [],
+            "assessmentQuestions": []
+          }
+        ]
+      }
+    ]
+  },
+  "question": {
+    "id": "unique-id",
+    "courseId": "csec-it",
+    "topicId": 1,
+    "lessonId": "1.1",
+    "objectiveId": "objective-id",
+    "type": "mcq",
+    "difficulty": "medium",
+    "prompt": "",
+    "options": [],
+    "answer": "",
+    "explanation": "",
+    "remediation": ""
+  }
+}

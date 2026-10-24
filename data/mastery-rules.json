@@ -1,0 +1,29 @@
+{
+  "version": "1.0-prototype",
+  "note": "Prototype mastery thresholds only; not official CXC grading rules.",
+  "thresholds": [
+    {
+      "maxExclusive": 70,
+      "status": "remediate",
+      "action": "Revisit lesson content, knowledge checks and practice."
+    },
+    {
+      "maxExclusive": 80,
+      "status": "practice",
+      "action": "Complete targeted practice before reassessment."
+    },
+    {
+      "maxExclusive": 101,
+      "status": "consolidate",
+      "action": "Review strengths and reassess later to confirm retention."
+    }
+  ],
+  "trackedMetrics": [
+    "lessonCompletion",
+    "knowledgeCheckResults",
+    "practiceResults",
+    "assessmentScore",
+    "assessmentDate",
+    "recommendedAction"
+  ]
+}

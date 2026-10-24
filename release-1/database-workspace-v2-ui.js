@@ -1,0 +1,5 @@
+/* Database Workspace 2.0 UI */
+function ITCoachRenderDBBuilder(containerId){
+ const e=document.getElementById(containerId);if(!e)return;const d=ITCoachDB.load(),names=Object.keys(d.tables);
+ e.innerHTML='<div class="card"><h3>Build a Database</h3><p>Choose tools below to practise database design.</p><button onclick="ITCoachDBAddRelationship(\'STUDENT\',\'StudentID\',\'LOAN\',\'StudentID\');ITCoachRenderDBBuilder(\''+containerId+'\')">Create STUDENT → LOAN relationship</button><button onclick="ITCoachDBCreateForm(\'Student Entry\',\'STUDENT\',[\'StudentID\',\'Name\',\'Form\',\'Age\']);ITCoachRenderDBBuilder(\''+containerId+'\')">Create Student Entry Form</button><button onclick="ITCoachDBCreateReport(\'Students by Form\',\'STUDENT\',\'Form\',\'Name\',\'Age\');ITCoachRenderDBBuilder(\''+containerId+'\')">Create Student Report</button><p><b>Tables:</b> '+names.join(", ")+'</p><p><b>Relationships:</b> '+(d.relationships||[]).length+'</p><p><b>Forms:</b> '+Object.keys(d.forms||{}).length+'</p><p><b>Reports:</b> '+Object.keys(d.reports||{}).length+'</p></div>';
+}

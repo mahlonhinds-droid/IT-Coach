@@ -1,0 +1,99 @@
+{
+  "source": "IT_Coach_CSEC_Workbook_Complete_DRAFT.pdf",
+  "topicId": "T3",
+  "title": "Social and Economic Impact of IT",
+  "status": "reference implementation content; lesson content remains subject to teacher review",
+  "lessons": [
+    {
+      "id": "T3.1",
+      "title": "Computer security, misuse and who is affected",
+      "objectives": [
+        "Outline computer security, cybersecurity and computer misuse, including vulnerability, threat, attack and countermeasure",
+        "Assess the impact of misuse on individuals, organisations and government"
+      ],
+      "concepts": [
+        "software piracy",
+        "hacking",
+        "computer fraud",
+        "identity theft",
+        "phishing",
+        "viruses",
+        "malware",
+        "cyberbullying",
+        "data theft",
+        "denial of service attack",
+        "vulnerability",
+        "threat",
+        "attack",
+        "countermeasure",
+        "cybersecurity"
+      ],
+      "activities": [
+        "Classify a scenario as vulnerability, threat, attack or countermeasure",
+        "Identify who is affected by an IT misuse scenario",
+        "Analyse a cyberbullying or hacked-system scenario"
+      ]
+    },
+    {
+      "id": "T3.2",
+      "title": "Countermeasures and personal security practices",
+      "objectives": [
+        "Describe suitable physical and software countermeasures for identified threats",
+        "Describe personal security practices"
+      ],
+      "concepts": [
+        "backup",
+        "authentication",
+        "biometrics",
+        "encryption",
+        "firewall",
+        "antivirus",
+        "intrusion detection system"
+      ],
+      "activities": [
+        "Classify security controls as physical or software",
+        "Choose countermeasures for a scenario",
+        "Identify safer online practices"
+      ]
+    },
+    {
+      "id": "T3.3",
+      "title": "Impact on job skills and careers",
+      "objectives": [
+        "Explore how IT changes job skills and careers"
+      ],
+      "activities": [
+        "Compare changing job skills",
+        "Identify technology-related career impacts",
+        "Discuss a scenario involving automation and work"
+      ]
+    },
+    {
+      "id": "T3.4",
+      "title": "Impact of ICT on education, medicine, business, law enforcement and recreation",
+      "objectives": [
+        "Explore effects of ICT across major areas of society"
+      ],
+      "activities": [
+        "Match ICT uses to sectors",
+        "Evaluate benefits and possible effects in a scenario",
+        "Compare ICT impact across two sectors"
+      ]
+    },
+    {
+      "id": "T3.5",
+      "title": "Enrichment: health, safety and ethics",
+      "objectives": [
+        "Consider health, safety and ethical issues associated with IT"
+      ],
+      "activities": [
+        "Classify health, safety and ethical scenarios",
+        "Evaluate a responsible-use scenario",
+        "Reflect on safe and ethical technology use"
+      ]
+    }
+  ],
+  "sourceExampleScenario": "The workbook includes scenarios such as cyberbullying and a hacked hospital system for applying security concepts.",
+  "knowledgeCheckGuidance": "Generate checks from the lesson objectives and the workbook's key terms/check-your-understanding structure. Teacher answer keys are not included here.",
+  "note": "Detailed source-derived objectives are populated where retrieved directly from the Complete Draft. For lessons where the available extract did not expose the full objective list, activity mappings are marked as engine mappings rather than claimed workbook wording."
+}

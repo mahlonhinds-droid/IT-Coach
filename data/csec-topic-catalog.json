@@ -1,0 +1,184 @@
+{
+  "courseId": "csec-it",
+  "title": "CSEC Information Technology",
+  "source": "IT Coach CSEC Workbook — Complete Draft 2026",
+  "note": "Lesson titles below are transcribed from the supplied workbook draft. Detailed lesson content is added only after source review.",
+  "topics": [
+    {
+      "id": 1,
+      "title": "Fundamentals of IT",
+      "lessons": [
+        [
+          "1.1",
+          "Information technology and types of computer systems"
+        ],
+        [
+          "1.2",
+          "Computer hardware, memory and storage"
+        ],
+        [
+          "1.3",
+          "Data representation and number systems"
+        ],
+        [
+          "1.4",
+          "Software and user interfaces"
+        ],
+        [
+          "1.5",
+          "Information processing"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Networks and Communication",
+      "lessons": [
+        [
+          "2.1",
+          "Networks, network types and hardware"
+        ],
+        [
+          "2.2",
+          "Transmission media, communication modes and bandwidth"
+        ],
+        [
+          "2.3",
+          "The Internet and its services"
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Social and Economic Impact of IT",
+      "lessons": [
+        [
+          "3.1",
+          "Computer security, misuse and who is affected"
+        ],
+        [
+          "3.2",
+          "Countermeasures and personal security practices"
+        ],
+        [
+          "3.3",
+          "Impact on job skills and careers"
+        ],
+        [
+          "3.4",
+          "Impact of ICT on education, medicine, business, law enforcement and recreation"
+        ],
+        [
+          "3.5",
+          "Enrichment: health, safety and ethics"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Word Processing, Presentations and Web Pages",
+      "lessons": [
+        [
+          "4.1",
+          "Word processing: creating, formatting and editing"
+        ],
+        [
+          "4.2",
+          "Advanced word processing: table of contents, mail merge and fillable forms"
+        ],
+        [
+          "4.3",
+          "Web page design"
+        ],
+        [
+          "4.4",
+          "Enrichment: presentation software"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Spreadsheets",
+      "lessons": [
+        [
+          "5.1",
+          "Spreadsheet purpose and terminology"
+        ],
+        [
+          "5.2",
+          "Formulae, functions and absolute references"
+        ],
+        [
+          "5.3",
+          "Layout, sorting and finding data"
+        ],
+        [
+          "5.4",
+          "Charts, multiple worksheets and importing"
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Databases",
+      "lessons": [
+        [
+          "6.1",
+          "Database concepts and terminology"
+        ],
+        [
+          "6.2",
+          "Creating and modifying a database"
+        ],
+        [
+          "6.3",
+          "Forms, queries and reports"
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Problem Solving and Program Design",
+      "lessons": [
+        [
+          "7.1",
+          "The problem-solving process and top-down design"
+        ],
+        [
+          "7.2",
+          "Data types, variables, constants and operators"
+        ],
+        [
+          "7.3",
+          "Algorithms: pseudocode and flowcharts"
+        ],
+        [
+          "7.4",
+          "Testing algorithms with trace tables"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Programming in Pascal",
+      "lessons": [
+        [
+          "8.1",
+          "Programming languages and program development"
+        ],
+        [
+          "8.2",
+          "Pascal basics: declarations, input, output and arithmetic"
+        ],
+        [
+          "8.3",
+          "Conditional branching and loops"
+        ],
+        [
+          "8.4",
+          "Testing, debugging and documentation"
+        ]
+      ]
+    }
+  ]
+}

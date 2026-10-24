@@ -1,0 +1,55 @@
+{
+  "courseId":"CSEC-IT",
+  "source":"IT Coach CSEC Workbook Complete Draft 2026",
+  "topics":[
+    {"id":1,"title":"Fundamentals of IT","lessons":[
+      "1.1 Information technology and types of computer systems",
+      "1.2 Computer hardware, memory and storage",
+      "1.3 Data representation and number systems",
+      "1.4 Software and user interfaces",
+      "1.5 Information processing"
+    ]},
+    {"id":2,"title":"Networks and Communication","lessons":[
+      "2.1 Types of networks and wireless technologies",
+      "2.2 Network components and transmission media",
+      "2.3 Mobile communication technologies",
+      "2.4 Web technologies and the Internet"
+    ]},
+    {"id":3,"title":"Social and Economic Impact of IT","lessons":[
+      "3.1 Computer security, misuse and who is affected",
+      "3.2 Countermeasures and personal security practices",
+      "3.3 Impact on job skills and careers",
+      "3.4 Impact of ICT on education, medicine, business, law enforcement and recreation",
+      "3.5 Enrichment: health, safety and ethics"
+    ]},
+    {"id":4,"title":"Word Processing, Presentations and Web Pages","lessons":[
+      "4.1 Word processing: creating, formatting and editing",
+      "4.2 Advanced word processing: table of contents, mail merge and fillable forms",
+      "4.3 Web page design",
+      "4.4 Enrichment: presentation software"
+    ]},
+    {"id":5,"title":"Spreadsheets","lessons":[
+      "5.1 Spreadsheet purpose and terminology",
+      "5.2 Functions and arithmetic formulae",
+      "5.3 Replicating formulae and manipulating rows, columns and data",
+      "5.4 Pivot tables, charts and multiple worksheets"
+    ]},
+    {"id":6,"title":"Databases","lessons":[
+      "6.1 Database concepts and terminology",
+      "6.2 Creating and modifying a database",
+      "6.3 Forms, queries and reports"
+    ]},
+    {"id":7,"title":"Problem Solving and Program Design","lessons":[
+      "7.1 The problem-solving process and the divide-and-conquer approach",
+      "7.2 Variables, constants, data types and operators",
+      "7.3 Algorithms: pseudocode and flowcharts",
+      "7.4 Testing algorithms with trace tables"
+    ]},
+    {"id":8,"title":"Programming in Pascal","lessons":[
+      "8.1 Programming languages and implementing a program",
+      "8.2 Declaring variables and constants, input, output and assignment",
+      "8.3 Conditional branching and loops",
+      "8.4 Testing, debugging and documentation"
+    ]}
+  ]
+}
