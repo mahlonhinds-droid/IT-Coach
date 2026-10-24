@@ -45,6 +45,23 @@
   if(typeof ITCoachStartReassessment==="function")return ITCoachStartReassessment(n);
   app.querySelector("#adaptiveAssessment").innerHTML="<p>Reassessment pathway is unavailable.</p>";
  }
+ function launchSkill(n,skill){
+  const topic=Number(n),s=String(skill||"").trim();
+  const map={
+   1:{hardware:"1.2","information-processing":"1.5",troubleshooting:"1.6","number-systems":"1.7"},
+   2:{network:"2.1",networks:"2.1","transmission-media":"2.2","network-components":"2.2",web:"2.4",internet:"2.4"},
+   3:{security:"3.1",countermeasure:"3.2",countermeasures:"3.2",ethics:"3.5","ict-impact":"3.4"},
+   4:{"word-processing":"4.1","advanced-word-processing":"4.1",presentation:"4.2","web-page":"4.3"},
+   5:{"spreadsheet-purpose":"5.1","formula-functions":"5.2","data-management":"5.3",charts:"5.4"},
+   6:{"database-design":"6.1",queries:"6.2","forms-subform":"6.2",reports:"6.3"},
+   7:{"problem-solving":"7.1","data-types-operators":"7.2",algorithms:"7.3","trace-tables":"7.4"},
+   8:{"programming-languages":"8.1","input-output-assignment":"8.2","selection-loops":"8.3","testing-debugging":"8.4"}
+  };
+  const lesson=(map[topic]||{})[s];
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("skill_action_started",{subjectId:"IT",topicNo:topic,skill:s,action:lesson?"lesson":"practice"});
+  if(lesson)return openLessonItem(topic,lesson);
+  return practice(topic);
+ }
  function recommended(n,type){
   type=String(type||"learning").trim();
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("next_action_started",{subjectId:"IT",topicNo:Number(n),action:type});
@@ -53,7 +70,7 @@
   if(type==="review")return openLesson(n);
   return practice(n);
  }
- window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;
+ window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;
  window.ITCoachPilotOpenTopic=function(n){
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(n)});
   setApp('<section class="card"><div class="pill">TOPIC '+n+'</div><h2>'+topicTitle(n)+'</h2><p>Learn → Practice → Assess → Improve. Your progress is stored in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenLesson('+n+')">📚 Learn</button><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+')">📝 Assess</button><button onclick="ITCoachPilotOpenPractical('+n+')">🛠 Apply</button></div><div id="pilotFeedback"></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>');
