@@ -47,7 +47,7 @@
     if(!app)return;
     var nextAction=next.topicNo?(next.type==="support"?"Support":next.type==="diagnostic"?"Assess":next.type==="learning"?"Continue":"Review"):null;
     var nextHtml='<div class="card" style="margin-top:12px;border-left:4px solid currentColor"><div class="pill">WHAT SHOULD I DO NEXT?</div><h2>'+next.title+'</h2><p>'+next.message+'</p>'+
-      (next.topicNo?'<p class="small">Recommended pathway: '+nextAction+'</p><button onclick="ITCoachPilotOpenTopic('+next.topicNo+')">Open Topic '+next.topicNo+' →</button>':'')+'</div>';
+      (next.topicNo?'<p class="small">Recommended pathway: '+nextAction+'</p><button onclick="ITCoachPilotLaunchRecommended('+next.topicNo+',\' '+(next.type||"learning")+'\')">Start recommended action →</button>':'')+'</div>';
     var progressBar='<div class="card" style="margin-top:12px"><strong>Overall pilot progress</strong><div style="height:12px;background:#e7eaf0;border-radius:8px;margin:8px 0"><div style="height:12px;width:'+Math.round((assessed/8)*100)+'%;background:currentColor;border-radius:8px"></div></div><span class="small">'+assessed+'/8 topics assessed • '+mastered+'/8 mastered</span></div>';
     app.innerHTML='<section class="card"><div class="pill">MY PROGRESS</div><h1>My Learning Progress</h1><p>Student <strong>'+sid+'</strong> • Your progress stays in this browser.</p>'+progressBar+
       '<div class="grid">'+rows.map(function(x){
