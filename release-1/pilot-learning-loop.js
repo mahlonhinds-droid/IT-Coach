@@ -81,7 +81,7 @@
   return nextStep(n,id,"lesson",skill);
  }
  function nextStep(n,lessonId,source,skill){
-  const topic=Number(n),sid="IT";let action=null;
+  const topic=Number(n),sid=typeof ITCoachGetActiveStudentId==="function"?ITCoachGetActiveStudentId():"1";let action=null;
   if(typeof ITCoachUniversalNextAction==="function"){
    try{action=ITCoachUniversalNextAction(null,topic,sid)}catch(e){action=null;}
   }
@@ -113,7 +113,7 @@
   if(type==="review")return openLesson(n);
   return practice(n);
  }
- window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;window.ITCoachPilotCompleteLesson=completeLesson;window.ITCoachPilotStartNextStep=startNextStep;window.ITCoachPilotOpenWorkspace=openWorkspace;
+ window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;window.ITCoachPilotCompleteLesson=completeLesson;window.ITCoachPilotStartNextStep=startNextStep;window.ITCoachPilotShowNextStep=nextStep;window.ITCoachPilotOpenWorkspace=openWorkspace;
  window.ITCoachPilotOpenTopic=function(n){
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(n)});
   setApp('<section class="card"><div class="pill">TOPIC '+n+'</div><h2>'+topicTitle(n)+'</h2><p>Learn → Practice → Assess → Improve. Your progress is stored in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenLesson('+n+')">📚 Learn</button><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+')">📝 Assess</button><button onclick="ITCoachPilotOpenPractical('+n+')">🛠 Apply</button></div><div id="pilotFeedback"></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>');
