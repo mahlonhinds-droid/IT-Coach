@@ -50,6 +50,19 @@ jobs:
             if (!nextStep) throw new Error('Next-step learning loop functions not loaded');
             const practicalHook = await page.evaluate(() => typeof window.ITCoachSubmitWorkspace === 'function');
             if (!practicalHook) throw new Error('Practical workspace submit function not loaded');
+
+            await page.evaluate(() => {
+              localStorage.setItem('itcoachActiveStudent','pilot-qa');
+            });
+            const appText = await page.locator('body').innerText();
+            if (!appText.includes('IT Coach')) throw new Error('IT Coach runtime shell not visible');
+            const loopState = await page.evaluate(() => ({
+              activeStudent: localStorage.getItem('itcoachActiveStudent'),
+              hasLessonComplete: typeof window.ITCoachPilotCompleteLesson === 'function',
+              hasNextStep: typeof window.ITCoachPilotStartNextStep === 'function'
+            }));
+            console.log('Learning loop:', JSON.stringify(loopState));
+            if (!loopState.hasLessonComplete || !loopState.hasNextStep) throw new Error('Learning loop entry points unavailable');
             if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
             await browser.close();
           })().catch(err => { console.error(err); process.exit(1); });
