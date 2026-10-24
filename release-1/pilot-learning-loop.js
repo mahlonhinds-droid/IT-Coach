@@ -31,9 +31,22 @@
  function practical(n){
   const e=setApp('<section class="card"><div class="pill">APPLY</div><h2>Topic '+n+' Practical Activity</h2><div id="pilotPractical"></div><button class="secondary" onclick="ITCoachPilotOpenTopic('+n+')">← Topic</button></section>');if(!e)return;
   const target=document.getElementById("pilotPractical");
-  const fn={4:"ITCoachRenderTopic4SkillsLab",5:"ITCoachRenderSpreadsheetWorkspace",6:"ITCoachRenderDatabaseWorkspace",7:"ITCoachRenderTopic13Labs",8:"ITCoachRenderPascalWorkspace"}[n];
+  if(n===7){
+   target.innerHTML='<h3>Algorithm & Trace-Table Workspace</h3><p>Choose an application task and save your work in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenWorkspace(7,\'7.3\')">🧩 Algorithm Design</button><button onclick="ITCoachPilotOpenWorkspace(7,\'7.4\')">📋 Trace Table & Testing</button></div><div id="practicalWorkspace"></div>';
+   return;
+  }
+  const fn={4:"ITCoachRenderTopic4SkillsLab",5:"ITCoachRenderSpreadsheetWorkspace",6:"ITCoachRenderDatabaseWorkspace",8:"ITCoachRenderPascalWorkspace"}[n];
   if(fn&&typeof window[fn]==="function"){try{window[fn](n,"pilotPractical");return;}catch(err){}}
   target.innerHTML='<p>This practical pathway is available in the prototype architecture. Use Assessment to check your knowledge and return for targeted practice.</p><button onclick="ITCoachPilotLaunchAssessment('+n+')">Assess this topic</button>';
+ }
+ function openWorkspace(topicNo,lessonId){
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("practical_workspace_opened",{subjectId:"IT",topicNo:Number(topicNo),lessonId:String(lessonId)});
+  const e=document.getElementById("practicalWorkspace");
+  if(!e||typeof ITCoachRenderWorkspace!=="function"){
+   if(e)e.innerHTML="<p>The browser workspace is not available in this runtime.</p>";
+   return;
+  }
+  ITCoachRenderWorkspace(Number(topicNo),String(lessonId));
  }
  function assess(n,lessonId){
   const app=setApp('<section class="card"><div class="pill">ASSESS</div><div id="adaptiveAssessment"><p>Loading assessment…</p></div></section>');if(!app)return;
@@ -70,7 +83,7 @@
   if(type==="review")return openLesson(n);
   return practice(n);
  }
- window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;
+ window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;window.ITCoachPilotOpenWorkspace=openWorkspace;
  window.ITCoachPilotOpenTopic=function(n){
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(n)});
   setApp('<section class="card"><div class="pill">TOPIC '+n+'</div><h2>'+topicTitle(n)+'</h2><p>Learn → Practice → Assess → Improve. Your progress is stored in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenLesson('+n+')">📚 Learn</button><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+')">📝 Assess</button><button onclick="ITCoachPilotOpenPractical('+n+')">🛠 Apply</button></div><div id="pilotFeedback"></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>');
