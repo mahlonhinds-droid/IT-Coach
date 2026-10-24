@@ -18,7 +18,7 @@
   const rich=n<=3&&typeof ITCoachTopic13Lesson==="function"?ITCoachTopic13Lesson(n,id):null;
   const title=(rich&&rich.title)||(c&&c.title)||id;
   const points=(c&&c.points)||[];const activity=(c&&c.activity)||"Complete the mapped practice activity.";
-  const app=setApp('<section class="card"><div class="pill">LEARN</div><h2>'+title+'</h2><p>'+(rich?rich.focus:"Review the lesson concepts and complete the activity.")+'</p><h3>Key learning</h3>'+points.map(p=>'<p>• '+p+'</p>').join('')+'<h3>Practice</h3><p>'+activity+'</p><div class="grid"><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+',\''+id+'\')">📝 Assess</button></div><button class="secondary" onclick="ITCoachPilotOpenLesson('+n+')">← Lessons</button></section>');
+  const app=setApp('<section class="card"><div class="pill">LEARN</div><h2>'+title+'</h2><p>'+(rich?rich.focus:"Review the lesson concepts and complete the activity.")+'</p><h3>Key learning</h3>'+points.map(p=>'<p>• '+p+'</p>').join('')+'<h3>Practice</h3><p>'+activity+'</p><div class="grid"><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+',\''+id+'\')">📝 Assess</button></div><button onclick="ITCoachPilotCompleteLesson('+n+',\''+id+'\')">✓ Mark lesson complete</button><div id="pilotNextStep"></div><button class="secondary" onclick="ITCoachPilotOpenLesson('+n+')">← Lessons</button></section>');
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("lesson_item_opened",{subjectId:"IT",topicNo:n,lessonId:id});
  }
  function practice(n){
@@ -75,6 +75,36 @@
   if(lesson)return openLessonItem(topic,lesson);
   return practice(topic);
  }
+ function completeLesson(n,id){
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("lesson_completed",{subjectId:"IT",topicNo:Number(n),lessonId:String(id)});
+  const skill=typeof ITCoachTopic48SkillFromLesson==="function"&&Number(n)>=4?ITCoachTopic48SkillFromLesson(Number(n),String(id)):null;
+  return nextStep(n,id,"lesson",skill);
+ }
+ function nextStep(n,lessonId,source,skill){
+  const topic=Number(n),sid="IT";let action=null;
+  if(typeof ITCoachUniversalNextAction==="function"){
+   try{action=ITCoachUniversalNextAction(null,topic,sid)}catch(e){action=null;}
+  }
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("learning_step_completed",{subjectId:sid,topicNo:topic,lessonId:lessonId||null,source:source||"learning",skill:skill||null});
+  const mode=action&&action.mode?action.mode:"assess",targetSkill=action&&action.skill?action.skill:null;
+  let title="What should I do next?",message="Keep building your evidence for this topic.",button="Continue";
+  if(mode==="assess"){title="Next: Check your understanding";message="Take a short diagnostic to see what you know.";button="Start diagnostic";}
+  else if(mode==="revision"){title="Next: Review a priority skill";message="Your next step is targeted revision of "+(targetSkill||"this topic")+".";button="Review priority skill";}
+  else if(mode==="practice"){title="Next: Practice this skill";message="You are developing "+(targetSkill||"this skill")+". Practice it before moving on.";button="Start practice";}
+  else{title="Next: Apply your learning";message="You are ready to apply "+(targetSkill||"this skill")+" in a practical task.";button="Open practical";}
+  const box=document.getElementById("pilotNextStep");if(!box)return action;
+  box.innerHTML='<div class="card"><div class="pill">NEXT STEP</div><h3>'+title+'</h3><p>'+message+'</p><button onclick="ITCoachPilotStartNextStep('+topic+',\\''+mode+'\\',\\''+(targetSkill||"")+\\')">'+button+'</button></div>';
+  return action;
+ }
+ function startNextStep(n,mode,skill){
+  const topic=Number(n),m=String(mode||"assess");
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("next_step_started",{subjectId:"IT",topicNo:topic,mode:m,skill:skill||null});
+  if(m==="assess")return assess(topic);
+  if(m==="revision"&&skill)return launchSkill(topic,skill);
+  if(m==="practice")return practice(topic);
+  if(m==="application")return practical(topic);
+  return assess(topic);
+ }
  function recommended(n,type){
   type=String(type||"learning").trim();
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("next_action_started",{subjectId:"IT",topicNo:Number(n),action:type});
@@ -83,7 +113,7 @@
   if(type==="review")return openLesson(n);
   return practice(n);
  }
- window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;window.ITCoachPilotOpenWorkspace=openWorkspace;
+ window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;window.ITCoachPilotLaunchSkill=launchSkill;window.ITCoachPilotCompleteLesson=completeLesson;window.ITCoachPilotStartNextStep=startNextStep;window.ITCoachPilotOpenWorkspace=openWorkspace;
  window.ITCoachPilotOpenTopic=function(n){
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(n)});
   setApp('<section class="card"><div class="pill">TOPIC '+n+'</div><h2>'+topicTitle(n)+'</h2><p>Learn → Practice → Assess → Improve. Your progress is stored in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenLesson('+n+')">📚 Learn</button><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+')">📝 Assess</button><button onclick="ITCoachPilotOpenPractical('+n+')">🛠 Apply</button></div><div id="pilotFeedback"></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>');
