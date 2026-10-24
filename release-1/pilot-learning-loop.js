@@ -45,7 +45,15 @@
   if(typeof ITCoachStartReassessment==="function")return ITCoachStartReassessment(n);
   app.querySelector("#adaptiveAssessment").innerHTML="<p>Reassessment pathway is unavailable.</p>";
  }
- window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;
+ function recommended(n,type){
+  type=String(type||"learning").trim();
+  if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("next_action_started",{subjectId:"IT",topicNo:Number(n),action:type});
+  if(type==="diagnostic")return assess(n);
+  if(type==="support"||type==="learning")return practice(n);
+  if(type==="review")return openLesson(n);
+  return practice(n);
+ }
+ window.ITCoachPilotOpenLesson=openLesson;window.ITCoachPilotOpenLessonItem=openLessonItem;window.ITCoachPilotLaunchPractice=practice;window.ITCoachPilotOpenPractical=practical;window.ITCoachPilotLaunchAssessment=assess;window.ITCoachPilotLaunchReassessment=reassess;window.ITCoachPilotLaunchRecommended=recommended;
  window.ITCoachPilotOpenTopic=function(n){
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(n)});
   setApp('<section class="card"><div class="pill">TOPIC '+n+'</div><h2>'+topicTitle(n)+'</h2><p>Learn → Practice → Assess → Improve. Your progress is stored in this browser.</p><div class="grid"><button onclick="ITCoachPilotOpenLesson('+n+')">📚 Learn</button><button onclick="ITCoachPilotLaunchPractice('+n+')">🎯 Practice</button><button onclick="ITCoachPilotLaunchAssessment('+n+')">📝 Assess</button><button onclick="ITCoachPilotOpenPractical('+n+')">🛠 Apply</button></div><div id="pilotFeedback"></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>');
