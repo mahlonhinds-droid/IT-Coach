@@ -8,11 +8,9 @@
  function openLesson(n){
   const app=setApp('<section class="card"><div class="pill">LEARN</div><h2>Topic '+n+': '+topicTitle(n)+'</h2><div id="pilotLesson"></div><button class="secondary" onclick="ITCoachPilotOpenTopic('+n+')">← Topic</button></section>');
   if(!app)return;
-  if(n<=3&&typeof ITCoachRenderTopic13Course==="function")ITCoachRenderTopic13Course(n,"pilotLesson");
-  else{
-   const lessons=[];for(let i=1;i<=4;i++){const id=n+"."+i,c=typeof ITCoachGetLessonContent48==="function"?ITCoachGetLessonContent48(id):null;if(c)lessons.push({id,c});}
-   document.getElementById("pilotLesson").innerHTML='<p>Choose a lesson to study.</p>'+lessons.map(x=>'<button class="option" onclick="ITCoachPilotOpenLessonItem('+n+',\''+x.id+'\')"><b>'+x.id+' — '+x.c.title+'</b><br><span class="small">'+x.c.activity+'</span></button>').join('');
-  }
+  const lessons=[];for(let i=1;i<=4;i++){const id=n+"."+i;let c=n<=3?(typeof ITCoachGetLessonContent==="function"?ITCoachGetLessonContent(id):null):(typeof ITCoachGetLessonContent48==="function"?ITCoachGetLessonContent48(id):null);if(c)lessons.push({id,c});}
+  const lessonEl=document.getElementById("pilotLesson");
+  if(lessonEl)lessonEl.innerHTML="<p>Choose a lesson to study.</p>"+lessons.map(x=>"<button class='option' onclick="ITCoachPilotOpenLessonItem("+n+",'"+x.id+"')"><b>"+x.id+" — "+x.c.title+"</b><br><span class='small'>"+x.c.activity+"</span></button>").join("");
   if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("lesson_opened",{subjectId:"IT",topicNo:n});
  }
  function openLessonItem(n,id){
