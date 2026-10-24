@@ -22,5 +22,7 @@ function ITCoachSaveWorkspace(topicNo,lessonId,evidence){
 }
 function ITCoachSubmitWorkspace(topicNo,lessonId){
  const r=ITCoachWorkspace.submit(topicNo,lessonId);
- const s=document.getElementById("workspaceStatus");if(s)s.textContent=r?"Submitted in this browser for teacher review.":"Create a draft before submitting.";\n if(r&&typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("practical_submitted",{subjectId:"IT",topicNo:Number(topicNo),lessonId:String(lessonId)});\n if(r&&typeof ITCoachPilotShowNextStep==="function")ITCoachPilotShowNextStep(Number(topicNo),String(lessonId),"practical");
+ const s=document.getElementById("workspaceStatus");if(s)s.textContent=r?"Submitted in this browser for teacher review.":"Create a draft before submitting.";
+ if(r&&typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("practical_submitted",{subjectId:"IT",topicNo:Number(topicNo),lessonId:String(lessonId)});
+ if(r&&typeof ITCoachPilotShowNextStep==="function")ITCoachPilotShowNextStep(Number(topicNo),String(lessonId),"practical");
 }
