@@ -93,7 +93,7 @@
   else if(mode==="practice"){title="Next: Practice this skill";message="You are developing "+(targetSkill||"this skill")+". Practice it before moving on.";button="Start practice";}
   else{title="Next: Apply your learning";message="You are ready to apply "+(targetSkill||"this skill")+" in a practical task.";button="Open practical";}
   const box=document.getElementById("pilotNextStep");if(!box)return action;
-  box.innerHTML='<div class="card"><div class="pill">NEXT STEP</div><h3>'+title+'</h3><p>'+message+'</p><button onclick="ITCoachPilotStartNextStep('+topic+',\\''+mode+'\\',\\''+(targetSkill||"")+\\')">'+button+'</button></div>';
+  box.innerHTML='<div class="card"><div class="pill">NEXT STEP</div><h3>'+title+'</h3><p>'+message+'</p><button onclick="ITCoachPilotStartNextStep('+topic+','+JSON.stringify(mode)+','+JSON.stringify(targetSkill||"")+')">'+button+'</button></div>';
   return action;
  }
  function startNextStep(n,mode,skill){
