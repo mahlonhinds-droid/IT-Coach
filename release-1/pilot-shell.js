@@ -25,7 +25,7 @@
           return '<button class="card" style="text-align:left;color:#172033" onclick="ITCoachPilotOpenIT()"><div style="font-size:2rem">'+s.icon+'</div><h2>'+s.name+'</h2><p class="small">8 CSEC topics • lessons • practice • assessment</p><strong>Start learning →</strong></button>';
         return '<div class="card" style="opacity:.82"><div style="font-size:2rem">'+s.icon+'</div><h2>'+s.name+'</h2><div class="pill">COMING SOON</div><p class="small">More learning experiences are being built for the IT Coach platform.</p></div>';
       }).join("")+'</section>'+
-      '<section class="card"><h2>What IT Coach helps you do</h2><div class="grid">'+
+      '<section class="card"><h2>My Progress</h2><p>See what you have mastered and the next best action IT Coach recommends.</p><button onclick="ITCoachPilotOpenProgress()">📈 View My Progress</button></section><section class="card"><h2>What IT Coach helps you do</h2><div class="grid">'+
       '<div><strong>📚 Learn</strong><p class="small">Work through structured lessons.</p></div>'+
       '<div><strong>🎯 Practice</strong><p class="small">Build confidence before assessment.</p></div>'+
       '<div><strong>📈 Assess</strong><p class="small">See what you know and what needs work.</p></div>'+
