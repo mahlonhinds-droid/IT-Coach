@@ -46,6 +46,10 @@ jobs:
             const status = await page.locator('#integrationSelfTest').innerText();
             console.log(status);
             if (!status.includes('Status: PASS')) throw new Error('Integration Self-Test did not pass');
+            const nextStep = await page.evaluate(() => typeof window.ITCoachPilotStartNextStep === 'function' && typeof window.ITCoachPilotShowNextStep === 'function');
+            if (!nextStep) throw new Error('Next-step learning loop functions not loaded');
+            const practicalHook = await page.evaluate(() => typeof window.ITCoachSubmitWorkspace === 'function');
+            if (!practicalHook) throw new Error('Practical workspace submit function not loaded');
             if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
             await browser.close();
           })().catch(err => { console.error(err); process.exit(1); });
