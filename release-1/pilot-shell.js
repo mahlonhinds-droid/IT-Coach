@@ -37,8 +37,9 @@
     var sid=typeof ITCoachGetActiveStudentId==="function"?ITCoachGetActiveStudentId():"1";
     var topics=typeof ITCoachGetCourseTopics==="function"?ITCoachGetCourseTopics("IT","CSEC_IT"):[];
     var rows=topics.map(function(t){
-      var m=typeof ITCoachUniversalTopicMastery==="function"?ITCoachUniversalTopicMastery(sid,t.topicNo,"IT"):{average:null,status:"Not Assessed"};
-      return {topicNo:t.topicNo,title:t.title,average:m.average,status:m.status};
+      var m=typeof ITCoachUniversalTopicMastery==="function"?ITCoachUniversalTopicMastery(sid,t.topicNo,"IT"):{average:null,status:"Not Assessed",priority:null};
+      var p=m.priority||null;
+      return {topicNo:t.topicNo,title:t.title,average:m.average,status:m.status,priority:p};
     });
     var assessed=rows.filter(function(x){return x.average!==null;}).length;
     var mastered=rows.filter(function(x){return x.status==="Mastered";}).length;
@@ -52,7 +53,9 @@
     app.innerHTML='<section class="card"><div class="pill">MY PROGRESS</div><h1>My Learning Progress</h1><p>Student <strong>'+sid+'</strong> • Your progress stays in this browser.</p>'+progressBar+
       '<div class="grid">'+rows.map(function(x){
         var score=x.average===null?"—":x.average+"%";
-        return '<button class="option" style="text-align:left" onclick="ITCoachPilotOpenTopic('+x.topicNo+')"><strong>Topic '+x.topicNo+': '+x.title+'</strong><br><span class="small">'+x.status+' • '+score+'</span><div style="height:7px;background:#e7eaf0;border-radius:6px;margin-top:8px"><div style="height:7px;width:'+(x.average===null?0:x.average)+'%;background:currentColor;border-radius:6px"></div></div></button>';
+        var skill=x.priority&&x.priority.skill?x.priority.skill:null;
+        var reason=x.average===null?"Ready for a diagnostic":x.status==="Needs Attention"?"Practice recommended":x.status==="Developing"?"Keep practicing":"Extend your skills";
+        return '<button class="option" style="text-align:left" onclick="ITCoachPilotOpenTopic('+x.topicNo+')"><strong>Topic '+x.topicNo+': '+x.title+'</strong><br><span class="small">'+x.status+' • '+score+'</span><div style="height:7px;background:#e7eaf0;border-radius:6px;margin-top:8px"><div style="height:7px;width:'+(x.average===null?0:x.average)+'%;background:currentColor;border-radius:6px"></div></div><p class="small" style="margin:7px 0 0"><strong>'+reason+'</strong>'+(skill?' • Focus: '+skill:'')+'</p></button>';
       }).join("")+'</div>'+nextHtml+
       '<section class="card" style="margin-top:12px"><h3>Your learning journey</h3><p class="small">Learn → Practice → Assess → Improve → Reassess → Master</p><p class="small">IT Coach uses your latest evidence to recommend what to do next.</p></section>'+
       '<button class="secondary" onclick="ITCoachRenderPilotShell(document.getElementById(\'app\'))">← Home</button></section>';
