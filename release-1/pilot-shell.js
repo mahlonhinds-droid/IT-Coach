@@ -45,14 +45,16 @@
     var next=typeof ITCoachStudentNextBestAction==="function"?ITCoachStudentNextBestAction(sid):{title:"Start learning",message:"Choose a topic to begin.",topicNo:null};
     if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("progress_viewed",{subjectId:"IT",assessedTopics:assessed,masteredTopics:mastered});
     if(!app)return;
-    var nextHtml='<div class="card" style="margin-top:12px"><div class="pill">WHAT SHOULD I DO NEXT?</div><h2>'+next.title+'</h2><p>'+next.message+'</p>'+
-      (next.topicNo?'<button onclick="ITCoachPilotOpenTopic('+next.topicNo+')">Open Topic '+next.topicNo+' →</button>':'')+'</div>';
-    app.innerHTML='<section class="card"><div class="pill">MY PROGRESS</div><h1>My Learning Progress</h1><p>Student <strong>'+sid+'</strong> • '+assessed+' of 8 topics assessed • '+mastered+' mastered</p>'+
+    var nextAction=next.topicNo?(next.type==="support"?"Support":next.type==="diagnostic"?"Assess":next.type==="learning"?"Continue":"Review"):null;
+    var nextHtml='<div class="card" style="margin-top:12px;border-left:4px solid currentColor"><div class="pill">WHAT SHOULD I DO NEXT?</div><h2>'+next.title+'</h2><p>'+next.message+'</p>'+
+      (next.topicNo?'<p class="small">Recommended pathway: '+nextAction+'</p><button onclick="ITCoachPilotOpenTopic('+next.topicNo+')">Open Topic '+next.topicNo+' →</button>':'')+'</div>';
+    var progressBar='<div class="card" style="margin-top:12px"><strong>Overall pilot progress</strong><div style="height:12px;background:#e7eaf0;border-radius:8px;margin:8px 0"><div style="height:12px;width:'+Math.round((assessed/8)*100)+'%;background:currentColor;border-radius:8px"></div></div><span class="small">'+assessed+'/8 topics assessed • '+mastered+'/8 mastered</span></div>';
+    app.innerHTML='<section class="card"><div class="pill">MY PROGRESS</div><h1>My Learning Progress</h1><p>Student <strong>'+sid+'</strong> • Your progress stays in this browser.</p>'+progressBar+
       '<div class="grid">'+rows.map(function(x){
         var score=x.average===null?"—":x.average+"%";
-        return '<button class="option" style="text-align:left" onclick="ITCoachPilotOpenTopic('+x.topicNo+')"><strong>Topic '+x.topicNo+': '+x.title+'</strong><br><span class="small">'+x.status+' • '+score+'</span></button>';
+        return '<button class="option" style="text-align:left" onclick="ITCoachPilotOpenTopic('+x.topicNo+')"><strong>Topic '+x.topicNo+': '+x.title+'</strong><br><span class="small">'+x.status+' • '+score+'</span><div style="height:7px;background:#e7eaf0;border-radius:6px;margin-top:8px"><div style="height:7px;width:'+(x.average===null?0:x.average)+'%;background:currentColor;border-radius:6px"></div></div></button>';
       }).join("")+'</div>'+nextHtml+
-      '<section class="card" style="margin-top:12px"><h3>Learning cycle</h3><p class="small">Learn → Practice → Assess → Improve → Reassess → Master</p></section>'+
+      '<section class="card" style="margin-top:12px"><h3>Your learning journey</h3><p class="small">Learn → Practice → Assess → Improve → Reassess → Master</p><p class="small">IT Coach uses your latest evidence to recommend what to do next.</p></section>'+
       '<button class="secondary" onclick="ITCoachRenderPilotShell(document.getElementById(\'app\'))">← Home</button></section>';
   };
   window.ITCoachRenderPilotShell=render;
