@@ -1,0 +1,20 @@
+/* Course-driven runtime adapter 1.0 */
+(function(){
+  var COURSES={IT:{CSEC_IT:{subjectId:"IT",courseId:"CSEC_IT",curriculumId:"CSEC",name:"CSEC Information Technology",status:"active",topics:[
+    {topicNo:1,title:"Fundamentals of IT",lessonRange:"1.1-1.7"},
+    {topicNo:2,title:"Networks and Communication",lessonRange:"2.1-2.4"},
+    {topicNo:3,title:"Social and Economic Impact of IT",lessonRange:"3.1-3.5"},
+    {topicNo:4,title:"Word Processing, Presentations and Web Pages",lessonRange:"4.1-4.4"},
+    {topicNo:5,title:"Spreadsheets",lessonRange:"5.1-5.4"},
+    {topicNo:6,title:"Databases",lessonRange:"6.1-6.3"},
+    {topicNo:7,title:"Problem Solving and Program Design",lessonRange:"7.1-7.4"},
+    {topicNo:8,title:"Programming in Pascal",lessonRange:"8.1-8.4"}
+  ]}}};
+  function getCourse(subjectId,courseId){var sid=String(subjectId||"IT").toUpperCase(),cid=courseId||"CSEC_IT";return COURSES[sid]&&COURSES[sid][cid]||null;}
+  function getTopics(subjectId,courseId){var c=getCourse(subjectId,courseId);return c?c.topics.slice():[];}
+  function getTopic(topicNo,subjectId,courseId){var n=Number(topicNo);return getTopics(subjectId,courseId).find(function(t){return t.topicNo===n;})||null;}
+  window.ITCoachCourseRuntime={version:"1.0",courses:COURSES,getCourse:getCourse,getTopics:getTopics,getTopic:getTopic};
+  window.ITCoachGetRuntimeCourse=getCourse;
+  window.ITCoachGetCourseTopics=getTopics;
+  window.ITCoachGetCourseTopic=getTopic;
+})();
