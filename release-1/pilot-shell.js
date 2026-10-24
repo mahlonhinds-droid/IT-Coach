@@ -12,6 +12,7 @@
     {name:"Office Administration",status:"soon",icon:"🏢"}
   ];
   function render(el){
+    if(typeof ITCoachPilotRecordEvent==="function") ITCoachPilotRecordEvent("pilot_opened",{screen:"subjects"});
     if(!el)return;
     var active=typeof ITCoachGetActiveStudentId==="function"?ITCoachGetActiveStudentId():"1";
     el.innerHTML=
@@ -33,6 +34,7 @@
   }
   window.ITCoachRenderPilotShell=render;
   window.ITCoachPilotOpenIT=function(){
+    if(typeof ITCoachPilotRecordEvent==="function") ITCoachPilotRecordEvent("subject_opened",{subjectId:"IT"});
     if(typeof ITCoachBuildStudentCommandCentreAll==="function"){
       var app=document.getElementById("app");
       if(app) app.innerHTML='<section class="card"><h2>Information Technology</h2><p class="small">Choose a topic to begin. Your progress is stored in this browser.</p><div id="pilotTopics"></div><button class="secondary" onclick="ITCoachRenderPilotShell(document.getElementById(\'app\'))">← Back to subjects</button></section>';
@@ -44,6 +46,7 @@
     }
   };
   window.ITCoachPilotOpenTopic=function(topicNo){
+    if(typeof ITCoachPilotRecordEvent==="function") ITCoachPilotRecordEvent("topic_opened",{subjectId:"IT",topicNo:Number(topicNo)});
     var title=typeof ITCoachGetCourseTopic==="function"&&ITCoachGetCourseTopic(topicNo,"IT","CSEC_IT");
     var app=document.getElementById("app");
     if(app)app.innerHTML='<section class="card"><div class="pill">TOPIC '+topicNo+'</div><h2>'+((title&&title.title)||("Topic "+topicNo))+'</h2><p>This topic is available in the IT Coach pilot. Select the learning activity below to continue.</p><div class="grid"><button onclick="ITCoachPilotLaunchLesson('+topicNo+')">📚 Lesson</button><button onclick="ITCoachPilotLaunchAssessment('+topicNo+')">🎯 Assessment</button></div><button class="secondary" onclick="ITCoachPilotOpenIT()">← Topics</button></section>';
