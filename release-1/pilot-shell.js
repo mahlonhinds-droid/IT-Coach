@@ -32,6 +32,29 @@
       '<div><strong>🧠 Improve</strong><p class="small">Get your next best learning action.</p></div>'+
       '</div></section>';
   }
+  window.ITCoachPilotOpenProgress=function(){
+    var app=document.getElementById("app");
+    var sid=typeof ITCoachGetActiveStudentId==="function"?ITCoachGetActiveStudentId():"1";
+    var topics=typeof ITCoachGetCourseTopics==="function"?ITCoachGetCourseTopics("IT","CSEC_IT"):[];
+    var rows=topics.map(function(t){
+      var m=typeof ITCoachUniversalTopicMastery==="function"?ITCoachUniversalTopicMastery(sid,t.topicNo,"IT"):{average:null,status:"Not Assessed"};
+      return {topicNo:t.topicNo,title:t.title,average:m.average,status:m.status};
+    });
+    var assessed=rows.filter(function(x){return x.average!==null;}).length;
+    var mastered=rows.filter(function(x){return x.status==="Mastered";}).length;
+    var next=typeof ITCoachStudentNextBestAction==="function"?ITCoachStudentNextBestAction(sid):{title:"Start learning",message:"Choose a topic to begin.",topicNo:null};
+    if(typeof ITCoachPilotRecordEvent==="function")ITCoachPilotRecordEvent("progress_viewed",{subjectId:"IT",assessedTopics:assessed,masteredTopics:mastered});
+    if(!app)return;
+    var nextHtml='<div class="card" style="margin-top:12px"><div class="pill">WHAT SHOULD I DO NEXT?</div><h2>'+next.title+'</h2><p>'+next.message+'</p>'+
+      (next.topicNo?'<button onclick="ITCoachPilotOpenTopic('+next.topicNo+')">Open Topic '+next.topicNo+' →</button>':'')+'</div>';
+    app.innerHTML='<section class="card"><div class="pill">MY PROGRESS</div><h1>My Learning Progress</h1><p>Student <strong>'+sid+'</strong> • '+assessed+' of 8 topics assessed • '+mastered+' mastered</p>'+
+      '<div class="grid">'+rows.map(function(x){
+        var score=x.average===null?"—":x.average+"%";
+        return '<button class="option" style="text-align:left" onclick="ITCoachPilotOpenTopic('+x.topicNo+')"><strong>Topic '+x.topicNo+': '+x.title+'</strong><br><span class="small">'+x.status+' • '+score+'</span></button>';
+      }).join("")+'</div>'+nextHtml+
+      '<section class="card" style="margin-top:12px"><h3>Learning cycle</h3><p class="small">Learn → Practice → Assess → Improve → Reassess → Master</p></section>'+
+      '<button class="secondary" onclick="ITCoachRenderPilotShell(document.getElementById(\'app\'))">← Home</button></section>';
+  };
   window.ITCoachRenderPilotShell=render;
   window.ITCoachPilotOpenIT=function(){
     if(typeof ITCoachPilotRecordEvent==="function") ITCoachPilotRecordEvent("subject_opened",{subjectId:"IT"});
